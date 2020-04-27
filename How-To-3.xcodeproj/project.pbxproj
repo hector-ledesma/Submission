@@ -17,6 +17,7 @@
 		9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C356E2457620B0021AE1C /* CoreDataStack.swift */; };
 		9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C35702457622B0021AE1C /* User+Convenience.swift */; };
 		9C4C3573245762500021AE1C /* Post+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3572245762500021AE1C /* Post+Convenience.swift */; };
+		9C4C35752457640D0021AE1C /* BackendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C35742457640D0021AE1C /* BackendController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		9C4C356E2457620B0021AE1C /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9C4C35702457622B0021AE1C /* User+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Convenience.swift"; sourceTree = "<group>"; };
 		9C4C3572245762500021AE1C /* Post+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+Convenience.swift"; sourceTree = "<group>"; };
+		9C4C35742457640D0021AE1C /* BackendController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 		9C4C356824575AA00021AE1C /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				9C4C35742457640D0021AE1C /* BackendController.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */,
 				9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */,
 				9C4C355024575A130021AE1C /* SceneDelegate.swift in Sources */,
+				9C4C35752457640D0021AE1C /* BackendController.swift in Sources */,
 				9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
