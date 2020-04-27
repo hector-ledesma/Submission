@@ -14,6 +14,8 @@
 		9C4C355724575A1A0021AE1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C355624575A1A0021AE1C /* Assets.xcassets */; };
 		9C4C355A24575A1A0021AE1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C355824575A1A0021AE1C /* LaunchScreen.storyboard */; };
 		9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C356A24575D8E0021AE1C /* HowTo.xcdatamodeld */; };
+		9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C356E2457620B0021AE1C /* CoreDataStack.swift */; };
+		9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C35702457622B0021AE1C /* User+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		9C4C355924575A1A0021AE1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C4C355B24575A1A0021AE1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C4C356B24575D8E0021AE1C /* HowTo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HowTo.xcdatamodel; sourceTree = "<group>"; };
+		9C4C356E2457620B0021AE1C /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		9C4C35702457622B0021AE1C /* User+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				9C4C356A24575D8E0021AE1C /* HowTo.xcdatamodeld */,
+				9C4C356E2457620B0021AE1C /* CoreDataStack.swift */,
+				9C4C35702457622B0021AE1C /* User+Convenience.swift */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -205,7 +211,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
 				9C4C355224575A130021AE1C /* ViewController.swift in Sources */,
+				9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */,
 				9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */,
 				9C4C355024575A130021AE1C /* SceneDelegate.swift in Sources */,
 				9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */,
