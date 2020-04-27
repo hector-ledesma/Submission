@@ -19,7 +19,7 @@
 		9C4C3573245762500021AE1C /* Post+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3572245762500021AE1C /* Post+Convenience.swift */; };
 		9C4C35752457640D0021AE1C /* BackendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C35742457640D0021AE1C /* BackendController.swift */; };
 		9C4C3577245764620021AE1C /* User+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3576245764620021AE1C /* User+Codable.swift */; };
-		9C4C35792457648A0021AE1C /* Post+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C35782457648A0021AE1C /* Post+Codable.swift */; };
+		9C4C35792457648A0021AE1C /* PostRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C35782457648A0021AE1C /* PostRepresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +37,7 @@
 		9C4C3572245762500021AE1C /* Post+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+Convenience.swift"; sourceTree = "<group>"; };
 		9C4C35742457640D0021AE1C /* BackendController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendController.swift; sourceTree = "<group>"; };
 		9C4C3576245764620021AE1C /* User+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Codable.swift"; sourceTree = "<group>"; };
-		9C4C35782457648A0021AE1C /* Post+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+Codable.swift"; sourceTree = "<group>"; };
+		9C4C35782457648A0021AE1C /* PostRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRepresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +125,7 @@
 			children = (
 				9C4C35742457640D0021AE1C /* BackendController.swift */,
 				9C4C3576245764620021AE1C /* User+Codable.swift */,
-				9C4C35782457648A0021AE1C /* Post+Codable.swift */,
+				9C4C35782457648A0021AE1C /* PostRepresentation.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -227,7 +227,7 @@
 				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
 				9C4C3577245764620021AE1C /* User+Codable.swift in Sources */,
 				9C4C355224575A130021AE1C /* ViewController.swift in Sources */,
-				9C4C35792457648A0021AE1C /* Post+Codable.swift in Sources */,
+				9C4C35792457648A0021AE1C /* PostRepresentation.swift in Sources */,
 				9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */,
 				9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */,
 				9C4C355024575A130021AE1C /* SceneDelegate.swift in Sources */,

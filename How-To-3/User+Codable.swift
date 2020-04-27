@@ -8,6 +8,4 @@
 
 import Foundation
 
-extension User: Decodable {
-
-}
+//extension User: Codable { }

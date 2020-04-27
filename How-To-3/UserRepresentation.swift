@@ -1,5 +1,5 @@
 //
-//  Post+Codable.swift
+//  UserRepresentation.swift
 //  How-To-3
 //
 //  Created by Karen Rodriguez on 4/27/20.
@@ -7,7 +7,3 @@
 //
 
 import Foundation
-
-extension Post: Decodable {
-    
-}
