@@ -56,15 +56,71 @@
 		9C4C354C24575A130021AE1C /* How-To-3 */ = {
 			isa = PBXGroup;
 			children = (
-				9C4C354D24575A130021AE1C /* AppDelegate.swift */,
-				9C4C354F24575A130021AE1C /* SceneDelegate.swift */,
-				9C4C355124575A130021AE1C /* ViewController.swift */,
-				9C4C355324575A130021AE1C /* Main.storyboard */,
-				9C4C355624575A1A0021AE1C /* Assets.xcassets */,
-				9C4C355824575A1A0021AE1C /* LaunchScreen.storyboard */,
-				9C4C355B24575A1A0021AE1C /* Info.plist */,
+				9C4C356824575AA00021AE1C /* Networking */,
+				9C4C356724575A990021AE1C /* Storyboards */,
+				9C4C356624575A8F0021AE1C /* Model Controllers */,
+				9C4C356524575A880021AE1C /* Views */,
+				9C4C356324575A6F0021AE1C /* View Controllers */,
+				9C4C356124575A650021AE1C /* Models */,
+				9C4C356924575B1B0021AE1C /* App */,
 			);
 			path = "How-To-3";
+			sourceTree = "<group>";
+		};
+		9C4C356124575A650021AE1C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		9C4C356324575A6F0021AE1C /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9C4C355124575A130021AE1C /* ViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		9C4C356524575A880021AE1C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		9C4C356624575A8F0021AE1C /* Model Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Model Controllers";
+			sourceTree = "<group>";
+		};
+		9C4C356724575A990021AE1C /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				9C4C355324575A130021AE1C /* Main.storyboard */,
+				9C4C355824575A1A0021AE1C /* LaunchScreen.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		9C4C356824575AA00021AE1C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		9C4C356924575B1B0021AE1C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9C4C354D24575A130021AE1C /* AppDelegate.swift */,
+				9C4C354F24575A130021AE1C /* SceneDelegate.swift */,
+				9C4C355624575A1A0021AE1C /* Assets.xcassets */,
+				9C4C355B24575A1A0021AE1C /* Info.plist */,
+			);
+			name = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
