@@ -23,6 +23,8 @@
 		9C4C357B245767B80021AE1C /* UserRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C357A245767B80021AE1C /* UserRepresentation.swift */; };
 		9C4C357D245768450021AE1C /* Post+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C357C245768450021AE1C /* Post+Codable.swift */; };
 		9C4C3580245768B70021AE1C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C357F245768B70021AE1C /* Extensions.swift */; };
+		9C4C3582245769670021AE1C /* UserModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3581245769670021AE1C /* UserModelController.swift */; };
+		9C4C3584245769720021AE1C /* PostModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3583245769720021AE1C /* PostModelController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		9C4C357A245767B80021AE1C /* UserRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepresentation.swift; sourceTree = "<group>"; };
 		9C4C357C245768450021AE1C /* Post+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+Codable.swift"; sourceTree = "<group>"; };
 		9C4C357F245768B70021AE1C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9C4C3581245769670021AE1C /* UserModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelController.swift; sourceTree = "<group>"; };
+		9C4C3583245769720021AE1C /* PostModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModelController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,8 @@
 		9C4C356624575A8F0021AE1C /* Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9C4C3581245769670021AE1C /* UserModelController.swift */,
+				9C4C3583245769720021AE1C /* PostModelController.swift */,
 			);
 			name = "Model Controllers";
 			sourceTree = "<group>";
@@ -241,9 +247,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C4C3573245762500021AE1C /* Post+Convenience.swift in Sources */,
+				9C4C3584245769720021AE1C /* PostModelController.swift in Sources */,
 				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
 				9C4C3577245764620021AE1C /* User+Codable.swift in Sources */,
 				9C4C355224575A130021AE1C /* ViewController.swift in Sources */,
+				9C4C3582245769670021AE1C /* UserModelController.swift in Sources */,
 				9C4C357D245768450021AE1C /* Post+Codable.swift in Sources */,
 				9C4C35792457648A0021AE1C /* PostRepresentation.swift in Sources */,
 				9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */,
