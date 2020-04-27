@@ -13,6 +13,7 @@
 		9C4C355524575A130021AE1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C355324575A130021AE1C /* Main.storyboard */; };
 		9C4C355724575A1A0021AE1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C355624575A1A0021AE1C /* Assets.xcassets */; };
 		9C4C355A24575A1A0021AE1C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C355824575A1A0021AE1C /* LaunchScreen.storyboard */; };
+		9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C356A24575D8E0021AE1C /* HowTo.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		9C4C355624575A1A0021AE1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C4C355924575A1A0021AE1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C4C355B24575A1A0021AE1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9C4C356B24575D8E0021AE1C /* HowTo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HowTo.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				9C4C356524575A880021AE1C /* Views */,
 				9C4C356324575A6F0021AE1C /* View Controllers */,
 				9C4C356124575A650021AE1C /* Models */,
+				9C4C356D245760CD0021AE1C /* Core Data */,
 				9C4C356924575B1B0021AE1C /* App */,
 			);
 			path = "How-To-3";
@@ -121,6 +124,14 @@
 				9C4C355B24575A1A0021AE1C /* Info.plist */,
 			);
 			name = App;
+			sourceTree = "<group>";
+		};
+		9C4C356D245760CD0021AE1C /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				9C4C356A24575D8E0021AE1C /* HowTo.xcdatamodeld */,
+			);
+			name = "Core Data";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,6 +208,7 @@
 				9C4C355224575A130021AE1C /* ViewController.swift in Sources */,
 				9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */,
 				9C4C355024575A130021AE1C /* SceneDelegate.swift in Sources */,
+				9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +404,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9C4C356A24575D8E0021AE1C /* HowTo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9C4C356B24575D8E0021AE1C /* HowTo.xcdatamodel */,
+			);
+			currentVersion = 9C4C356B24575D8E0021AE1C /* HowTo.xcdatamodel */;
+			path = HowTo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9C4C354224575A130021AE1C /* Project object */;
 }
