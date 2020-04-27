@@ -25,6 +25,7 @@
 		9C4C3580245768B70021AE1C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C357F245768B70021AE1C /* Extensions.swift */; };
 		9C4C3582245769670021AE1C /* UserModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3581245769670021AE1C /* UserModelController.swift */; };
 		9C4C3584245769720021AE1C /* PostModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3583245769720021AE1C /* PostModelController.swift */; };
+		9C4C358624576ACF0021AE1C /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C358524576ACF0021AE1C /* AuthenticationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		9C4C357F245768B70021AE1C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9C4C3581245769670021AE1C /* UserModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelController.swift; sourceTree = "<group>"; };
 		9C4C3583245769720021AE1C /* PostModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModelController.swift; sourceTree = "<group>"; };
+		9C4C358524576ACF0021AE1C /* AuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 			children = (
 				9C4C3581245769670021AE1C /* UserModelController.swift */,
 				9C4C3583245769720021AE1C /* PostModelController.swift */,
+				9C4C358524576ACF0021AE1C /* AuthenticationController.swift */,
 			);
 			name = "Model Controllers";
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				9C4C3580245768B70021AE1C /* Extensions.swift in Sources */,
 				9C4C355024575A130021AE1C /* SceneDelegate.swift in Sources */,
 				9C4C357B245767B80021AE1C /* UserRepresentation.swift in Sources */,
+				9C4C358624576ACF0021AE1C /* AuthenticationController.swift in Sources */,
 				9C4C35752457640D0021AE1C /* BackendController.swift in Sources */,
 				9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */,
 			);
