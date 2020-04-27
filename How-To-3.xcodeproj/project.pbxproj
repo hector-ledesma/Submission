@@ -16,6 +16,7 @@
 		9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C356A24575D8E0021AE1C /* HowTo.xcdatamodeld */; };
 		9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C356E2457620B0021AE1C /* CoreDataStack.swift */; };
 		9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C35702457622B0021AE1C /* User+Convenience.swift */; };
+		9C4C3573245762500021AE1C /* Post+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3572245762500021AE1C /* Post+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		9C4C356B24575D8E0021AE1C /* HowTo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HowTo.xcdatamodel; sourceTree = "<group>"; };
 		9C4C356E2457620B0021AE1C /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9C4C35702457622B0021AE1C /* User+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Convenience.swift"; sourceTree = "<group>"; };
+		9C4C3572245762500021AE1C /* Post+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 				9C4C356A24575D8E0021AE1C /* HowTo.xcdatamodeld */,
 				9C4C356E2457620B0021AE1C /* CoreDataStack.swift */,
 				9C4C35702457622B0021AE1C /* User+Convenience.swift */,
+				9C4C3572245762500021AE1C /* Post+Convenience.swift */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C4C3573245762500021AE1C /* Post+Convenience.swift in Sources */,
 				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
 				9C4C355224575A130021AE1C /* ViewController.swift in Sources */,
 				9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */,
