@@ -14,7 +14,50 @@
                     <view key="view" contentMode="scaleToFill" id="oc9-js-YRX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How-To-3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3sz-nP-MQx">
+                                <rect key="frame" x="20" y="183" width="374" height="67"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="49"/>
+                                <color key="textColor" red="0.90980392156862744" green="0.24705882352941178" blue="0.43529411764705883" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ryr-5U-xSL">
+                                <rect key="frame" x="15" y="734" width="384" height="108"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aHB-pn-GdD">
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="50"/>
+                                        <color key="backgroundColor" red="0.30588235294117649" green="0.69019607843137254" blue="0.29803921568627451" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="s4D-Bn-d1T"/>
+                                        </constraints>
+                                        <state key="normal" title="Register">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hkQ-fl-tZC">
+                                        <rect key="frame" x="0.0" y="58" width="384" height="50"/>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="wg8-5w-xZH"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                        <state key="normal" title="Log In">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" cyan="0.27299978595890412" magenta="0.041024381167268101" yellow="0.0" black="0.18278935581848427" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3sz-nP-MQx" firstAttribute="leading" secondItem="FrW-tg-FV6" secondAttribute="leading" constant="20" id="3hh-J2-2df"/>
+                            <constraint firstItem="Ryr-5U-xSL" firstAttribute="centerX" secondItem="oc9-js-YRX" secondAttribute="centerX" id="A0l-6k-Y7Q"/>
+                            <constraint firstItem="FrW-tg-FV6" firstAttribute="trailing" secondItem="3sz-nP-MQx" secondAttribute="trailing" constant="20" id="IXO-6z-ckm"/>
+                            <constraint firstItem="FrW-tg-FV6" firstAttribute="trailing" secondItem="Ryr-5U-xSL" secondAttribute="trailing" constant="15" id="Jh2-Wl-itY"/>
+                            <constraint firstItem="Ryr-5U-xSL" firstAttribute="leading" secondItem="FrW-tg-FV6" secondAttribute="leading" constant="15" id="Y7D-Ju-K5A"/>
+                            <constraint firstItem="3sz-nP-MQx" firstAttribute="top" secondItem="FrW-tg-FV6" secondAttribute="top" constant="95" id="dgF-E7-46I"/>
+                            <constraint firstItem="FrW-tg-FV6" firstAttribute="bottom" secondItem="Ryr-5U-xSL" secondAttribute="bottom" constant="20" id="knF-zR-2M8"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="FrW-tg-FV6"/>
                     </view>
                     <navigationItem key="navigationItem" title="Welcome" id="BVX-L2-eye"/>
