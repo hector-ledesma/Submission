@@ -9,7 +9,7 @@
 import Foundation
 
 class BackendController {
-    private var baseURL: URL?
+    private var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/")!
     private var token: Token?
     var dataLoader: DataLoader?
 
@@ -18,8 +18,20 @@ class BackendController {
         self.dataLoader = dataLoader
     }
 
-    func signUp() {
+    //func signUp(username: String, password: String, email: String) {
+     //   baseURL.appendPathComponent(<#T##pathComponent: String##String#>)
+     //   let request = URLRequest(url: baseURL)
+     //   dataLoader?.loadData(from: <#T##URLRequest#>, completion: <#T##(Data?, Error?) -> Void#>)
+    //}
 
+    func signIn() {
+
+    }
+
+    private enum EndPoints: String {
+        case register = "api/auth/register"
+        case login = "api/auth/login"
+        case howTo = "api/howto"
     }
 
 }
