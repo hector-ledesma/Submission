@@ -10,6 +10,7 @@
 		3F9A86192457B4CA00F6AE1B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A86182457B4CA00F6AE1B /* WelcomeViewController.swift */; };
 		3F9A861B2457C72200F6AE1B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A861A2457C72200F6AE1B /* RegisterViewController.swift */; };
 		3F9A861D2457C76600F6AE1B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A861C2457C76600F6AE1B /* LoginViewController.swift */; };
+		3F9A861F2457D0BC00F6AE1B /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A861E2457D0BC00F6AE1B /* MainTableViewController.swift */; };
 		9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C354D24575A130021AE1C /* AppDelegate.swift */; };
 		9C4C355024575A130021AE1C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C354F24575A130021AE1C /* SceneDelegate.swift */; };
 		9C4C355524575A130021AE1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C4C355324575A130021AE1C /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 		3F9A86182457B4CA00F6AE1B /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		3F9A861A2457C72200F6AE1B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		3F9A861C2457C76600F6AE1B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3F9A861E2457D0BC00F6AE1B /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		9C4C354A24575A130021AE1C /* How-To-3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "How-To-3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C4C354D24575A130021AE1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C4C354F24575A130021AE1C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				3F9A86182457B4CA00F6AE1B /* WelcomeViewController.swift */,
 				3F9A861A2457C72200F6AE1B /* RegisterViewController.swift */,
 				3F9A861C2457C76600F6AE1B /* LoginViewController.swift */,
+				3F9A861E2457D0BC00F6AE1B /* MainTableViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				9C4C3584245769720021AE1C /* PostModelController.swift in Sources */,
 				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
 				9C4C3577245764620021AE1C /* User+Codable.swift in Sources */,
+				3F9A861F2457D0BC00F6AE1B /* MainTableViewController.swift in Sources */,
 				9C4C3582245769670021AE1C /* UserModelController.swift in Sources */,
 				9C4C357D245768450021AE1C /* Post+Codable.swift in Sources */,
 				9C4C35792457648A0021AE1C /* PostRepresentation.swift in Sources */,

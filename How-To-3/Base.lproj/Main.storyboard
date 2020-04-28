@@ -54,7 +54,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" cyan="0.27299978595890412" magenta="0.041024381167268101" yellow="0.0" black="0.18278935581848427" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
+                        <color key="backgroundColor" red="0.61568627450980395" green="0.70196078431372544" blue="0.75686274509803919" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="3sz-nP-MQx" firstAttribute="leading" secondItem="FrW-tg-FV6" secondAttribute="leading" constant="20" id="3hh-J2-2df"/>
                             <constraint firstItem="Ryr-5U-xSL" firstAttribute="centerX" secondItem="oc9-js-YRX" secondAttribute="centerX" id="A0l-6k-Y7Q"/>
@@ -125,6 +125,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lhe-RG-2Kh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2191" y="-26"/>
+        </scene>
+        <!--Main Table View Controller-->
+        <scene sceneID="v0d-h7-2wl">
+            <objects>
+                <tableViewController id="wqc-5v-F8a" customClass="MainTableViewController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bMc-JR-6En">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hb9-ET-dCy">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hb9-ET-dCy" id="eUS-K4-8iz">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="wqc-5v-F8a" id="D5p-c8-Eob"/>
+                            <outlet property="delegate" destination="wqc-5v-F8a" id="A1A-kf-KWI"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oX2-87-tM7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3299" y="289"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZV3-e1-uzv">
