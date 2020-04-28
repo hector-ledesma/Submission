@@ -41,7 +41,3 @@ class PostRepresentation: Codable {
         userID = try container.decode(Int64.self, forKey: .userID)
     }
 }
-
-class PostsResult: Decodable {
-
-}
