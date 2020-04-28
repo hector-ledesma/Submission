@@ -9,5 +9,14 @@
 import Foundation
 
 class BackendController {
-    
+    private var baseURL: URL?
+    private var token: Token?
+
+    init() {
+    }
+
+    func signUp() {
+
+    }
+
 }
