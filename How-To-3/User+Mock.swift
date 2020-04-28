@@ -27,4 +27,8 @@ let invalidUserJSON = """
 """.data(using: .utf8)
 
 let validLoginJSON = """
+{
+    "username":"tim_the_enchanter",
+    "password":"123abc"
+}
 """.data(using: .utf8)
