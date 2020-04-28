@@ -10,7 +10,26 @@ import Foundation
 
 class BackendController {
     private var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/")!
+
+    // MARK: - Token Instructions
     private var token: Token?
+    // If there's no token, it will return false and viceversa
+    var isSignedIn: Bool {
+        return token != nil
+    }
+    /*
+     The isSignedIn property should be used EVERYWHERE:
+        - Segues should only work if isSignedIn is true.
+        - Views should only be rendered into the screen if isSignedIn is true.
+        - Etc.
+     If at any point isSignedIn is false, the else clause should popthe navigation controller back to the first controller.
+     e.g:
+        if isSignedIn {
+            Load everything
+        } else {
+            Use exit connection to send user back to log in screen
+        }
+     */
     var dataLoader: DataLoader?
 
     // If the initializer isn't provided with a data loader, simply use the URLSession singleton.
@@ -62,16 +81,16 @@ class BackendController {
             NSLog("Error creating json from passed in username and password: \(error)")
             return
         }
-        dataLoader?.loadData(from: request, completion: { data, response, error in
+        dataLoader?.loadData(from: request, completion: { data, _, error in
             if let error = error {
                 NSLog("Error logging in. \(error)")
-                completion(false)
+                completion(self.isSignedIn)
                 return
             }
 
             guard let data = data else {
                 NSLog("Invalid data received while loggin in.")
-                completion(false)
+                completion(self.isSignedIn)
                 return
             }
 
@@ -79,12 +98,26 @@ class BackendController {
                 let decoder = JSONDecoder()
                 let tokenResult = try decoder.decode(Token.self, from: data)
                 self.token = tokenResult
-                completion(true)
+                completion(self.isSignedIn)
             } catch {
                 NSLog("Error decoding received token. \(error)")
-                completion(false)
+                completion(self.isSignedIn)
             }
         })
+
+        // MARK: - SignIn Instructions
+        /*
+         As we really don't want the token to leave this controller, all you'll need is to check if user is signed in is:
+            - Is token nil? Use isSignedIn property. If it is nil, then user isn't logged in.
+            - If user isn't logged in, use signIn method. The completion closure will return true only after a token has been successfully saved.
+         */
+    }
+
+    // MARK: - Sign Out Instructions
+    func signOut() {
+        // All we check to see if we're logged in is whether or not we have a token.
+        // Therefore all we need to do to log out, is get rid of our token.
+        self.token = nil
     }
 
     private func jsonFromDict(username: String, password: String) throws -> Data?  {
