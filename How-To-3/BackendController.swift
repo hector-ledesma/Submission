@@ -15,7 +15,9 @@ class BackendController {
     private var token: Token?
     // If there's no token, it will return false and viceversa
     var isSignedIn: Bool {
+        // swiftlint: disable all
         return token != nil
+        // swiftlint: enable all
     }
     /*
      The isSignedIn property should be used EVERYWHERE:
@@ -120,8 +122,8 @@ class BackendController {
         self.token = nil
     }
 
-    private func jsonFromDict(username: String, password: String) throws -> Data?  {
-        var dic: [String:String] = [:]
+    private func jsonFromDict(username: String, password: String) throws -> Data? {
+        var dic: [String: String] = [:]
         dic["username"] = username
         dic["password"] = password
 
