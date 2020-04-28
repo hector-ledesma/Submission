@@ -170,8 +170,6 @@ class BackendController {
 
     // MARK: - Post Methods
 
-
-
     // MARK: - Enums
 
     private enum Method: String {

@@ -76,8 +76,6 @@ class HowTo3Tests: XCTestCase {
     }
 
     func testFetchUsers() {
-        var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/api/user/")!
-
     }
 
 }
