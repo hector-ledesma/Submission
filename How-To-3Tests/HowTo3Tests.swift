@@ -82,6 +82,10 @@ class HowTo3Tests: XCTestCase {
         let backend = BackendController()
         let expect = expectation(description: "got it")
 
+        backend.signIn(username: "Testing22", password: "test") { logged in
+            XCTAssertTrue(logged)
+            expect.fulfill()
+        }
 
         wait(for: [expect], timeout: 5)
 
