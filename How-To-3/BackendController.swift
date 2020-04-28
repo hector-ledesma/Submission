@@ -53,10 +53,10 @@ class BackendController {
 
         do {
             // Try to encode the newly created user into the request body.
-            let jsonData = jsonFromDict(username: username, password: password)
+            let jsonData = try jsonFromDict(username: username, password: password)
             request.httpBody = jsonData
         } catch {
-            NSLog("Error encoding newly created user: \(error)")
+            NSLog("Error creating json from passed in username and password: \(error)")
             return
         }
         dataLoader?.loadData(from: request, completion: { data, response, error in
