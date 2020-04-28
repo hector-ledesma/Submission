@@ -41,7 +41,7 @@ class LoginViewController: UIViewController {
             password.isEmpty == false,
             let email = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
             else { return }
-        backendController.signUp(username: username, password: password, email: email) { _, _, error in
+        backendController.signUp(username: username, password: password, email: email) { signUpResult in
             
                     }
         
