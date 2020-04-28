@@ -14,7 +14,7 @@ class BackendController {
     var dataLoader: DataLoader?
 
     // If the initializer isn't provided with a data loader, simply use the URLSession singleton.
-    init(dataLoader: DataLoader = URLSession.shared, data: Data?) {
+    init(data: Data?, dataLoader: DataLoader = URLSession.shared) {
         self.dataLoader = dataLoader
     }
 
