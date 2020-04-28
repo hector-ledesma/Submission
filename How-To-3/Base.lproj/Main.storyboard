@@ -122,7 +122,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="80" id="d8M-cb-ucY">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainPostCell" rowHeight="80" id="d8M-cb-ucY" customClass="MainPostTableViewCell" customModule="How_To_3" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="72" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="d8M-cb-ucY" id="WQv-ma-9cn">
@@ -171,6 +171,12 @@
                                         <constraint firstItem="hD5-Iw-9eh" firstAttribute="leading" secondItem="WQv-ma-9cn" secondAttribute="leadingMargin" constant="5" id="xCt-zI-Wms"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="authorNameLabel" destination="2Yr-1f-RMR" id="Wo1-bT-OkF"/>
+                                    <outlet property="likesLabel" destination="vha-Wu-ASj" id="AQl-k9-EEq"/>
+                                    <outlet property="postTitleLabel" destination="JtV-mu-Dm6" id="ZUw-ae-jRw"/>
+                                    <outlet property="timeStampLabel" destination="TX1-Yk-ywz" id="gJc-pj-pHE"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
