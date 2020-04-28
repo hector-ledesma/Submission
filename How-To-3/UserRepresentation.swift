@@ -16,7 +16,7 @@ import Foundation
 
 struct UserRepresentation: Codable {
 
-    var id: Int64
+    var id: Int64?
     var username: String
     var password: String
     var email: String

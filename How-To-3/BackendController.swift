@@ -18,19 +18,30 @@ class BackendController {
         self.dataLoader = dataLoader
     }
 
-    //func signUp(username: String, password: String, email: String) {
-     //   baseURL.appendPathComponent(<#T##pathComponent: String##String#>)
-     //   let request = URLRequest(url: baseURL)
-     //   dataLoader?.loadData(from: <#T##URLRequest#>, completion: <#T##(Data?, Error?) -> Void#>)
-    //}
+    func signUp(username: String, password: String, email: String) {
+        baseURL.appendPathComponent(EndPoints.register.rawValue)
+        var request = URLRequest(url: baseURL)
+
+        do {
+            let encoder = JSONEncoder()
+            request.httpBody = try encoder.encode(<#T##value: Encodable##Encodable#>)
+        } catch {
+            NSLog(<#string#>)
+        }
+
+        dataLoader?.loadData(from: request, completion: { data, error in
+            <#code#>
+        })
+    }
     func signIn() {
 //        let foo = try! JSONDecoder().decode(UserRepresentation.self, from: data!)
     }
 
     private enum EndPoints: String {
+        case users = "api/user/"
         case register = "api/auth/register"
         case login = "api/auth/login"
-        case howTo = "api/howto"
+        case howTos = "api/howto"
     }
 
 }
