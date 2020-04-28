@@ -14,6 +14,12 @@ class PostRepresentation: Decodable {
         case timestamp = "created_at"
     }
 
+    let jsonDecoder = JSONDecoder()
+
+    func test() {
+        try! jsonDecoder.decode(PostRepresentation.self, from: <#T##Data#>)
+    }
+
     required init(from decoder: Decoder) throws {
 
     }
