@@ -45,20 +45,15 @@ class BackendController {
     }
     func signIn(username: String, password: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
 
-        // Make a UserRepresentation with the passed in parameters
-        let newUser = UserRepresentation(username: username, password: password, email: "hello")
-
         // Build EndPoint URL and create request with URL
-        baseURL.appendPathComponent(EndPoints.register.rawValue)
+        baseURL.appendPathComponent(EndPoints.login.rawValue)
         var request = URLRequest(url: baseURL)
         request.httpMethod = Method.post.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            let encoder = JSONEncoder()
-
             // Try to encode the newly created user into the request body.
-            let jsonData = try encoder.encode(newUser)
+            let jsonData = jsonFromDict(username: username, password: password)
             request.httpBody = jsonData
         } catch {
             NSLog("Error encoding newly created user: \(error)")
@@ -69,7 +64,7 @@ class BackendController {
         })
     }
 
-    private func jsonFromDict(username: String, password: String) -> Data? {
+    private func jsonFromDict(username: String, password: String) throws -> Data?  {
         var dic: [String:String] = [:]
         dic["username"] = username
         dic["password"] = password
@@ -79,7 +74,7 @@ class BackendController {
             return jsonData
         } catch {
             NSLog("Error Creating JSON from Dictionary. \(error)")
-            return nil
+            throw error
         }
     }
 
