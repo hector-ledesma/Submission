@@ -188,7 +188,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C4C355E24575A1A0021AE1C /* Build configuration list for PBXNativeTarget "How-To-3" */;
 			buildPhases = (
-				3F4EBC0624576F1C00DA2F45 /* ShellScript */,
+				9C732D1C245804B200168FC5 /* ShellScript */,
 				9C4C354624575A130021AE1C /* Sources */,
 				9C4C354724575A130021AE1C /* Frameworks */,
 				9C4C354824575A130021AE1C /* Resources */,
@@ -249,7 +249,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3F4EBC0624576F1C00DA2F45 /* ShellScript */ = {
+		9C732D1C245804B200168FC5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -264,7 +264,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --config \"$SRCROOT/.swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
