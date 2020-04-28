@@ -126,7 +126,7 @@
         <!--My Posts-->
         <scene sceneID="9Z5-dS-nRJ">
             <objects>
-                <viewController id="ePQ-Zy-PZp" sceneMemberID="viewController">
+                <viewController id="ePQ-Zy-PZp" customClass="MyPostsViewController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OEj-yb-hbg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -201,10 +201,10 @@
             </objects>
             <point key="canvasLocation" x="4250.7246376811599" y="314.73214285714283"/>
         </scene>
-        <!--View Controller-->
+        <!--Main Posts View Controller-->
         <scene sceneID="vbY-c1-0r6">
             <objects>
-                <viewController id="sQk-KI-eiH" sceneMemberID="viewController">
+                <viewController id="sQk-KI-eiH" customClass="MainPostsViewController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3EQ-Ww-uzo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -267,6 +267,10 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="authorNameLabel" destination="IDn-pH-F1G" id="DVc-TI-Wby"/>
+                                            <outlet property="likesLabel" destination="DZb-1R-xCR" id="Duo-cI-3VN"/>
+                                            <outlet property="postTitleLabel" destination="fli-tA-2mZ" id="UVM-Gg-5Yt"/>
+                                            <outlet property="timeStampLabel" destination="O10-5O-lWT" id="sam-sa-CRY"/>
                                             <segue destination="6Gj-C3-Drg" kind="show" id="0Vn-Qp-5Y6"/>
                                         </connections>
                                     </tableViewCell>
@@ -288,10 +292,10 @@
             </objects>
             <point key="canvasLocation" x="4250.7246376811599" y="-346.20535714285711"/>
         </scene>
-        <!--View Controller-->
+        <!--Post Detail View Controller-->
         <scene sceneID="oKC-5t-ROd">
             <objects>
-                <viewController id="6Gj-C3-Drg" sceneMemberID="viewController">
+                <viewController id="6Gj-C3-Drg" customClass="PostDetailViewController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Cft-ij-PoX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
