@@ -170,6 +170,10 @@ class BackendController {
 
     // MARK: - Post Methods
 
+    func fetchAllPosts() {
+        
+    }
+
     // MARK: - Enums
 
     private enum Method: String {
@@ -186,3 +190,4 @@ class BackendController {
     }
 
 }
+
