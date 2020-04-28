@@ -96,11 +96,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Welcome" id="BVX-L2-eye"/>
                     <connections>
-                        <outlet property="emailLabel" destination="MRd-lB-f6y" id="iDK-pb-gTJ"/>
+                        <outlet property="emailTextField" destination="MRd-lB-f6y" id="iDK-pb-gTJ"/>
                         <outlet property="logInLabel" destination="hkQ-fl-tZC" id="Lgn-2D-EDf"/>
-                        <outlet property="passwordLabel" destination="A3r-0G-yNU" id="xP8-zO-RfF"/>
+                        <outlet property="passwordTextField" destination="A3r-0G-yNU" id="xP8-zO-RfF"/>
                         <outlet property="registerLabel" destination="aHB-pn-GdD" id="aaG-2E-Pi7"/>
-                        <outlet property="usernameLabel" destination="DUe-vf-Jms" id="8RY-4v-7BJ"/>
+                        <outlet property="usernameTextField" destination="DUe-vf-Jms" id="8RY-4v-7BJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qNu-f3-W3c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
