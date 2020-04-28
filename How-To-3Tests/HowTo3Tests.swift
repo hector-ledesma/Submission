@@ -22,9 +22,24 @@ class HowTo3Tests: XCTestCase {
     func testSignUp() {
         let backend = BackendController()
         let expect = expectation(description: "got it")
-        backend.signUp(username: "Testing", password: "testing", email: "testing@test.com") { data, error in
+        backend.signUp(username: "Testing", password: "testing", email: "testing@test.com") { data, response, _ in
             XCTAssertNotNil(data)
-            print(data)
+            guard let data = data else { return }
+
+            var reply: UserRepresentation?
+
+            let decoder = JSONDecoder()
+            do {
+                let decodedJSON = try decoder.decode(UserRepresentation.self, from: data)
+                print(decodedJSON)
+                reply = decodedJSON
+            } catch {
+                NSLog("Error encoding data: \(error)")
+            }
+
+            XCTAssertNotNil(reply)
+            print(reply)
+
             expect.fulfill()
         }
         wait(for: [expect], timeout: 10)

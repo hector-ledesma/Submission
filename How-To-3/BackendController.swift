@@ -18,7 +18,7 @@ class BackendController {
         self.dataLoader = dataLoader
     }
 
-    func signUp(username: String, password: String, email: String, completion: @escaping (Data?, Error?) -> ()) {
+    func signUp(username: String, password: String, email: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
 
         // Make a UserRepresentation with the passed in parameters
         let newUser = UserRepresentation(id: nil, username: username, password: password, email: email)
@@ -26,19 +26,22 @@ class BackendController {
         // Build EndPoint URL and create request with URL
         baseURL.appendPathComponent(EndPoints.register.rawValue)
         var request = URLRequest(url: baseURL)
+        request.httpMethod = Method.post.rawValue
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
             let encoder = JSONEncoder()
 
             // Try to encode the newly created user into the request body.
-            request.httpBody = try encoder.encode(newUser)
+            let jsonData = try encoder.encode(newUser)
+            request.httpBody = jsonData
         } catch {
             NSLog("Error encoding newly created user: \(error)")
             return
         }
-
-        dataLoader?.loadData(from: request, completion: { data, error in
-            completion(data, error)
+        print(request.httpBody)
+        dataLoader?.loadData(from: request, completion: { data, response, error in
+            completion(data, response, error)
         })
     }
     func signIn() {

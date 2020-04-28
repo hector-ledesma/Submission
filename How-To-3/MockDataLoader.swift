@@ -16,15 +16,15 @@ class MockDataLoader: DataLoader {
         self.data = data
     }
 
-    func loadData(from request: URLRequest, completion: @escaping (Data?, Error?) -> Void) {
+    func loadData(from request: URLRequest, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         DispatchQueue(label: "Testingqueue").asyncAfter(deadline: .now() + 0.005) {
-            completion(self.data, nil)
+            completion(self.data, nil, nil)
         }
     }
 
-    func loadData(from url: URL, completion: @escaping (Data?, Error?) -> Void) {
+    func loadData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         DispatchQueue(label: "Testingqueue").asyncAfter(deadline: .now() + 0.005) {
-            completion(self.data, nil)
+            completion(self.data, nil, nil)
         }
     }
 
