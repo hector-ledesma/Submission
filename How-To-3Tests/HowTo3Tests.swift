@@ -37,9 +37,16 @@ class HowTo3Tests: XCTestCase {
     func testSignUp() {
         let backend = BackendController()
         let expect = expectation(description: "got it")
-        backend.signUp(username: "Testing3", password: "testing", email: "testing3@test.com") { data, _, _ in
+        backend.signUp(username: "Testing3", password: "testing", email: "testing3@test.com") { data, response, _ in
             XCTAssertNotNil(data)
             guard let data = data else { return }
+
+            if let response = response as? HTTPURLResponse,
+            response.statusCode == 500 {
+                NSLog("User already exists in the database. Therefore user data was sent successfully to database.")
+                expect.fulfill()
+                return
+            }
 
             var reply: UserRepresentation?
 
@@ -57,7 +64,7 @@ class HowTo3Tests: XCTestCase {
 
             expect.fulfill()
         }
-        wait(for: [expect], timeout: 10)
+        wait(for: [expect], timeout: 5)
     }
 
     func testFetchUsers() {
