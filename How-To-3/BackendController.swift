@@ -39,7 +39,7 @@ class BackendController {
         self.dataLoader = dataLoader
     }
 
-    func signUp(username: String, password: String, email: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    func signUp(username: String, password: String, email: String, completion: @escaping (Bool, URLResponse?, Error?) -> Void) {
 
         // Make a UserRepresentation with the passed in parameters
         let newUser = UserRepresentation(username: username, password: password, email: email)
@@ -60,9 +60,41 @@ class BackendController {
             NSLog("Error encoding newly created user: \(error)")
             return
         }
-        dataLoader?.loadData(from: request, completion: { data, response, error in
-            completion(data, response, error)
-        })
+
+        // MARK: - SignUp Completion Instructions
+        /*
+         Bool will always be false unless a NEW user was successfully created in the database. Meaning:
+            - If bool is true, all other checking can be skipped.
+            - An error will only be thrown when something went wrong sending data or decoding the data sent by the server.
+            - A response will only be thrown when user already exists.
+         */
+        dataLoader?.loadData(from: request) { data, response, error in
+
+            if let error = error {
+                NSLog("Error sending sign up parameters to server : \(error)")
+                completion(false, nil, error)
+            }
+
+            if let response = response as? HTTPURLResponse,
+                response.statusCode == 500 {
+                NSLog("User already exists in the database. Therefore user data was sent successfully to database.")
+                completion(false, response, nil)
+                return
+            }
+
+            guard let data = data else { return }
+
+            let decoder = JSONDecoder()
+            do {
+                try decoder.decode(UserRepresentation.self, from: data)
+            } catch {
+                NSLog("Error decoding data: \(error)")
+                completion(false, nil, error)
+            }
+
+            // We'll only get down here if everything went right
+            completion(true, nil, nil)
+        }
     }
 
     // As opposed to the signUp method, all we want the signIn method to give us back is whether or not we logged in.
@@ -136,6 +168,14 @@ class BackendController {
         }
     }
 
+    // MARK: - Post Methods
+
+    func fetchAllPosts() {
+        
+    }
+
+    // MARK: - Enums
+
     private enum Method: String {
         case get = "GET"
         case post = "POST"
@@ -150,3 +190,4 @@ class BackendController {
     }
 
 }
+

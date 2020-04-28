@@ -49,30 +49,14 @@ class HowTo3Tests: XCTestCase {
     func testSignUp() {
         let backend = BackendController()
         let expect = expectation(description: "got it")
-        backend.signUp(username: "Testing3", password: "testing", email: "testing3@test.com") { data, response, _ in
-            XCTAssertNotNil(data)
-            guard let data = data else { return }
-
+        backend.signUp(username: "Testing3", password: "testing", email: "testing3@test.com") { newUser, response, _ in
             if let response = response as? HTTPURLResponse,
             response.statusCode == 500 {
                 NSLog("User already exists in the database. Therefore user data was sent successfully to database.")
                 expect.fulfill()
                 return
             }
-
-            var reply: UserRepresentation?
-
-            let decoder = JSONDecoder()
-            do {
-                let decodedJSON = try decoder.decode(UserRepresentation.self, from: data)
-                print(decodedJSON)
-                reply = decodedJSON
-            } catch {
-                NSLog("Error decoding data: \(error)")
-            }
-
-            XCTAssertNotNil(reply)
-
+            XCTAssertTrue(newUser)
             expect.fulfill()
         }
         wait(for: [expect], timeout: 5)
@@ -92,8 +76,6 @@ class HowTo3Tests: XCTestCase {
     }
 
     func testFetchUsers() {
-        var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/api/user/")!
-
     }
 
 }
