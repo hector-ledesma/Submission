@@ -281,7 +281,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --config \"$SRCROOT/.swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -296,7 +296,6 @@
 				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
 				9C4C3577245764620021AE1C /* User+Codable.swift in Sources */,
 				3F9A861F2457D0BC00F6AE1B /* MainTableViewController.swift in Sources */,
-				9C4C355224575A130021AE1C /* ViewController.swift in Sources */,
 				9C2317EC2457B8E5000A4A6B /* DataLoader.swift in Sources */,
 				9C4C3582245769670021AE1C /* UserModelController.swift in Sources */,
 				9C4C357D245768450021AE1C /* Post+Codable.swift in Sources */,
