@@ -29,6 +29,7 @@
 		9C4C3584245769720021AE1C /* PostModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3583245769720021AE1C /* PostModelController.swift */; };
 		9C732D1F24587AB500168FC5 /* User+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C732D1E24587AB500168FC5 /* User+Mock.swift */; };
 		9C732D2524588E9500168FC5 /* Post+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C732D2424588E9500168FC5 /* Post+Mock.swift */; };
+		9C732D2724588EAA00168FC5 /* MockDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C732D2624588EAA00168FC5 /* MockDataLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		9C4C3583245769720021AE1C /* PostModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModelController.swift; sourceTree = "<group>"; };
 		9C732D1E24587AB500168FC5 /* User+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Mock.swift"; sourceTree = "<group>"; };
 		9C732D2424588E9500168FC5 /* Post+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+Mock.swift"; sourceTree = "<group>"; };
+		9C732D2624588EAA00168FC5 /* MockDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 			children = (
 				9C732D1E24587AB500168FC5 /* User+Mock.swift */,
 				9C732D2424588E9500168FC5 /* Post+Mock.swift */,
+				9C732D2624588EAA00168FC5 /* MockDataLoader.swift */,
 			);
 			name = MockData;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 			files = (
 				9C732D1F24587AB500168FC5 /* User+Mock.swift in Sources */,
 				9C4C3573245762500021AE1C /* Post+Convenience.swift in Sources */,
+				9C732D2724588EAA00168FC5 /* MockDataLoader.swift in Sources */,
 				9C4C3584245769720021AE1C /* PostModelController.swift in Sources */,
 				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
 				9C4C3577245764620021AE1C /* User+Codable.swift in Sources */,
