@@ -69,6 +69,20 @@ class BackendController {
         })
     }
 
+    private func jsonFromDict(username: String, password: String) -> Data? {
+        var dic: [String:String] = [:]
+        dic["username"] = username
+        dic["password"] = password
+
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
+            return jsonData
+        } catch {
+            NSLog("Error Creating JSON from Dictionary. \(error)")
+            return nil
+        }
+    }
+
     private enum Method: String {
         case get = "GET"
         case post = "POST"
