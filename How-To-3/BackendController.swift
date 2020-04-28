@@ -43,7 +43,10 @@ class BackendController {
             completion(data, response, error)
         })
     }
-    func signIn(username: String, password: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+
+    // As opposed to the signUp method, all we want the signIn method to give us back is whether or not we logged in.
+    // Main reason why I chose to do this, is because we REALLY don't want this token leaving this function
+    func signIn(username: String, password: String, completion: @escaping (Bool) -> Void) {
 
         // Build EndPoint URL and create request with URL
         baseURL.appendPathComponent(EndPoints.login.rawValue)
@@ -52,7 +55,7 @@ class BackendController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            // Try to encode the newly created user into the request body.
+            // Try to create a JSON from the passaed in parameters, and embedding it into requestHTTPBody.
             let jsonData = try jsonFromDict(username: username, password: password)
             request.httpBody = jsonData
         } catch {
@@ -60,7 +63,27 @@ class BackendController {
             return
         }
         dataLoader?.loadData(from: request, completion: { data, response, error in
-            completion(data, response, error)
+            if let error = error {
+                NSLog("Error logging in. \(error)")
+                completion(false)
+                return
+            }
+
+            guard let data = data else {
+                NSLog("Invalid data received while loggin in.")
+                completion(false)
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let tokenResult = try decoder.decode(Token.self, from: data)
+                self.token = tokenResult
+                completion(true)
+            } catch {
+                NSLog("Error decoding received token. \(error)")
+                completion(false)
+            }
         })
     }
 

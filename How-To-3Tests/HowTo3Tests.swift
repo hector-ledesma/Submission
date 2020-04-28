@@ -78,6 +78,15 @@ class HowTo3Tests: XCTestCase {
         wait(for: [expect], timeout: 5)
     }
 
+    func testSignIn() {
+        let backend = BackendController()
+        let expect = expectation(description: "got it")
+
+
+        wait(for: [expect], timeout: 5)
+
+    }
+
     func testFetchUsers() {
         var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/api/user/")!
 
