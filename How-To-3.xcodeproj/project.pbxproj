@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9C2317EA2457B69A000A4A6B /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2317E92457B69A000A4A6B /* Token.swift */; };
+		9C2317EC2457B8E5000A4A6B /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2317EB2457B8E5000A4A6B /* DataLoader.swift */; };
 		9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C354D24575A130021AE1C /* AppDelegate.swift */; };
 		9C4C355024575A130021AE1C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C354F24575A130021AE1C /* SceneDelegate.swift */; };
 		9C4C355224575A130021AE1C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C355124575A130021AE1C /* ViewController.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		9C2317E92457B69A000A4A6B /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		9C2317EB2457B8E5000A4A6B /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		9C4C354A24575A130021AE1C /* How-To-3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "How-To-3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C4C354D24575A130021AE1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C4C354F24575A130021AE1C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +100,8 @@
 		9C4C356124575A650021AE1C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9C2317E92457B69A000A4A6B /* Token.swift */,
+				9C2317EB2457B8E5000A4A6B /* DataLoader.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -122,7 +126,6 @@
 			children = (
 				9C4C3581245769670021AE1C /* UserModelController.swift */,
 				9C4C3583245769720021AE1C /* PostModelController.swift */,
-				9C2317E92457B69A000A4A6B /* Token.swift */,
 			);
 			name = "Model Controllers";
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
 				9C4C3577245764620021AE1C /* User+Codable.swift in Sources */,
 				9C4C355224575A130021AE1C /* ViewController.swift in Sources */,
+				9C2317EC2457B8E5000A4A6B /* DataLoader.swift in Sources */,
 				9C4C3582245769670021AE1C /* UserModelController.swift in Sources */,
 				9C4C357D245768450021AE1C /* Post+Codable.swift in Sources */,
 				9C2317EA2457B69A000A4A6B /* Token.swift in Sources */,
