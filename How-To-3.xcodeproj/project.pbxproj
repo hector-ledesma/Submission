@@ -27,6 +27,7 @@
 		9C4C3580245768B70021AE1C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C357F245768B70021AE1C /* Extensions.swift */; };
 		9C4C3582245769670021AE1C /* UserModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3581245769670021AE1C /* UserModelController.swift */; };
 		9C4C3584245769720021AE1C /* PostModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C3583245769720021AE1C /* PostModelController.swift */; };
+		9C732D1F24587AB500168FC5 /* User+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C732D1E24587AB500168FC5 /* User+Mock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		9C4C357F245768B70021AE1C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9C4C3581245769670021AE1C /* UserModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelController.swift; sourceTree = "<group>"; };
 		9C4C3583245769720021AE1C /* PostModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModelController.swift; sourceTree = "<group>"; };
+		9C732D1E24587AB500168FC5 /* User+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Mock.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 		9C4C354C24575A130021AE1C /* How-To-3 */ = {
 			isa = PBXGroup;
 			children = (
+				9C732D1D24587A4200168FC5 /* MockData */,
 				9C4C357E245768A10021AE1C /* Extensions */,
 				9C4C356824575AA00021AE1C /* Networking */,
 				9C4C356724575A990021AE1C /* Storyboards */,
@@ -181,6 +184,14 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		9C732D1D24587A4200168FC5 /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				9C732D1E24587AB500168FC5 /* User+Mock.swift */,
+			);
+			name = MockData;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -273,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C732D1F24587AB500168FC5 /* User+Mock.swift in Sources */,
 				9C4C3573245762500021AE1C /* Post+Convenience.swift in Sources */,
 				9C4C3584245769720021AE1C /* PostModelController.swift in Sources */,
 				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
