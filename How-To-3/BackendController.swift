@@ -21,7 +21,7 @@ class BackendController {
     func signUp(username: String, password: String, email: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
 
         // Make a UserRepresentation with the passed in parameters
-        let newUser = UserRepresentation(id: nil, username: username, password: password, email: email)
+        let newUser = UserRepresentation(username: username, password: password, email: email)
 
         // Build EndPoint URL and create request with URL
         baseURL.appendPathComponent(EndPoints.register.rawValue)

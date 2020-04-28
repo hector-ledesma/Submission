@@ -19,10 +19,25 @@ class HowTo3Tests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    func testEncodeUserRepresentation() {
+
+        let user = UserRepresentation(username: "Hello", password: "World", email: "What;sup")
+
+        let encoder = JSONEncoder()
+        do {
+            let json = try encoder.encode(user)
+            let pretty = String(data: json, encoding: .utf8)
+            print(pretty!)
+        } catch {
+            XCTFail("No issues encoding json and printing it.")
+            NSLog("Error encoding data: \(error)")
+        }
+    }
+
     func testSignUp() {
         let backend = BackendController()
         let expect = expectation(description: "got it")
-        backend.signUp(username: "Testing", password: "testing", email: "testing@test.com") { data, response, _ in
+        backend.signUp(username: "Testing3", password: "testing", email: "testing3@test.com") { data, _, _ in
             XCTAssertNotNil(data)
             guard let data = data else { return }
 
@@ -34,7 +49,7 @@ class HowTo3Tests: XCTestCase {
                 print(decodedJSON)
                 reply = decodedJSON
             } catch {
-                NSLog("Error encoding data: \(error)")
+                NSLog("Error decoding data: \(error)")
             }
 
             XCTAssertNotNil(reply)
