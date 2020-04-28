@@ -11,8 +11,11 @@ import Foundation
 class BackendController {
     private var baseURL: URL?
     private var token: Token?
+    var dataLoader: DataLoader?
 
-    init() {
+    // If the initializer isn't provided with a data loader, simply use the URLSession singleton.
+    init(dataLoader: DataLoader = URLSession.shared) {
+        self.dataLoader = dataLoader
     }
 
     func signUp() {
