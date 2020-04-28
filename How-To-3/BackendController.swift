@@ -19,18 +19,26 @@ class BackendController {
     }
 
     func signUp(username: String, password: String, email: String) {
+
+        // Make a UserRepresentation with the passed in parameters
+        let newUser = UserRepresentation(id: nil, username: username, password: password, email: email)
+
+        // Build EndPoint URL and create request with URL
         baseURL.appendPathComponent(EndPoints.register.rawValue)
         var request = URLRequest(url: baseURL)
 
         do {
             let encoder = JSONEncoder()
-            request.httpBody = try encoder.encode(<#T##value: Encodable##Encodable#>)
+
+            // Try to encode the newly created user into the request body.
+            request.httpBody = try encoder.encode(newUser)
         } catch {
-            NSLog(<#string#>)
+            NSLog("Error encoding newly created user: \(error)")
+            return
         }
 
         dataLoader?.loadData(from: request, completion: { data, error in
-            <#code#>
+            print(data)
         })
     }
     func signIn() {
