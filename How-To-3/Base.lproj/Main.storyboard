@@ -188,6 +188,9 @@
                         <barButtonItem key="leftBarButtonItem" image="barmenu" id="roR-Wj-0X8"/>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="searchBar" destination="Jjl-yT-b0h" id="gWK-On-NDS"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dxN-il-FzV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
