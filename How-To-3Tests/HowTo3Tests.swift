@@ -19,6 +19,18 @@ class HowTo3Tests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    func testJSONFromDictionary() {
+        let dic = ["username": "Lord", "password": "potato"]
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
+            let prettyPrint = String(data: jsonData, encoding: .utf8)
+            print(prettyPrint!)
+        } catch {
+            NSLog("Error creating JSON From Dictionary: \(error)")
+            XCTFail("If we couldn't enocde, nor interpret for string, tthen fail test.")
+        }
+    }
+
     func testEncodeUserRepresentation() {
 
         let user = UserRepresentation(username: "Hello", password: "World", email: "What;sup")
@@ -60,7 +72,6 @@ class HowTo3Tests: XCTestCase {
             }
 
             XCTAssertNotNil(reply)
-            print(reply)
 
             expect.fulfill()
         }

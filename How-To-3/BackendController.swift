@@ -39,13 +39,34 @@ class BackendController {
             NSLog("Error encoding newly created user: \(error)")
             return
         }
-        print(request.httpBody)
         dataLoader?.loadData(from: request, completion: { data, response, error in
             completion(data, response, error)
         })
     }
-    func signIn() {
-//        let foo = try! JSONDecoder().decode(UserRepresentation.self, from: data!)
+    func signIn(username: String, password: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+
+        // Make a UserRepresentation with the passed in parameters
+        let newUser = UserRepresentation(username: username, password: password, email: "hello")
+
+        // Build EndPoint URL and create request with URL
+        baseURL.appendPathComponent(EndPoints.register.rawValue)
+        var request = URLRequest(url: baseURL)
+        request.httpMethod = Method.post.rawValue
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let encoder = JSONEncoder()
+
+            // Try to encode the newly created user into the request body.
+            let jsonData = try encoder.encode(newUser)
+            request.httpBody = jsonData
+        } catch {
+            NSLog("Error encoding newly created user: \(error)")
+            return
+        }
+        dataLoader?.loadData(from: request, completion: { data, response, error in
+            completion(data, response, error)
+        })
     }
 
     private enum Method: String {
