@@ -7,3 +7,25 @@
 //
 
 import Foundation
+
+class MockDataLoader: DataLoader {
+    var data: Data
+
+    init(data: Data) {
+        self.data = data
+    }
+
+    func loadData(from request: URLRequest, completion: @escaping (Data?, Error?) -> Void) {
+        DispatchQueue(label: "Testingqueue").asyncAfter(deadline: .now() + 0.005) {
+            completion(self.data, nil)
+        }
+    }
+
+    func loadData(from url: URL, completion: @escaping (Data?, Error?) -> Void) {
+        DispatchQueue(label: "Testingqueue").asyncAfter(deadline: .now() + 0.005) {
+            completion(self.data, nil)
+        }
+    }
+
+
+}
