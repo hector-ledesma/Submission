@@ -10,7 +10,12 @@ import Foundation
 import CoreData
 
 extension Post {
-    @discardableResult convenience init(id: Int64, post: String, timestamp: String, title: String, userID: Int64, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(id: Int64,
+                                        post: String,
+                                        timestamp: String,
+                                        title: String,
+                                        userID: Int64,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.id = id
         self.post = post

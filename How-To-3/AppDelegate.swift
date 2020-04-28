@@ -8,6 +8,7 @@
 
 import UIKit
 
+// swiftlint:disable all
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -31,3 +32,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+// swiftlint:enable all

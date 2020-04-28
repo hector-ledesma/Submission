@@ -21,7 +21,7 @@ class CoreDataStack {
         let container = NSPersistentContainer(name: "Refresh")
 
         // First we want to load what we have.
-        container.loadPersistentStores { (_, error) in
+        container.loadPersistentStores { _, error in
             // Unwrap the error, but don't nuke the app.
             if let error = error {
                 NSLog("Couldn't load items from persistent store : \(error)")
