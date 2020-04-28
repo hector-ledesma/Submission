@@ -9,6 +9,7 @@
 import Foundation
 
 class MockDataLoader: DataLoader {
+
     var data: Data
 
     init(data: Data) {
@@ -26,6 +27,5 @@ class MockDataLoader: DataLoader {
             completion(self.data, nil)
         }
     }
-
 
 }
