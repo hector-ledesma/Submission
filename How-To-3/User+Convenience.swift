@@ -10,5 +10,12 @@ import Foundation
 import CoreData
 
 extension User {
-    
+
+    @discardableResult convenience init(id: Int64, username: String, email: String, password: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(context: context)
+        self.id = id
+        self.username = username
+        self.email = email
+        self.password = password
+    }
 }

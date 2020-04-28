@@ -9,5 +9,30 @@
 import Foundation
 
 class BackendController {
-    
+    private var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/")!
+    private var token: Token?
+    var dataLoader: DataLoader?
+
+    // If the initializer isn't provided with a data loader, simply use the URLSession singleton.
+    init(dataLoader: DataLoader = URLSession.shared, data: Data?) {
+        self.dataLoader = dataLoader
+        self.data = data
+    }
+
+    //func signUp(username: String, password: String, email: String) {
+     //   baseURL.appendPathComponent(<#T##pathComponent: String##String#>)
+     //   let request = URLRequest(url: baseURL)
+     //   dataLoader?.loadData(from: <#T##URLRequest#>, completion: <#T##(Data?, Error?) -> Void#>)
+    //}
+    let data: Data?
+    func signIn() {
+//        let foo = try! JSONDecoder().decode(UserRepresentation.self, from: data!)
+    }
+
+    private enum EndPoints: String {
+        case register = "api/auth/register"
+        case login = "api/auth/login"
+        case howTo = "api/howto"
+    }
+
 }

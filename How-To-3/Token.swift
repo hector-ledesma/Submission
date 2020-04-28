@@ -1,5 +1,5 @@
 //
-//  AuthenticationController.swift
+//  Token.swift
 //  How-To-3
 //
 //  Created by Karen Rodriguez on 4/27/20.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-class AuthenticationController {
-
+struct Token: Codable {
+    var token: String
 }
