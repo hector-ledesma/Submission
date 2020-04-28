@@ -14,11 +14,11 @@ class BackendController {
     var dataLoader: DataLoader?
 
     // If the initializer isn't provided with a data loader, simply use the URLSession singleton.
-    init(data: Data?, dataLoader: DataLoader = URLSession.shared) {
+    init(dataLoader: DataLoader = URLSession.shared) {
         self.dataLoader = dataLoader
     }
 
-    func signUp(username: String, password: String, email: String) {
+    func signUp(username: String, password: String, email: String, completion: @escaping (Data?, Error?) -> ()) {
 
         // Make a UserRepresentation with the passed in parameters
         let newUser = UserRepresentation(id: nil, username: username, password: password, email: email)
@@ -38,13 +38,19 @@ class BackendController {
         }
 
         dataLoader?.loadData(from: request, completion: { data, error in
-            print(data)
+            completion(data, error)
         })
     }
     func signIn() {
 //        let foo = try! JSONDecoder().decode(UserRepresentation.self, from: data!)
     }
 
+    private enum Method: String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case delete = "DELETE"
+    }
     private enum EndPoints: String {
         case users = "api/user/"
         case register = "api/auth/register"
