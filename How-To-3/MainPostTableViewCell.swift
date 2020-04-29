@@ -16,26 +16,20 @@ class MainPostTableViewCell: UITableViewCell {
     @IBOutlet weak var timeStampLabel: UILabel!
     
   
-    var post: Post?
-    var backendController: BackendController?
-    var postRepresentation: PostRepresentation? {
+    var post: Post? {
         didSet {
             updateViews()
         }
     }
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    var backendController: BackendController?
+    var postRepresentation: PostRepresentation?
     
     
     private func updateViews() {
-        guard let postRepresentation = postRepresentation else { return }
-    
-        postTitleLabel.text = postRepresentation.title
-        authorNameLabel.text = String(postRepresentation.userID)
-        timeStampLabel.text = postRepresentation.timestamp
+        guard let post = post else { return }
+        postTitleLabel.text = post.title
+        authorNameLabel.text = String(post.userID)
+        timeStampLabel.text = post.timestamp
 
         
     }

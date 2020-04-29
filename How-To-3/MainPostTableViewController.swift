@@ -11,22 +11,12 @@ import CoreData
 class MainPostTableViewController: UITableViewController {
     
     var backendController = BackendController()
-    var post = Post()
     
     @IBAction func refreshed(_ sender: UIRefreshControl) throws {
         
     }
     
-    lazy var fetchedResultsController: NSFetchedResultsController<Post> = {
-           let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-           let context = CoreDataStack.shared.mainContext
-           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
-           frc.delegate = self
-           try? frc.performFetch()
-           return frc
-       }()
-    
+  
     @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {

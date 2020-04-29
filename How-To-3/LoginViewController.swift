@@ -44,14 +44,15 @@ class LoginViewController: UIViewController {
         emailTextField.isHidden = true
         
         backendController.signIn(username: username, password: password) { signIn in
-            if signIn == false {
-                self.showAlertMessage(title: "Retry", message: "Problem in signing in", actiontitle: "Ok")
-            } else if self.backendController.isSignedIn == false {
-                self.showAlertMessage(title: "Retry", message: "Problem in signing in", actiontitle: "Ok")
-            }
-            else {
+          
+            
                 DispatchQueue.main.async {
-                    if self.backendController.isSignedIn {
+                    if signIn == false {
+                        self.showAlertMessage(title: "Retry", message: "Problem in signing in", actiontitle: "Ok")
+                               } else if self.backendController.isSignedIn == false {
+                        self.showAlertMessage(title: "Retry", message: "Problem in signing in", actiontitle: "Ok")
+                               }
+                   else if self.backendController.isSignedIn {
                         self.performSegue(withIdentifier: "LoginSegue", sender: self)
                         
                     } else {
@@ -61,7 +62,6 @@ class LoginViewController: UIViewController {
             }
             
         }
-    }
     
     @IBAction func registerButtonPressed(_ sender: UIButton) {
         buttonToggle.toggle()
