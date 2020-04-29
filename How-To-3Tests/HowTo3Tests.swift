@@ -101,6 +101,7 @@ class HowTo3Tests: XCTestCase {
         backend.injectToken(token)
         let expect = expectation(description: "Syn posts expectation.")
 
+        // First pass to check that it works.
         backend.syncPosts { error in
             XCTAssertNil(error)
             expect.fulfill()
@@ -110,15 +111,37 @@ class HowTo3Tests: XCTestCase {
         let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
         let moc = CoreDataStack.shared.mainContext
         moc.reset()
+        var fetchCount: Int = 0
         do {
             let fetchedResults = try moc.fetch(fetchRequest)
             print(fetchedResults.count)
+            fetchCount = fetchedResults.count
             XCTAssertFalse(fetchedResults.isEmpty)
         } catch {
             NSLog("Couldn't fetch ----- : \(error)")
             XCTFail("If the result is empy, nothing was fetched.")
         }
 
+        // Second pass to ensure no duplicates are created
+        let expect2 = expectation(description: "Expectation for duplicates checking.")
+        let newBackend = BackendController()
+        newBackend.injectToken(token)
+        newBackend.syncPosts { error in
+            XCTAssertNil(error)
+            expect2.fulfill()
+        }
+        wait(for: [expect2], timeout: 10)
+
+        moc.reset()
+        do {
+            let fetchedResults = try moc.fetch(fetchRequest)
+            print(fetchedResults.count)
+            // Check that the previously assigned count is the same as this new fetch count
+            XCTAssertEqual(fetchCount, fetchedResults.count)
+        } catch {
+            NSLog("Couldn't fetch ----- : \(error)")
+            XCTFail("If the result is empy, nothing was fetched.")
+        }
     }
 
 }
