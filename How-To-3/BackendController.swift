@@ -19,7 +19,15 @@ class BackendController {
     var cache = Cache<Int64, Post>()
 
     // This variable will let us store the user id for any methods that require it
-    var userID: Int64?
+    var userID: Int64? {
+        didSet {
+            do {
+                try loadUserPosts()
+            } catch {
+                NSLog("Couldn't populate userPosts: \(error)")
+            }
+        }
+    }
     // This array will contain any posts made by the user
     var userPosts: [Post] = []
 
@@ -338,7 +346,56 @@ class BackendController {
         }
     }
 
-    func loadUserPosts() {
+    // This function will be called by a didset in userID
+    // As given that the function that populates core data checks for duplicates, we don't need to worry about that.
+    private func loadUserPosts() throws {
+        guard let id = userID else {
+            throw HowtoError.noAuth("UserID hasn't been assigned")
+        }
+        let requestURL = baseURL.appendingPathComponent("user/\(id)")
+        var foundError: Error?
+
+        dataLoader?.loadData(from: requestURL) { data, _, error in
+            if let error = error {
+                NSLog("Error fetching logged in user's posts : \(error)")
+                foundError = error
+                return
+            }
+
+            guard let data = data else {
+                foundError = HowtoError.badData("Received bad data when fetching logged in user's posts array.")
+                return
+            }
+
+            let decoder = JSONDecoder()
+            let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
+
+            do {
+                let decodedPosts = try decoder.decode([PostRepresentation].self, from: data)
+                for post in decodedPosts {
+                    guard let id = post.id else { return }
+                    fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+                    // If fetch request finds a post, add it to the array and update it in core data
+                    if let foundPost = try self.bgContext.fetch(fetchRequest).first {
+                        self.userPosts.append(foundPost)
+                        self.update(post: foundPost, with: post)
+                    } else {
+                        // If the post isn't in core data, add it.
+                        if let newPost = Post(representation: post, context: self.bgContext) {
+                            self.userPosts.append(newPost)
+                        }
+                    }
+                }
+                // After going through the entire array, try to save context.
+                try self.bgContext.save()
+            } catch {
+                foundError = error
+            }
+        }
+
+        if let error = foundError {
+            throw error
+        }
 
     }
 
@@ -377,7 +434,9 @@ class BackendController {
     }
 
     func loggedUserID() -> Int64? {
+        // swiftlint:disable all
         return self.userID
+        // swiftlint:enable all
     }
 }
 

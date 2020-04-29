@@ -154,4 +154,12 @@ class HowTo3Tests: XCTestCase {
         XCTAssertNotNil(backend.loggedUserID)
     }
 
+    func testLoadUserPosts() {
+        let expect = expectation(description: "Testing stored user.")
+        backend.signIn(username: "Testing22", password: "test") { _  in
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 5)
+        XCTAssertTrue(!backend.userPosts.isEmpty)
+    }
 }
