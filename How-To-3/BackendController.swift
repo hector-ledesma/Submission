@@ -17,6 +17,7 @@ class BackendController {
 
     // Create a new background context so that core data can operate asynchronously
     let bgContext = CoreDataStack.shared.container.newBackgroundContext()
+    let operationQueue = OperationQueue()
 
     // The cache will take care of making sure that there are no duplicates within core datta already
     var cache = Cache<Int64, Post>()
@@ -365,7 +366,6 @@ class BackendController {
                     }
                 }// context.perform
                 completion(nil)
-
             }// Fetch closure
 
         } catch {
@@ -416,40 +416,63 @@ class BackendController {
 
             let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
 
-            self.bgContext.performAndWait {
-                do {
-                    let decodedPosts = try self.decoder.decode([PostRepresentation].self, from: data)
-                    // Check if the user has no posts. And if so return right here.
-                    if decodedPosts.isEmpty {
-                        NSLog("User has no posts in the database.")
-                        completion(true, nil)
-                        return
-                    }
-                    // If the decoded posts array isn't empty
-                    for post in decodedPosts {
-                        guard let postID = post.id else { return }
-                        let nsID = NSNumber(integerLiteral: Int(postID))
-                        fetchRequest.predicate = NSPredicate(format: "id == %@", nsID)
-                        // If fetch request finds a post, add it to the array and update it in core data
-                        if let foundPost = try self.bgContext.fetch(fetchRequest).first {
-                            self.userPosts.append(foundPost)
-                            self.update(post: foundPost, with: post)
-                        } else {
-                            // If the post isn't in core data, add it.
-                            if let newPost = Post(representation: post, context: self.bgContext) {
-                                self.userPosts.append(newPost)
+//            self.bgContext.performAndWait {
+                let handleFetchedPosts = BlockOperation {
+                    do {
+                        let decodedPosts = try self.decoder.decode([PostRepresentation].self, from: data)
+                        // Check if the user has no posts. And if so return right here.
+                        if decodedPosts.isEmpty {
+                            NSLog("User has no posts in the database.")
+                            completion(true, nil)
+                            return
+                        }
+                        // If the decoded posts array isn't empty
+                        for post in decodedPosts {
+                            guard let postID = post.id else { return }
+                            let nsID = NSNumber(integerLiteral: Int(postID))
+                            fetchRequest.predicate = NSPredicate(format: "id == %@", nsID)
+                            // If fetch request finds a post, add it to the array and update it in core data
+                            if let foundPost = try self.bgContext.fetch(fetchRequest).first {
+                                self.update(post: foundPost, with: post)
+                                self.userPosts.append(foundPost)
+                            } else {
+                                //                             If the post isn't in core data, add it.
+                                if let newPost = Post(representation: post, context: self.bgContext) {
+                                    self.userPosts.append(newPost)
+                                }
+                                //                            try self.savePost(by: id, from: post)
                             }
                         }
+                    } catch {
+                        NSLog("Error Decoding posts, Fetching from Coredata: \(error)")
+                        completion(false, error)
                     }
-                    // After going through the entire array, try to save context.
-                    try self.bgContext.save()
-                    completion(false, nil)
-                } catch {
-                    NSLog("Error Decoding posts, Fetching from Coredata, or saving to background context: \(error)")
-                    completion(false, error)
                 }
-            }
 
+                let handleSaving = BlockOperation {
+                    do {
+                        // After going through the entire array, try to save context.
+                        // Make sure to do this in a separate do try catch so we know where things fail
+                        let handleSaving = BlockOperation {
+                            do {
+                                // After going through the entire array, try to save context.
+                                // Make sure to do this in a separate do try catch so we know where things fail
+                                try CoreDataStack.shared.save(context: self.bgContext)
+                                completion(false, nil)
+                            } catch {
+                                NSLog("Error saving context. \(error)")
+                                completion(false, error)
+                            }
+                        }
+                        self.operationQueue.addOperations([handleSaving], waitUntilFinished: true)
+                    } catch {
+                        NSLog("Error saving context.")
+                        completion(false, error)
+                    }
+                }
+                handleSaving.addDependency(handleFetchedPosts)
+                self.operationQueue.addOperations([handleFetchedPosts, handleSaving], waitUntilFinished: true)
+//            }
         }
     }
 
@@ -530,12 +553,16 @@ class BackendController {
 
     private func savePost(by userID: Int64, from representation: PostRepresentation) throws {
         if let newPost = Post(representation: representation, context: bgContext) {
-            do {
-                try CoreDataStack.shared.save(context: bgContext)
-            } catch {
-                NSLog("Error saving background managed context: \(error)")
-                throw error
+            let handleSaving = BlockOperation {
+                do {
+                    // After going through the entire array, try to save context.
+                    // Make sure to do this in a separate do try catch so we know where things fail
+                    try CoreDataStack.shared.save(context: self.bgContext)
+                } catch {
+                    NSLog("Error saving context.\(error)")
+                }
             }
+            operationQueue.addOperations([handleSaving], waitUntilFinished: false)
             cache.cache(value: newPost, for: userID)
         }
     }

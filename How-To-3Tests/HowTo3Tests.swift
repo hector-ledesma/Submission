@@ -13,12 +13,14 @@ import CoreData
 class HowTo3Tests: XCTestCase {
     // Sorry swiftlint my friend. But there's nothing I can do about this long token lol
     // swiftlint:disable all
-    let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJ1c2VybmFtZSI6IlRlc3RpbmcyMiIsImlhdCI6MTU4ODE4ODkxMCwiZXhwIjoxNTg4MjMyMTEwfQ.YUeUhpzuBHSwddJvEYwuo20e-rQR7bJr_B29-nbLfdk"
-    let backend = BackendController()
+    let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJ1c2VybmFtZSI6IlRlc3RpbmcyMiIsImlhdCI6MTU4ODIwMDk0OCwiZXhwIjoxNTg4MjQ0MTQ4fQ.kVzVJ_E4p3u1CC4CvzHjiiFcqFp6wrs1xqnuAp1Qm6k"
+    var backend: BackendController!
+    let timeout: Double = 10
     // swiftlint:enable all
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        backend = BackendController()
     }
 
     override func tearDownWithError() throws {
@@ -53,61 +55,61 @@ class HowTo3Tests: XCTestCase {
     }
 
     func testSignUp() {
-        let expect = expectation(description: "got it")
+        let expectSignUp = expectation(description: "got it")
         backend.signUp(username: "Testing3", password: "testing", email: "testing3@test.com") { newUser, response, _ in
             if let response = response as? HTTPURLResponse,
             response.statusCode == 500 {
                 NSLog("User already exists in the database. Therefore user data was sent successfully to database.")
-                expect.fulfill()
+                expectSignUp.fulfill()
                 return
             }
             XCTAssertTrue(newUser)
-            expect.fulfill()
+            expectSignUp.fulfill()
         }
-        wait(for: [expect], timeout: 5)
+        wait(for: [expectSignUp], timeout: timeout)
     }
 
     func testSignIn() {
-        let expect = expectation(description: "got it")
+        let expectSignIn = expectation(description: "got it")
 
         backend.signIn(username: "Testing22", password: "test") { logged in
             XCTAssertTrue(logged)
-            expect.fulfill()
+            expectSignIn.fulfill()
         }
 
-        wait(for: [expect], timeout: 5)
+        wait(for: [expectSignIn], timeout: timeout)
         XCTAssertTrue(backend.isSignedIn)
 
     }
 
     func testFetchAllPosts() {
         backend.injectToken(token)
-        let expect = expectation(description: "Fetching posts")
+        let expectFetchAll = expectation(description: "Fetching posts")
 
         do {
             try backend.fetchAllPosts { posts, error in
                 XCTAssertNil(error)
                 XCTAssertNotNil(posts)
                 print(posts!)
-                expect.fulfill()
+                expectFetchAll.fulfill()
             }
         } catch {
-            expect.fulfill()
+            expectFetchAll.fulfill()
             XCTFail("No token. Fail.")
         }
-        wait(for: [expect], timeout: 10)
+        wait(for: [expectFetchAll], timeout: timeout)
     }
 
     func testSyncPostsCoreData() {
         backend.injectToken(token)
-        let syncExpect = expectation(description: "Syn posts expectation.")
+        let syncExpect = expectation(description: "Sync posts expectation.")
 
         // First pass to check that it works.
         backend.syncPosts { error in
             XCTAssertNil(error)
             syncExpect.fulfill()
         }
-        wait(for: [syncExpect], timeout: 10)
+        wait(for: [syncExpect], timeout: timeout)
 
         let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
         let moc = CoreDataStack.shared.mainContext
@@ -131,7 +133,7 @@ class HowTo3Tests: XCTestCase {
             XCTAssertNil(error)
             expect2.fulfill()
         }
-        wait(for: [expect2], timeout: 10)
+        wait(for: [expect2], timeout: timeout)
 
         moc.reset()
         do {
@@ -146,21 +148,22 @@ class HowTo3Tests: XCTestCase {
     }
 
     func testStoreUserID() {
-        let expect = expectation(description: "Testing stored user.")
+        let expectStoreUser = expectation(description: "Testing stored user.")
         backend.signIn(username: "Testing22", password: "test") { _  in
-            expect.fulfill()
+            expectStoreUser.fulfill()
         }
-        wait(for: [expect], timeout: 5)
+        wait(for: [expectStoreUser], timeout: timeout)
         XCTAssertTrue(backend.isSignedIn)
         XCTAssertNotNil(backend.loggedUserID)
     }
 
     func testLoadUserPosts() {
-        let expect = expectation(description: "Testing stored user.")
+//        let backend = BackendController()
+        let expectLoadUserPosts = expectation(description: "Testing stored user.")
         backend.signIn(username: "Testing22", password: "test") { _  in
-            expect.fulfill()
+            expectLoadUserPosts.fulfill()
         }
-        wait(for: [expect], timeout: 10)
+        wait(for: [expectLoadUserPosts], timeout: timeout)
         XCTAssertTrue(backend.isSignedIn)
         let expec2 = expectation(description: "Force load posts")
         backend.forceLoadUserPosts(completion: { isEmpty, error in
@@ -168,17 +171,17 @@ class HowTo3Tests: XCTestCase {
             XCTAssertTrue(!isEmpty)
             expec2.fulfill()
         })
-        wait(for: [expec2], timeout: 10)
+        wait(for: [expec2], timeout: timeout)
         print(backend.userPosts)
         XCTAssertTrue(!backend.userPosts.isEmpty)
     }
 
     func testCreatePost() {
-        let signinExpect = expectation(description: "Testing create new post.")
+        let expectCreatePost = expectation(description: "Testing create new post.")
         backend.signIn(username: "Testing22", password: "test") { _ in
-            signinExpect.fulfill()
+            expectCreatePost.fulfill()
         }
-        wait(for: [signinExpect], timeout: 5)
+        wait(for: [expectCreatePost], timeout: timeout)
         let count = backend.userPosts.count
         print(count)
         let createExpect = expectation(description: "Expectation for creating post")
@@ -186,7 +189,7 @@ class HowTo3Tests: XCTestCase {
             XCTAssertNil(error)
             createExpect.fulfill()
         }
-        wait(for: [createExpect], timeout: 5)
+        wait(for: [createExpect], timeout: timeout)
 
         let refetchUserExpect = expectation(description: "Last expectation for testing create post")
         backend.forceLoadUserPosts { isEmpty, error in
@@ -194,22 +197,22 @@ class HowTo3Tests: XCTestCase {
             XCTAssertNil(error)
             refetchUserExpect.fulfill()
         }
-        wait(for: [refetchUserExpect], timeout: 5)
+        wait(for: [refetchUserExpect], timeout: timeout)
         XCTAssertTrue(count < backend.userPosts.count)
     }
 
     func testUpdatePost() {
-        let signinExpect2 = expectation(description: "Testing update post.")
+        let expectUpdatePost = expectation(description: "Testing update post.")
         backend.signIn(username: "Testing22", password: "test") { _ in
-            signinExpect2.fulfill()
+            expectUpdatePost.fulfill()
         }
-        wait(for: [signinExpect2], timeout: 5)
+        wait(for: [expectUpdatePost], timeout: timeout)
 
         let refetchUserExpectation = expectation(description: "Last method call for testing update post")
         backend.forceLoadUserPosts { _, _ in
             refetchUserExpectation.fulfill()
         }
-        wait(for: [refetchUserExpectation], timeout: 5)
+        wait(for: [refetchUserExpectation], timeout: timeout)
         print(backend.userPosts)
 
         let updateExpect = expectation(description: "Expectation for updating post")
@@ -217,6 +220,6 @@ class HowTo3Tests: XCTestCase {
             XCTAssertNil(error)
             updateExpect.fulfill()
         }
-        wait(for: [updateExpect], timeout: 5)
+        wait(for: [updateExpect], timeout: timeout)
     }
 }
