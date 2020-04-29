@@ -170,6 +170,8 @@ class BackendController {
 
     // MARK: - Post Methods
     // TODO: Ask Jon about this
+
+    // This method should never be called directly
     func fetchAllPosts(completion: @escaping ([PostRepresentation]?, Error?) -> Void) throws {
 
         // If there's no token, user isn't authorized. Throw custom error.
@@ -210,7 +212,47 @@ class BackendController {
             }
         })
     }
-    
+
+    // This is the method that should be called.
+    func syncPosts(completion: @escaping (Error?) -> Void) {
+        var representations: [PostRepresentation] = []
+        do {
+            try fetchAllPosts { posts, error in
+                if let error = error {
+                    NSLog("Error fetching all posts to sync : \(error)")
+                    completion(error)
+                    return
+                }
+
+                guard let fetchedPosts = posts else {
+                    completion(HowtoError.badData("Posts array couldn't be unwrapped"))
+                    return
+                }
+                representations = fetchedPosts
+            }// Fetch closure
+
+            // Create a new background context so that core data can operate asynchronously
+            let context = CoreDataStack.shared.container.newBackgroundContext()
+            // Use this context to initialize new posts into core data.
+            context.perform {
+                for post in representations {
+                    Post(representation: post, context: context)
+                }
+
+                // After creating all the new posts, try to save.
+                do {
+                    try context.save()
+                    completion(nil)
+                } catch {
+                    NSLog("Error saving background context: \(error)")
+                    completion(error)
+                }
+            }// context.perform
+
+        } catch {
+            completion(error)
+        }
+    }
 
     // MARK: - Enums
 

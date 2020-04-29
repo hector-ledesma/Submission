@@ -98,4 +98,8 @@ class HowTo3Tests: XCTestCase {
         wait(for: [expect], timeout: 10)
     }
 
+    func testSyncPostsCoreData() {
+        
+    }
+
 }
