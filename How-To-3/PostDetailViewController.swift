@@ -10,13 +10,20 @@ import UIKit
 
 class PostDetailViewController: UIViewController {
 
+    @IBOutlet weak var postDescription: UITextView!
+    @IBOutlet weak var timeStamp: UILabel!
+    @IBOutlet weak var authorName: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
-
+    @IBAction func likesButtonPressed(_ sender: UIButton) {
+    }
+    
     /*
     // MARK: - Navigation
 

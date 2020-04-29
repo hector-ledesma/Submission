@@ -15,6 +15,8 @@ class MainPostTableViewCell: UITableViewCell {
     @IBOutlet weak var authorNameLabel: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!
     
+    var post: Post?
+    var backendController: BackendController?
     var postRepresentation: PostRepresentation? {
         didSet {
             updateViews()
