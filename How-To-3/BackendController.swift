@@ -18,6 +18,11 @@ class BackendController {
     // The cache will take care of making sure that there are no duplicates within core datta already.
     var cache = Cache<Int64, Post>()
 
+    // This variable will let us store the user for any methods that require their id
+    var loggedInUser: User?
+    // This array will contain any posts made by the user
+    var userPosts: [Post] = []
+
     // MARK: - Token Instructions
     private var token: Token?
     // If there's no token, it will return false and viceversa
@@ -55,8 +60,8 @@ class BackendController {
         let newUser = UserRepresentation(username: username, password: password, email: email)
 
         // Build EndPoint URL and create request with URL
-        baseURL.appendPathComponent(EndPoints.register.rawValue)
-        var request = URLRequest(url: baseURL)
+        let requestURL = baseURL.appendingPathComponent(EndPoints.register.rawValue)
+        var request = URLRequest(url: requestURL)
         request.httpMethod = Method.post.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
@@ -112,8 +117,8 @@ class BackendController {
     func signIn(username: String, password: String, completion: @escaping (Bool) -> Void) {
 
         // Build EndPoint URL and create request with URL
-        baseURL.appendPathComponent(EndPoints.login.rawValue)
-        var request = URLRequest(url: baseURL)
+        let requestURL = baseURL.appendingPathComponent(EndPoints.login.rawValue)
+        var request = URLRequest(url: requestURL)
         request.httpMethod = Method.post.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
@@ -164,6 +169,13 @@ class BackendController {
         self.token = nil
     }
 
+    // MARK: - Store logged in user methods
+    private func storeUser(username: String) {
+        let requestURL = baseURL.appendingPathComponent(EndPoints.userQuery.rawValue).appendingPathExtension(username)
+
+//        dataLoader?.loadData(from: <#T##URL#>, completion: <#T##(Data?, URLResponse?, Error?) -> Void#>)
+    }
+
     private func jsonFromDict(username: String, password: String) throws -> Data? {
         var dic: [String: String] = [:]
         dic["username"] = username
@@ -189,8 +201,8 @@ class BackendController {
             throw HowtoError.noAuth("No token in controller. User isn't logged in.")
         }
 
-        baseURL.appendPathComponent(EndPoints.howTos.rawValue)
-        var request = URLRequest(url: baseURL)
+        let requestURL = baseURL.appendingPathComponent(EndPoints.howTos.rawValue)
+        var request = URLRequest(url: requestURL)
         request.httpMethod = Method.get.rawValue
         request.setValue(token.token, forHTTPHeaderField: "Authorization")
 
@@ -298,6 +310,10 @@ class BackendController {
         }
     }
 
+    func loadUserPosts() {
+
+    }
+
     // MARK: - Post CRUD methods
 
     func update(post: Post, with rep: PostRepresentation) {
@@ -320,6 +336,7 @@ class BackendController {
     }
     private enum EndPoints: String {
         case users = "api/user/"
+        case userQuery = "api/user/u/search?username="
         case register = "api/auth/register"
         case login = "api/auth/login"
         case howTos = "api/howto"
