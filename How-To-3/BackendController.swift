@@ -101,7 +101,7 @@ class BackendController {
 
             let decoder = JSONDecoder()
             do {
-                try decoder.decode(UserRepresentation.self, from: data)
+                _ = try decoder.decode(UserRepresentation.self, from: data)
             } catch {
                 NSLog("Error decoding data: \(error)")
                 completion(false, nil, error)
@@ -170,10 +170,19 @@ class BackendController {
     }
 
     // MARK: - Store logged in user methods
-    private func storeUser(username: String) {
+    private func storeUser(username: String) throws {
         let requestURL = baseURL.appendingPathComponent(EndPoints.userQuery.rawValue).appendingPathExtension(username)
-
-//        dataLoader?.loadData(from: <#T##URL#>, completion: <#T##(Data?, URLResponse?, Error?) -> Void#>)
+        var foundError: Error?
+        dataLoader?.loadData(from: requestURL) { data, _, error in
+            if let error = error {
+                NSLog("Error couldn't fetch existing user: \(error)")
+                foundError = error
+                return
+            }
+        }
+        if let error = foundError {
+            throw error
+        }
     }
 
     private func jsonFromDict(username: String, password: String) throws -> Data? {
@@ -361,7 +370,9 @@ class Cache<Key: Hashable, Value> {
 
      func value(for key: Key) -> Value? {
          queue.sync {
+            // swiftlint:disable all
              return self.cache[key]
+            // swiftlint:enable all
          }
 
      }
