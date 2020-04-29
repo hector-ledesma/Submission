@@ -7,9 +7,16 @@
 //
 
 import Foundation
+import CoreData
 
 class BackendController {
     private var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/")!
+
+    // Create a new background context so that core data can operate asynchronously
+    let bgContext = CoreDataStack.shared.container.newBackgroundContext()
+
+    // The cache will take care of making sure that there are no duplicates within core datta already.
+    var cache = Cache<Int64, Post>()
 
     // MARK: - Token Instructions
     private var token: Token?
@@ -37,6 +44,9 @@ class BackendController {
     // If the initializer isn't provided with a data loader, simply use the URLSession singleton.
     init(dataLoader: DataLoader = URLSession.shared) {
         self.dataLoader = dataLoader
+
+        // As soon as this class gets initialized, populate the cache for existing core data posts.
+        populateCache()
     }
 
     func signUp(username: String, password: String, email: String, completion: @escaping (Bool, URLResponse?, Error?) -> Void) {
@@ -169,12 +179,138 @@ class BackendController {
     }
 
     // MARK: - Post Methods
+    // TODO: Ask Jon about this
 
-    func fetchAllPosts() {
+    // This method should never be called directly
+    func fetchAllPosts(completion: @escaping ([PostRepresentation]?, Error?) -> Void) throws {
+
+        // If there's no token, user isn't authorized. Throw custom error.
+        guard let token = token else {
+            throw HowtoError.noAuth("No token in controller. User isn't logged in.")
+        }
+
+        baseURL.appendPathComponent(EndPoints.howTos.rawValue)
+        var request = URLRequest(url: baseURL)
+        request.httpMethod = Method.get.rawValue
+        request.setValue(token.token, forHTTPHeaderField: "Authorization")
+
+        dataLoader?.loadData(from: request, completion: { data, response, error in
+            // Always log the status code response from server.
+            if let response = response as? HTTPURLResponse {
+                NSLog("Server responded with: \(response.statusCode)")
+            }
+
+            if let error = error {
+                NSLog("Error fetching all existing posts from server : \(error)")
+                completion(nil, error)
+                return
+            }
+
+            // use badData when unwrapping data from server.
+            guard let data = data else {
+                completion(nil, HowtoError.badData("Bad data received from server"))
+                return
+            }
+
+            let decoder = JSONDecoder()
+            do {
+                let posts = try decoder.decode([PostRepresentation].self, from: data)
+                completion(posts, nil)
+            } catch {
+                NSLog("Couldn't decode array of posts from server: \(error)")
+                completion(nil, error)
+            }
+        })
+    }
+
+    // This method will let us know if posts have already been downloaded. This will prevent duplicates in core data.
+    private func populateCache() {
         
+        // First get all existing posts saved to coreData and store them in the Cache
+        let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
+        // Do this synchronously in the background queue, so that it can't be used until cache is fully populated
+        bgContext.performAndWait {
+            var fetchResult: [Post] = []
+            do {
+                fetchResult = try bgContext.fetch(fetchRequest)
+            } catch {
+                NSLog("Couldn't fetch existing core data posts: \(error)")
+            }
+            for post in fetchResult {
+                cache.cache(value: post, for: post.id)
+            }
+        }
+    }
+
+    // This is the method that should be called.
+    // MARK: - Syncin/Load existing Posts Instructions
+    /*
+     All that needs to be done to sync database to local store is call syncPosts.
+     This method takes care of not allowing for duplicates, and updates existing posts.
+     - Call this method after user successfully logs in to populate the table for the user.
+     */
+    func syncPosts(completion: @escaping (Error?) -> Void) {
+        var representations: [PostRepresentation] = []
+        do {
+            try fetchAllPosts { posts, error in
+                if let error = error {
+                    NSLog("Error fetching all posts to sync : \(error)")
+                    completion(error)
+                    return
+                }
+
+                guard let fetchedPosts = posts else {
+                    completion(HowtoError.badData("Posts array couldn't be unwrapped"))
+                    return
+                }
+                representations = fetchedPosts
+
+
+                // Use this context to initialize new posts into core data.
+                self.bgContext.perform {
+                    for post in representations {
+                        // First if it's in the cache
+                        guard let id = post.id else { return }
+
+                        if self.cache.value(for: id) != nil {
+                            let cachedPost = self.cache.value(for: id)!
+                            self.update(post: cachedPost, with: post)
+                        } else {
+                            guard let newPost = Post(representation: post, context: self.bgContext) else { return }
+                            self.cache.cache(value: newPost, for: newPost .id)
+                        }
+                    }
+
+                    // After creating all the new posts and updating existing ones, try to save.
+                    do {
+                        try self.bgContext.save()
+                    } catch {
+                        NSLog("Error saving background context: \(error)")
+                        completion(error)
+                    }
+                }// context.perform
+                completion(nil)
+
+            }// Fetch closure
+
+        } catch {
+            completion(error)
+        }
+    }
+
+    // MARK: - Post CRUD methods
+
+    func update(post: Post, with rep: PostRepresentation) {
+        post.title = rep.title
+        post.post = rep.post
     }
 
     // MARK: - Enums
+
+    private enum HowtoError: Error {
+        case noAuth(String)
+        case badData(String)
+    }
 
     private enum Method: String {
         case get = "GET"
@@ -189,5 +325,27 @@ class BackendController {
         case howTos = "api/howto"
     }
 
+    // MARK: - THIS METHOD IS ONLY TO BE USED FOR TESTING.
+    func injectToken(_ token: String) {
+        let token = Token(token: token)
+        self.token = token
+    }
 }
 
+class Cache<Key: Hashable, Value> {
+     private var cache: [Key: Value] = [ : ]
+     private var queue = DispatchQueue(label: "Cache serial queue")
+
+     func cache(value: Value, for key: Key) {
+         queue.async {
+             self.cache[key] = value
+         }
+     }
+
+     func value(for key: Key) -> Value? {
+         queue.sync {
+             return self.cache[key]
+         }
+
+     }
+ }

@@ -18,7 +18,7 @@ class CoreDataStack {
 
     // The container sets up the model, context and store coordinator all at once.
     var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Refresh")
+        let container = NSPersistentContainer(name: "HowTo")
 
         // First we want to load what we have.
         container.loadPersistentStores { _, error in
