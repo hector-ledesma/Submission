@@ -76,7 +76,25 @@ class HowTo3Tests: XCTestCase {
     }
 
     func testFetchAllPosts() {
-        
+        let backend = BackendController()
+
+        // Sorry swiftlint my friend. But there's nothing I can do about this long token lol
+        // swiftlint:disable all
+        backend.injectToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJ1c2VybmFtZSI6IlRlc3RpbmcyMiIsImlhdCI6MTU4ODEzMjU1NiwiZXhwIjoxNTg4MTc1NzU2fQ.QC4YX42LKUlf700MgXsMxg-xw_YiJjPnW3DKFxh5300")
+        // swiftlint:enable all
+        let expect = expectation(description: "Fetching posts")
+        do {
+            try backend.fetchAllPosts { posts, error in
+                XCTAssertNil(error)
+                XCTAssertNotNil(posts)
+                print(posts!)
+                expect.fulfill()
+            }
+        } catch {
+            expect.fulfill()
+            XCTFail("No token. Fail.")
+        }
+        wait(for: [expect], timeout: 10)
     }
 
 }

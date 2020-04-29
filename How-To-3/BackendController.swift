@@ -179,8 +179,8 @@ class BackendController {
 
         baseURL.appendPathComponent(EndPoints.howTos.rawValue)
         var request = URLRequest(url: baseURL)
-        request.httpMethod = Method.post.rawValue
-        request.setValue("\(token)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = Method.get.rawValue
+        request.setValue(token.token, forHTTPHeaderField: "Authorization")
 
         dataLoader?.loadData(from: request, completion: { data, response, error in
             // Always log the status code response from server.
@@ -239,7 +239,7 @@ class BackendController {
 }
 
 class Cache<Key: Hashable, Value> {
-     private var cache: [Key : Value] = [ : ]
+     private var cache: [Key: Value] = [ : ]
      private var queue = DispatchQueue(label: "Cache serial queue")
 
      func cache(value: Value, for key: Key) {
