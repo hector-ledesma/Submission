@@ -374,7 +374,7 @@ class BackendController {
             completion(false, HowtoError.noAuth("UserID hasn't been assigned"))
             return
         }
-        let requestURL = baseURL.appendingPathComponent("api/howto/user/\(id)")
+        let requestURL = baseURL.appendingPathComponent("\(EndPoints.userPosts.rawValue)\(id)")
         var request = URLRequest(url: requestURL)
         request.httpMethod = Method.get.rawValue
         request.setValue(token.token, forHTTPHeaderField: "Authorization")
@@ -447,6 +447,15 @@ class BackendController {
             })
     }
 
+    func createPost(title: String, post: String, completion: @escaping (Error?) -> Void) {
+        guard let id = userID else {
+            completion(HowtoError.noAuth("No userID stored in the controller. Can't create new post."))
+            return
+        }
+
+        let requestURL = baseURL.appendingPathComponent("")
+    }
+
     // MARK: - Post CRUD methods
 
     private func savePost(by userID: Int64, from representation: PostRepresentation) throws {
@@ -459,10 +468,6 @@ class BackendController {
             }
             cache.cache(value: newPost, for: userID)
         }
-    }
-
-    private func savePost(by userID: Int64?, title: String, post: String) {
-
     }
 
     private func updatePost(post: Post, with rep: PostRepresentation) {
@@ -491,6 +496,7 @@ class BackendController {
         case users = "api/user/"
         case userQuery = "api/user/u/search?username="
         case userSearch = "api/user/u/search"
+        case userPosts = "api/howto/user/"
         case register = "api/auth/register"
         case login = "api/auth/login"
         case howTos = "api/howto"
