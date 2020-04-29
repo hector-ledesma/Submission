@@ -12,6 +12,17 @@ class MainPostTableViewController: UITableViewController {
     
     var backendController = BackendController()
     
+    lazy var fetchedResultsController: NSFetchedResultsController<Post> = {
+        let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
+        let context = CoreDataStack.shared.mainContext
+        context.reset()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        frc.delegate = self
+        try? frc.performFetch()
+        return frc
+    }()
+    
     @IBAction func refreshed(_ sender: UIRefreshControl) throws {
         
     }
@@ -30,6 +41,7 @@ class MainPostTableViewController: UITableViewController {
                         self.tableView.reloadData()
                     }
                 }
+            
             }
         }
     }
@@ -39,15 +51,14 @@ class MainPostTableViewController: UITableViewController {
    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return backendController.userPosts.count
+       return fetchedResultsController.sections?[section].numberOfObjects ?? 1
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainPostCell", for: indexPath) as? MainPostTableViewCell else { return UITableViewCell() }
 
-        let post = backendController.userPosts[indexPath.row]
-        cell.post = post
+        cell.post = fetchedResultsController.object(at: indexPath)
         cell.backendController = backendController
         return cell
     }
