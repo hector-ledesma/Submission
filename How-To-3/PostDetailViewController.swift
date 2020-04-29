@@ -29,7 +29,6 @@ class PostDetailViewController: UIViewController {
     @IBAction func likesButtonPressed(_ sender: UIButton) {
 //        var likes = []
 //        if sender.isSelected {
-//            
 //        }
     }
     

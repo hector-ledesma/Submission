@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
     }
     
     var buttonToggle = false
- 
+    
     var user: User?
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -38,32 +38,31 @@ class LoginViewController: UIViewController {
     var backendController = BackendController()
     @IBAction func loginPressed(_ sender: UIButton) {
         guard let username = usernameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-                   username.isEmpty == false,
-                   let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            username.isEmpty == false,
+            let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             password.isEmpty == false else { return }
-                     emailTextField.isHidden = true
+        emailTextField.isHidden = true
         
         backendController.signIn(username: username, password: password) { signIn in
             if signIn == false {
-                fatalError("User could not be signed in.")
+                self.showAlertMessage(title: "Retry", message: "Problem in signing in", actiontitle: "Ok")
+            } else if self.backendController.isSignedIn == false {
+                self.showAlertMessage(title: "Retry", message: "Problem in signing in", actiontitle: "Ok")
             }
-            if self.backendController.isSignedIn == false {
-                fatalError("User could not be signed in.")
-            }else {
-            
-            DispatchQueue.main.async {
-                if self.backendController.isSignedIn {
-                    self.performSegue(withIdentifier: "LoginSegue", sender: self)
-
-                } else {
-                   
+            else {
+                DispatchQueue.main.async {
+                    if self.backendController.isSignedIn {
+                        self.performSegue(withIdentifier: "LoginSegue", sender: self)
+                        
+                    } else {
+                        self.backendController.signOut()
+                    }
                 }
             }
+            
         }
-        
     }
-    }
-
+    
     @IBAction func registerButtonPressed(_ sender: UIButton) {
         buttonToggle.toggle()
         emailTextField.isHidden = false
@@ -79,33 +78,33 @@ class LoginViewController: UIViewController {
         backendController.signUp(username: username, password: password, email: email) { signUpResult, response, error  in
             
             let alert: UIAlertController
-                          let action: () -> Void
-                          
+            let action: () -> Void
+            
             if error != nil {
                 fatalError("Error fetching: \(String(describing: error?.localizedDescription))")
-             
+                
             } else if response != nil {
                 fatalError("User existing: \(String(describing: error?.localizedDescription))")
-            
+                
             } else if signUpResult == false {
                 fatalError("sign up not successful: \(String(describing: error?.localizedDescription)) ")
-                }
-              
-           
+            }
+            
+            
             DispatchQueue.main.async {
                 guard let user = self.user else { return }
                 self.emailTextField.text = user.email
                 self.usernameTextField.text = user.username
                 self.passwordTextField.text = user.password
+            }
         }
-    }
         if self.logInLabel.isSelected == false {
             self.logInLabel.setTitle("Sign In", for: .normal)
         }
-
-    }
         
-
+    }
+    
+    
     /*
      // MARK: - Navigation
      
@@ -115,20 +114,16 @@ class LoginViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
-//
-//    func showAlertMessage(title: String,message: String, actiontitle: String) {
-//        let endAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-//        let endAction = UIAlertAction(title: actiontitle, style: .default){ (action:UIAlertAction) in
-//
-//        }
-//        endAlert.addAction(endAction)
-//        present(endAlert, animated: true, completion: nil)
-//    }
     
-    private func alert(title: String, message: String) -> UIAlertController {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        return alert
+    func showAlertMessage(title: String,message: String, actiontitle: String) {
+        let endAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let endAction = UIAlertAction(title: actiontitle, style: .default){ (action:UIAlertAction) in
+            
+        }
+        endAlert.addAction(endAction)
+        present(endAlert, animated: true, completion: nil)
     }
+    
+    
     
 }

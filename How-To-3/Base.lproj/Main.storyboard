@@ -107,21 +107,44 @@
             </objects>
             <point key="canvasLocation" x="963.76811594202911" y="89.732142857142847"/>
         </scene>
-        <!--Posts-->
+        <!--Create Post-->
         <scene sceneID="L4O-Xu-rMF">
             <objects>
-                <viewController id="dZX-Mk-UDx" sceneMemberID="viewController">
+                <viewController id="dZX-Mk-UDx" customClass="CreatePostViewController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I6A-7R-dUu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eJs-Pn-qef">
+                                <rect key="frame" x="20" y="183" width="374" height="302"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nAy-2k-zyc">
+                                <rect key="frame" x="168" y="509" width="79" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Add Post"/>
+                                <connections>
+                                    <action selector="addPostButtonTapped:" destination="dZX-Mk-UDx" eventType="touchUpInside" id="jww-ZC-YTh"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="hsQ-hw-LRq"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Posts" image="plus" catalog="system" id="527-tx-ZzQ"/>
+                    <navigationItem key="navigationItem" title="Create Post" id="2Fo-ij-vSe"/>
+                    <connections>
+                        <outlet property="postDescription" destination="eJs-Pn-qef" id="ghj-l6-qfo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hWF-sv-eQq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2984" y="315"/>
+            <point key="canvasLocation" x="3892.753623188406" y="314.73214285714283"/>
         </scene>
         <!--My Posts-->
         <scene sceneID="9Z5-dS-nRJ">
@@ -199,7 +222,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u5M-pd-Bor" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4250.7246376811599" y="314.73214285714283"/>
+            <point key="canvasLocation" x="5160.8695652173919" y="314.73214285714283"/>
         </scene>
         <!--Main Post Table View Controller-->
         <scene sceneID="gmJ-dC-nam">
@@ -209,21 +232,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="1c1-fi-LQi">
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search Posts" id="1c1-fi-LQi">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainPostCell" rowHeight="90" id="EhT-iy-tDG" customClass="MainPostTableViewCell" customModule="How_To_3" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="414" height="90"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainPostCell" rowHeight="98" id="EhT-iy-tDG" customClass="MainPostTableViewCell" customModule="How_To_3" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="72" width="414" height="98"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EhT-iy-tDG" id="SL4-Ww-mCL">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="98"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="53" translatesAutoresizingMaskIntoConstraints="NO" id="gIJ-fz-cON">
-                                            <rect key="frame" x="5" y="64.5" width="404" height="20.5"/>
+                                            <rect key="frame" x="5" y="67.5" width="404" height="20.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="❤️ 0 likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Y7-ls-fQe">
                                                     <rect key="frame" x="0.0" y="0.0" width="111.5" height="20.5"/>
@@ -249,16 +272,16 @@
                                             </subviews>
                                         </stackView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dope tracks from SoundCloud" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mG7-9r-6z3">
-                                            <rect key="frame" x="20" y="0.0" width="374" height="26.5"/>
+                                            <rect key="frame" x="20" y="5" width="374" height="26.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="gIJ-fz-cON" secondAttribute="bottom" constant="5" id="5D1-xq-rPQ"/>
+                                        <constraint firstAttribute="bottom" secondItem="gIJ-fz-cON" secondAttribute="bottom" constant="10" id="5D1-xq-rPQ"/>
                                         <constraint firstAttribute="trailing" secondItem="gIJ-fz-cON" secondAttribute="trailing" constant="5" id="91R-jz-a1d"/>
-                                        <constraint firstItem="mG7-9r-6z3" firstAttribute="top" secondItem="SL4-Ww-mCL" secondAttribute="top" id="VAa-wV-9av"/>
+                                        <constraint firstItem="mG7-9r-6z3" firstAttribute="top" secondItem="SL4-Ww-mCL" secondAttribute="top" constant="5" id="VAa-wV-9av"/>
                                         <constraint firstAttribute="trailing" secondItem="mG7-9r-6z3" secondAttribute="trailing" constant="20" id="Z9Q-tK-c7o"/>
                                         <constraint firstItem="mG7-9r-6z3" firstAttribute="leading" secondItem="SL4-Ww-mCL" secondAttribute="leading" constant="20" id="q9M-Ff-CQh"/>
                                         <constraint firstItem="gIJ-fz-cON" firstAttribute="leading" secondItem="SL4-Ww-mCL" secondAttribute="leading" constant="5" id="wep-Px-fYk"/>
@@ -359,7 +382,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ss7-8o-nmc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5328.985507246377" y="-33.482142857142854"/>
+            <point key="canvasLocation" x="6239.130434782609" y="-33.482142857142854"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="nHA-Qg-tKm">
@@ -373,7 +396,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="GTz-W8-ic9" kind="relationship" relationship="viewControllers" id="eeb-zG-C0F"/>
-                        <segue destination="dZX-Mk-UDx" kind="relationship" relationship="viewControllers" id="W6h-39-ZcS"/>
+                        <segue destination="wQP-dQ-bJv" kind="relationship" relationship="viewControllers" id="W6h-39-ZcS"/>
                         <segue destination="ePQ-Zy-PZp" kind="relationship" relationship="viewControllers" id="A1D-bK-GKA"/>
                     </connections>
                 </tabBarController>
@@ -417,6 +440,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dWy-qn-hz7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2983" y="-346"/>
+        </scene>
+        <!--Posts-->
+        <scene sceneID="D0j-Tx-INk">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wQP-dQ-bJv" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Posts" image="plus" catalog="system" id="527-tx-ZzQ"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="d2h-qt-nYV">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="dZX-Mk-UDx" kind="relationship" relationship="rootViewController" id="nVF-Nb-K9v"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6AA-ZU-qI8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2982.608695652174" y="314.73214285714283"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -11,6 +11,7 @@
 		3F3A00462458D3000019E2ED /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A00452458D3000019E2ED /* PostDetailViewController.swift */; };
 		3F3A00482458D3320019E2ED /* MyPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A00472458D3320019E2ED /* MyPostsViewController.swift */; };
 		3F4823612459CAE200D6DCFB /* MainPostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4823602459CAE200D6DCFB /* MainPostTableViewController.swift */; };
+		3F4823632459F1E000D6DCFB /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4823622459F1E000D6DCFB /* CreatePostViewController.swift */; };
 		3F78685F2458198000FE8571 /* MainPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F78685E2458198000FE8571 /* MainPostTableViewCell.swift */; };
 		3F9A861D2457C76600F6AE1B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A861C2457C76600F6AE1B /* LoginViewController.swift */; };
 		9C2317EA2457B69A000A4A6B /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2317E92457B69A000A4A6B /* Token.swift */; };
@@ -61,6 +62,7 @@
 		3F3A00452458D3000019E2ED /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		3F3A00472458D3320019E2ED /* MyPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsViewController.swift; sourceTree = "<group>"; };
 		3F4823602459CAE200D6DCFB /* MainPostTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPostTableViewController.swift; sourceTree = "<group>"; };
+		3F4823622459F1E000D6DCFB /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		3F78685E2458198000FE8571 /* MainPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPostTableViewCell.swift; sourceTree = "<group>"; };
 		3F9A861C2457C76600F6AE1B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9C2317E92457B69A000A4A6B /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				3F3A00452458D3000019E2ED /* PostDetailViewController.swift */,
 				3F3A00472458D3320019E2ED /* MyPostsViewController.swift */,
 				3F4823602459CAE200D6DCFB /* MainPostTableViewController.swift */,
+				3F4823622459F1E000D6DCFB /* CreatePostViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				9C4C35792457648A0021AE1C /* PostRepresentation.swift in Sources */,
 				9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */,
 				3F3A00482458D3320019E2ED /* MyPostsViewController.swift in Sources */,
+				3F4823632459F1E000D6DCFB /* CreatePostViewController.swift in Sources */,
 				3F4823612459CAE200D6DCFB /* MainPostTableViewController.swift in Sources */,
 				9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */,
 				9C732D2524588E9500168FC5 /* Post+Mock.swift in Sources */,

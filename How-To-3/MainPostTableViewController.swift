@@ -11,63 +11,58 @@ import CoreData
 class MainPostTableViewController: UITableViewController {
     
     var backendController = BackendController()
-
-    lazy var fetchedResultsController: NSFetchedResultsController<Post> = {
-        let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
-        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "title", ascending: true)]
+    var post = Post()
+    
+    @IBAction func refreshed(_ sender: UIRefreshControl) throws {
         
-        let context = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
-        
-        frc.delegate = self
-        try! frc.performFetch()
-        return frc
-        
-    }()
-    @IBAction func refreshed(_ sender: UIRefreshControl) {
-        try! backendController.fetchAllPosts { _, error in
-            if error != nil {
-                fatalError()
-            }
-            DispatchQueue.main.async {
-                self.refreshControl?.endRefreshing()
-            }
-            
-        }
     }
     
+    lazy var fetchedResultsController: NSFetchedResultsController<Post> = {
+           let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+           let context = CoreDataStack.shared.mainContext
+           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
+           frc.delegate = self
+           try? frc.performFetch()
+           return frc
+       }()
     
     @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        if backendController.isSignedIn {
+            backendController.syncPosts { error in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        NSLog("Error trying to fetch posts: \(error)")
+                    } else {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
     }
     
     // MARK: - Table view data source
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return fetchedResultsController.sections?.count ?? 1
-    }
-    
+
+   
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-           return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return backendController.userPosts.count
     }
     
     
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainPostCell", for: indexPath) as? MainPostTableViewCell else { return UITableViewCell() }
-        cell.post = fetchedResultsController.object(at: indexPath)
+
+        let post = backendController.userPosts[indexPath.row]
+        cell.post = post
+//        cell.postTitleLabel.text = post.title
+//        cell.timeStampLabel.text = post.timestamp
         cell.backendController = backendController
-     return cell
-     }
+        return cell
+    }
     
     
     /*
@@ -106,15 +101,17 @@ class MainPostTableViewController: UITableViewController {
      */
     
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
         
-        if segue.identifier == "MainPostCell"
-     }
+        if segue.identifier == "MainPostCell" {
+            
+        }
+    }
     
     
 }
@@ -168,4 +165,3 @@ extension MainPostTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
 }
-
