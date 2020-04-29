@@ -15,6 +15,12 @@ enum LoginType: String {
 
 class LoginViewController: UIViewController {
     
+    enum LoginResult: String {
+        case signUpSuccess = "Sign up successful. Now please log in."
+        case signInSuccess
+        case signUpError = "Error occurred during sign up."
+        case signInError = "Error occurred during sign in."
+    }
     
     var buttonToggle = false
     @IBOutlet weak var emailTextField: UITextField!
@@ -41,9 +47,14 @@ class LoginViewController: UIViewController {
             password.isEmpty == false,
             let email = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
             else { return }
-        backendController.signUp(username: username, password: password, email: email) { signUpResult in
-            
+        backendController.signUp(username: username, password: password, email: email) { signUpResult, response,_  in
+            DispatchQueue.main.async {
+            if response != nil && signUpResult == false {
+                
+            }
+            }
                     }
+            
         
         
     }
