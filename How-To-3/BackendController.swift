@@ -469,7 +469,7 @@ class BackendController {
             })
     }
 
-    // MARK: - Create New Post documentation
+    // MARK: - Create New Post Instructions
     /*
      This function will ONLY work if the user is signed in.
      What you need to pass in when calling this method is simply:
@@ -540,6 +540,11 @@ class BackendController {
         }
     }
 
+    // MARK: - Update Post Instructions
+    /*
+     Aside from very tiny tweaks, this is almost the exact same code as in the createPost method.
+     So refer to those instructions for using this method.
+     */
     func updatePost(at post: Post, title: String, post description: String, completion: @escaping (Error?) -> Void) {
         guard let id = userID,
             let token = token else {
