@@ -16,7 +16,7 @@ class BackendController {
     let bgContext = CoreDataStack.shared.container.newBackgroundContext()
 
     // The cache will take care of making sure that there are no duplicates within core datta already.
-    var cache = Cache<Int64, String>()
+    var cache = Cache<Int64, Post>()
 
     // MARK: - Token Instructions
     private var token: Token?
@@ -44,6 +44,9 @@ class BackendController {
     // If the initializer isn't provided with a data loader, simply use the URLSession singleton.
     init(dataLoader: DataLoader = URLSession.shared) {
         self.dataLoader = dataLoader
+
+        // As soon as this class gets initialized, populate the cache for existing core data posts.
+        populateCache()
     }
 
     func signUp(username: String, password: String, email: String, completion: @escaping (Bool, URLResponse?, Error?) -> Void) {
@@ -220,6 +223,7 @@ class BackendController {
         })
     }
 
+    // This method will let us know if posts have already been downloaded. This will prevent duplicates in core data.
     private func populateCache() {
         
         // First get all existing posts saved to coreData and store them in the Cache
@@ -233,8 +237,7 @@ class BackendController {
                 NSLog("Couldn't fetch existing core data posts: \(error)")
             }
             for post in fetchResult {
-                guard let title = post.title else { return }
-                cache.cache(value: title, for: post.id)
+                cache.cache(value: post, for: post.id)
             }
         }
     }
@@ -260,10 +263,19 @@ class BackendController {
                 // Use this context to initialize new posts into core data.
                 self.bgContext.perform {
                     for post in representations {
-                        Post(representation: post, context: self.bgContext)
+                        // First if it's in the cache
+                        guard let id = post.id else { return }
+
+                        if self.cache.value(for: id) != nil {
+                            let cachedPost = self.cache.value(for: id)!
+                            self.update(post: cachedPost, with: post)
+                        } else {
+                            guard let newPost = Post(representation: post, context: self.bgContext) else { return }
+                            self.cache.cache(value: newPost, for: newPost .id)
+                        }
                     }
 
-                    // After creating all the new posts, try to save.
+                    // After creating all the new posts and updating existing ones, try to save.
                     do {
                         try self.bgContext.save()
                     } catch {
@@ -278,6 +290,13 @@ class BackendController {
         } catch {
             completion(error)
         }
+    }
+
+    // MARK: - Post CRUD methods
+
+    func update(post: Post, with rep: PostRepresentation) {
+        post.title = rep.title
+        post.post = rep.post
     }
 
     // MARK: - Enums
