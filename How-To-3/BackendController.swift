@@ -15,11 +15,11 @@ class BackendController {
     // Create a new background context so that core data can operate asynchronously
     let bgContext = CoreDataStack.shared.container.newBackgroundContext()
 
-    // The cache will take care of making sure that there are no duplicates within core datta already.
+    // The cache will take care of making sure that there are no duplicates within core datta already
     var cache = Cache<Int64, Post>()
 
-    // This variable will let us store the user for any methods that require their id
-    var loggedInUser: User?
+    // This variable will let us store the user id for any methods that require it
+    var userID: Int64?
     // This array will contain any posts made by the user
     var userPosts: [Post] = []
 
@@ -146,6 +146,7 @@ class BackendController {
             do {
                 let decoder = JSONDecoder()
                 let tokenResult = try decoder.decode(Token.self, from: data)
+                try self.storeUser(username: username)
                 self.token = tokenResult
                 completion(self.isSignedIn)
             } catch {
@@ -170,16 +171,34 @@ class BackendController {
     }
 
     // MARK: - Store logged in user methods
+
+    // This method will take care of storing the user ID. It will be called right after a successful Sign In.
     private func storeUser(username: String) throws {
         let requestURL = baseURL.appendingPathComponent(EndPoints.userQuery.rawValue).appendingPathExtension(username)
         var foundError: Error?
+
         dataLoader?.loadData(from: requestURL) { data, _, error in
             if let error = error {
                 NSLog("Error couldn't fetch existing user: \(error)")
                 foundError = error
                 return
             }
+
+            guard let data = data else {
+                foundError = HowtoError.badData("Invalid data returned from searching for a specific user.")
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let decodedUser = try decoder.decode(UserRepresentation.self, from: data)
+                self.userID = decodedUser.id
+            } catch {
+                NSLog("Couldn't decode user fetched by username: \(error)")
+                foundError = error
+            }
         }
+        // If an error is given back by the completion handler, throw it.
         if let error = foundError {
             throw error
         }
@@ -351,10 +370,14 @@ class BackendController {
         case howTos = "api/howto"
     }
 
-    // MARK: - THIS METHOD IS ONLY TO BE USED FOR TESTING.
+    // MARK: - THESE METHODS ARE ONLY TO BE USED FOR TESTING.
     func injectToken(_ token: String) {
         let token = Token(token: token)
         self.token = token
+    }
+
+    func loggedUserID() -> Int64? {
+        return self.userID
     }
 }
 

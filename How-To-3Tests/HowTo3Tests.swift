@@ -144,4 +144,14 @@ class HowTo3Tests: XCTestCase {
         }
     }
 
+    func testStoreUserID() {
+        let expect = expectation(description: "Testing stored user.")
+        backend.signIn(username: "Testing22", password: "test") { _  in
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 5)
+        XCTAssertTrue(backend.isSignedIn)
+        XCTAssertNotNil(backend.loggedUserID)
+    }
+
 }
