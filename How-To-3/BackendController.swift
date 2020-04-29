@@ -15,11 +15,19 @@ class BackendController {
     // Create a new background context so that core data can operate asynchronously
     let bgContext = CoreDataStack.shared.container.newBackgroundContext()
 
-    // The cache will take care of making sure that there are no duplicates within core datta already.
+    // The cache will take care of making sure that there are no duplicates within core datta already
     var cache = Cache<Int64, Post>()
 
-    // This variable will let us store the user for any methods that require their id
-    var loggedInUser: User?
+    // This variable will let us store the user id for any methods that require it
+    var userID: Int64? {
+        didSet {
+            do {
+                try loadUserPosts() { }
+            } catch {
+                NSLog("Couldn't populate userPosts: \(error)")
+            }
+        }
+    }
     // This array will contain any posts made by the user
     var userPosts: [Post] = []
 
@@ -101,7 +109,7 @@ class BackendController {
 
             let decoder = JSONDecoder()
             do {
-                try decoder.decode(UserRepresentation.self, from: data)
+                _ = try decoder.decode(UserRepresentation.self, from: data)
             } catch {
                 NSLog("Error decoding data: \(error)")
                 completion(false, nil, error)
@@ -143,15 +151,20 @@ class BackendController {
                 return
             }
 
-            do {
-                let decoder = JSONDecoder()
-                let tokenResult = try decoder.decode(Token.self, from: data)
-                self.token = tokenResult
-                completion(self.isSignedIn)
-            } catch {
-                NSLog("Error decoding received token. \(error)")
-                completion(self.isSignedIn)
+            self.bgContext.perform {
+                do {
+                    let decoder = JSONDecoder()
+                    let tokenResult = try decoder.decode(Token.self, from: data)
+                    self.token = tokenResult
+                    self.storeUser(username: username) { error in
+                        completion(self.isSignedIn)
+                    }
+                } catch {
+                    NSLog("Error decoding received token. \(error)")
+                    completion(self.isSignedIn)
+                }
             }
+
         })
 
         // MARK: - SignIn Instructions
@@ -170,10 +183,47 @@ class BackendController {
     }
 
     // MARK: - Store logged in user methods
-    private func storeUser(username: String) {
-        let requestURL = baseURL.appendingPathComponent(EndPoints.userQuery.rawValue).appendingPathExtension(username)
 
-//        dataLoader?.loadData(from: <#T##URL#>, completion: <#T##(Data?, URLResponse?, Error?) -> Void#>)
+    // This method will take care of storing the user ID. It will be called right after a successful Sign In.
+    private func storeUser(username: String, completion: @escaping (Error?) -> Void) {
+        let requestURL = baseURL.appendingPathComponent(EndPoints.userSearch.rawValue)
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = Method.post.rawValue
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let data = try jsonFromUsername(username: username)
+            request.httpBody = data
+
+        } catch {
+            NSLog("Error creating json for finding user by username: \(error)")
+            return
+        }
+
+        dataLoader?.loadData(from: request) { data, _, error in
+            if let error = error {
+                NSLog("Error couldn't fetch existing user: \(error)")
+                completion(error)
+                return
+            }
+
+            guard let data = data else {
+                let error = HowtoError.badData("Invalid data returned from searching for a specific user.")
+                completion(error)
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                if let decodedUser = try decoder.decode([UserRepresentation].self, from: data).first {
+                    self.userID = decodedUser.id
+                    completion(nil)
+                }
+            } catch {
+                NSLog("Couldn't decode user fetched by username: \(error)")
+                completion(error)
+            }
+        }
     }
 
     private func jsonFromDict(username: String, password: String) throws -> Data? {
@@ -188,6 +238,19 @@ class BackendController {
             NSLog("Error Creating JSON from Dictionary. \(error)")
             throw error
         }
+    }
+    private func jsonFromUsername(username: String) throws -> Data? {
+        var dic: [String: String] = [:]
+        dic["username"] = username
+
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dic, options: .prettyPrinted)
+            return jsonData
+        } catch {
+            NSLog("Error Creating JSON From username dictionary. \(error)")
+            throw error
+        }
+
     }
 
     // MARK: - Post Methods
@@ -310,7 +373,65 @@ class BackendController {
         }
     }
 
-    func loadUserPosts() {
+    // This function will be called by a didset in userID
+    // As given that the function that populates core data checks for duplicates, we don't need to worry about that.
+    private func loadUserPosts(completion: @escaping () -> Void) throws {
+        guard let id = userID,
+        let token = token else {
+            throw HowtoError.noAuth("UserID hasn't been assigned")
+        }
+        let requestURL = baseURL.appendingPathComponent("api/howto/user/\(id)")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = Method.get.rawValue
+        request.setValue(token.token, forHTTPHeaderField: "Authorization")
+
+        var foundError: Error?
+
+        dataLoader?.loadData(from: request) { data, _, error in
+            if let error = error {
+                NSLog("Error fetching logged in user's posts : \(error)")
+                foundError = error
+                return
+            }
+
+            guard let data = data else {
+                foundError = HowtoError.badData("Received bad data when fetching logged in user's posts array.")
+                return
+            }
+
+            let decoder = JSONDecoder()
+            let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
+
+            self.bgContext.perform {
+                do {
+                    let decodedPosts = try decoder.decode([PostRepresentation].self, from: data)
+                    for post in decodedPosts {
+                        guard let id = post.id else { return }
+                        fetchRequest.predicate = NSPredicate(format: "id == %@", NSNumber(integerLiteral: Int(id)))
+                        // If fetch request finds a post, add it to the array and update it in core data
+                        if let foundPost = try self.bgContext.fetch(fetchRequest).first {
+                            self.userPosts.append(foundPost)
+                            self.update(post: foundPost, with: post)
+                        } else {
+                            // If the post isn't in core data, add it.
+                            if let newPost = Post(representation: post, context: self.bgContext) {
+                                self.userPosts.append(newPost)
+                            }
+                        }
+                    }
+                    // After going through the entire array, try to save context.
+                    try self.bgContext.save()
+                    completion()
+                } catch {
+                    foundError = error
+                }
+            }
+
+        }
+
+        if let error = foundError {
+            throw error
+        }
 
     }
 
@@ -337,15 +458,32 @@ class BackendController {
     private enum EndPoints: String {
         case users = "api/user/"
         case userQuery = "api/user/u/search?username="
+        case userSearch = "api/user/u/search"
         case register = "api/auth/register"
         case login = "api/auth/login"
         case howTos = "api/howto"
     }
 
-    // MARK: - THIS METHOD IS ONLY TO BE USED FOR TESTING.
+    // MARK: - THESE METHODS ARE ONLY TO BE USED FOR TESTING.
     func injectToken(_ token: String) {
         let token = Token(token: token)
         self.token = token
+    }
+
+    func loggedUserID() -> Int64? {
+        // swiftlint:disable all
+        return self.userID
+        // swiftlint:enable all
+    }
+
+    func forceLoadUserPosts(completion: @escaping () -> Void) {
+        do {
+            try loadUserPosts(completion: {
+                completion()
+            })
+        } catch {
+            NSLog("error: \(error)")
+        }
     }
 }
 
@@ -361,7 +499,9 @@ class Cache<Key: Hashable, Value> {
 
      func value(for key: Key) -> Value? {
          queue.sync {
+            // swiftlint:disable all
              return self.cache[key]
+            // swiftlint:enable all
          }
 
      }
