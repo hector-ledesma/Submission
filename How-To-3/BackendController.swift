@@ -243,6 +243,12 @@ class BackendController {
     }
 
     // This is the method that should be called.
+    // MARK: - Syncin/Load existing Posts Instructions
+    /*
+     All that needs to be done to sync database to local store is call syncPosts.
+     This method takes care of not allowing for duplicates, and updates existing posts.
+     - Call this method after user successfully logs in to populate the table for the user.
+     */
     func syncPosts(completion: @escaping (Error?) -> Void) {
         var representations: [PostRepresentation] = []
         do {
