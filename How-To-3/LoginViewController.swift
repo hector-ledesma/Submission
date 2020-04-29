@@ -23,6 +23,8 @@ class LoginViewController: UIViewController {
     }
     
     var buttonToggle = false
+ 
+    var user: User?
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -34,7 +36,13 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     var backendController = BackendController()
-    
+    @IBAction func loginPressed(_ sender: UIButton) {
+  
+                     emailTextField.isHidden = true
+                     logInLabel.setTitle("Sign In", for: .normal)
+                     
+               
+    }
     @IBAction func registerButtonPressed(_ sender: UIButton) {
         buttonToggle.toggle()
         emailTextField.isHidden = false
@@ -54,30 +62,30 @@ class LoginViewController: UIViewController {
                           
             if error != nil {
                 fatalError("Error fetching: \(String(describing: error?.localizedDescription))")
-                return
+             
             } else if response != nil {
                 fatalError("User existing: \(String(describing: error?.localizedDescription))")
-                return
+            
             } else if signUpResult == false {
                 fatalError("sign up not successful: \(String(describing: error?.localizedDescription)) ")
-                return
                 }
               
            
             DispatchQueue.main.async {
-                emailTextField.text = 
-            
-            }
+                guard let user = self.user else { return }
+                self.emailTextField.text = user.email
+                self.usernameTextField.text = user.username
+                self.passwordTextField.text = user.password
         }
-        
-        
-        
-    }
-    @IBAction func logInButtonPressed(_ sender: UIButton) {
-        emailTextField.isHidden = true
-        logInLabel.setTitle("Sign In", for: .normal)
+            if self.logInLabel.isSelected == false {
+                self.logInLabel.setTitle("Sign In", for: .normal)
+            }
+            
         
     }
+    }
+        
+
     /*
      // MARK: - Navigation
      
