@@ -231,6 +231,11 @@ class BackendController {
         case howTos = "api/howto"
     }
 
+    // MARK: - THIS METHOD IS ONLY TO BE USED FOR TESTING.
+    func injectToken(_ token: String) {
+        let token = Token(token: token)
+        self.token = token
+    }
 }
 
 class Cache<Key: Hashable, Value> {

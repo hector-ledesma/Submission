@@ -75,7 +75,8 @@ class HowTo3Tests: XCTestCase {
 
     }
 
-    func testFetchUsers() {
+    func testFetchAllPosts() {
+        
     }
 
 }
