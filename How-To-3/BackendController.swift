@@ -176,6 +176,9 @@ class BackendController {
         // All we check to see if we're logged in is whether or not we have a token.
         // Therefore all we need to do to log out, is get rid of our token.
         self.token = nil
+        // As we've added userID and Posts, clear those out on signOut as well
+        self.userID = nil
+        self.userPosts = []
     }
 
     // MARK: - Store Signed in user methods
@@ -509,6 +512,5 @@ class Cache<Key: Hashable, Value> {
              return self.cache[key]
             // swiftlint:enable all
          }
-
      }
  }
