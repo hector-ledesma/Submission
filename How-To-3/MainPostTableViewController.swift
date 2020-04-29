@@ -48,8 +48,6 @@ class MainPostTableViewController: UITableViewController {
 
         let post = backendController.userPosts[indexPath.row]
         cell.post = post
-//        cell.postTitleLabel.text = post.title
-//        cell.timeStampLabel.text = post.timestamp
         cell.backendController = backendController
         return cell
     }
