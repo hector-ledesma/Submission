@@ -37,12 +37,32 @@ class LoginViewController: UIViewController {
     }
     var backendController = BackendController()
     @IBAction func loginPressed(_ sender: UIButton) {
-  
+        guard let username = usernameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                   username.isEmpty == false,
+                   let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+            password.isEmpty == false else { return }
                      emailTextField.isHidden = true
-                     logInLabel.setTitle("Sign In", for: .normal)
-                     
-               
+        
+        backendController.signIn(username: username, password: password) { signIn in
+            if signIn == false {
+                fatalError("User could not be signed in.")
+            }
+            if self.backendController.isSignedIn == false {
+                fatalError("User could not be signed in.")
+            }else {
+            
+            DispatchQueue.main.async {
+                if self.backendController.isSignedIn {
+                    self.performSegue(withIdentifier: "LoginSegue", sender: self)
+                } else {
+                   
+                }
+            }
+        }
+        
     }
+    }
+
     @IBAction func registerButtonPressed(_ sender: UIButton) {
         buttonToggle.toggle()
         emailTextField.isHidden = false
@@ -77,12 +97,11 @@ class LoginViewController: UIViewController {
                 self.usernameTextField.text = user.username
                 self.passwordTextField.text = user.password
         }
-            if self.logInLabel.isSelected == false {
-                self.logInLabel.setTitle("Sign In", for: .normal)
-            }
-            
-        
     }
+        if self.logInLabel.isSelected == false {
+            self.logInLabel.setTitle("Sign In", for: .normal)
+        }
+
     }
         
 

@@ -77,7 +77,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="loginPressed:" destination="WHF-Vk-QcS" eventType="touchUpInside" id="yfp-iP-3Ic"/>
+                                                    <action selector="loginPressed:" destination="WHF-Vk-QcS" eventType="touchUpInside" id="7U2-nW-reo"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -100,7 +100,7 @@
                         <outlet property="passwordTextField" destination="A3r-0G-yNU" id="xP8-zO-RfF"/>
                         <outlet property="registerLabel" destination="aHB-pn-GdD" id="aaG-2E-Pi7"/>
                         <outlet property="usernameTextField" destination="DUe-vf-Jms" id="8RY-4v-7BJ"/>
-                        <segue destination="gp0-Fk-Ky5" kind="show" id="GZS-fn-Csu"/>
+                        <segue destination="gp0-Fk-Ky5" kind="show" identifier="LoginSegue" id="GZS-fn-Csu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qNu-f3-W3c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
