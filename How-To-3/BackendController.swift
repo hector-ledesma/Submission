@@ -469,6 +469,16 @@ class BackendController {
             })
     }
 
+    // MARK: - Create New Post documentation
+    /*
+     This function will ONLY work if the user is signed in.
+     What you need to pass in when calling this method is simply:
+        - Title
+        - Content of post
+     The post will take care of merging with core data, and updating cache.
+     Closure only returns an error, therefore:
+        - If completion returns no error, everything went ok and you're free to reload view.
+     */
     func createPost(title: String, post: String, completion: @escaping (Error?) -> Void) {
         guard let id = userID,
             let token = token else {
