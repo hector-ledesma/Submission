@@ -24,18 +24,18 @@ extension Post {
         self.userID = userID
     }
 
-    @discardableResult convenience init (representation: PostRepresentation,
+    convenience init?(representation: PostRepresentation,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 
-        self.init(context: context)
         guard let id = representation.id else {
             NSLog("Representation passed in with invalid id")
-            return
+            return nil
         }
-        self.id = id
-        self.post = representation.post
-        self.timestamp = representation.timestamp
-        self.title = representation.title
-        self.userID = representation.userID
+        self.init(id: id,
+                  post: representation.post,
+                  timestamp: representation.timestamp,
+                  title: representation.title,
+                  userID: representation.userID,
+                  context: context)
     }
 }

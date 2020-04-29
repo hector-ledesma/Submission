@@ -112,7 +112,7 @@ class HowTo3Tests: XCTestCase {
         moc.reset()
         do {
             let fetchedResults = try moc.fetch(fetchRequest)
-            print(fetchedResults)
+            print(fetchedResults.count)
             XCTAssertFalse(fetchedResults.isEmpty)
         } catch {
             NSLog("Couldn't fetch ----- : \(error)")
