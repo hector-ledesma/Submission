@@ -24,7 +24,7 @@ extension Post {
         self.userID = userID
     }
 
-    convenience init?(representation: PostRepresentation,
+    @discardableResult convenience init?(representation: PostRepresentation,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 
         guard let id = representation.id else {

@@ -7,9 +7,16 @@
 //
 
 import Foundation
+import CoreData
 
 class BackendController {
     private var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/")!
+
+    // Create a new background context so that core data can operate asynchronously
+    let bgContext = CoreDataStack.shared.container.newBackgroundContext()
+
+    // The cache will take care of making sure that there are no duplicates within core datta already.
+    var cache = Cache<Int64, String>()
 
     // MARK: - Token Instructions
     private var token: Token?
@@ -213,6 +220,25 @@ class BackendController {
         })
     }
 
+    private func populateCache() {
+        
+        // First get all existing posts saved to coreData and store them in the Cache
+        let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
+        // Do this synchronously in the background queue, so that it can't be used until cache is fully populated
+        bgContext.performAndWait {
+            var fetchResult: [Post] = []
+            do {
+                fetchResult = try bgContext.fetch(fetchRequest)
+            } catch {
+                NSLog("Couldn't fetch existing core data posts: \(error)")
+            }
+            for post in fetchResult {
+                guard let title = post.title else { return }
+                cache.cache(value: title, for: post.id)
+            }
+        }
+    }
+
     // This is the method that should be called.
     func syncPosts(completion: @escaping (Error?) -> Void) {
         var representations: [PostRepresentation] = []
@@ -230,17 +256,16 @@ class BackendController {
                 }
                 representations = fetchedPosts
 
-                // Create a new background context so that core data can operate asynchronously
-                let context = CoreDataStack.shared.container.newBackgroundContext()
+
                 // Use this context to initialize new posts into core data.
-                context.perform {
+                self.bgContext.perform {
                     for post in representations {
-                        Post(representation: post, context: context)
+                        Post(representation: post, context: self.bgContext)
                     }
 
                     // After creating all the new posts, try to save.
                     do {
-                        try context.save()
+                        try self.bgContext.save()
                     } catch {
                         NSLog("Error saving background context: \(error)")
                         completion(error)
