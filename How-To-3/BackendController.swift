@@ -442,6 +442,7 @@ class BackendController {
      This bethod returns:
         - True if the user has no posts in the database.
         - False and an error if something went wrong.
+        - If false and no error, userPosts was successfully populated.
      */
     func forceLoadUserPosts(completion: @escaping (Bool, Error?) -> Void) {
         loadUserPosts(completion: { isEmpty, error in
