@@ -373,6 +373,22 @@ class BackendController {
         }
     }
 
+    // This post shouldn't really be called, but it'll stay public just in case it's needed.
+    func syncSinglePost(with representation: PostRepresentation) {
+        guard let id = representation.id else { return }
+
+        if let cachedPost = self.cache.value(for: id) {
+            self.updatePost(post: cachedPost, with: representation)
+        } else {
+            do {
+                try self.savePost(by: id, from: representation)
+            } catch {
+                NSLog("Error syncinc single post: \(error)")
+                return
+            }
+        }
+    }
+
     // This function will be called by a didset in userID
     // As given that the function that populates core data checks for duplicates, we don't need to worry about that.
     private func loadUserPosts(completion: @escaping (Bool, Error?) -> Void = { _, _ in }) {
@@ -486,6 +502,18 @@ class BackendController {
                 return
             }
 
+            self.bgContext.perform {
+                do {
+                    let postRepresentations = try self.decoder.decode([PostRepresentation].self, from: data)
+                    for post in postRepresentations {
+                        self.syncSinglePost(with: post)
+                    }
+                    completion(nil)
+                } catch {
+                    NSLog("Error decoding fetched posts from database: \(error)")
+                    completion(error)
+                }
+            }
 
         })
     }
