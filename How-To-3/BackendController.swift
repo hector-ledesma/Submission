@@ -21,11 +21,7 @@ class BackendController {
     // This variable will let us store the user id for any methods that require it
     var userID: Int64? {
         didSet {
-            do {
-                try loadUserPosts() { }
-            } catch {
-                NSLog("Couldn't populate userPosts: \(error)")
-            }
+            loadUserPosts()
         }
     }
     // This array will contain any posts made by the user
@@ -182,7 +178,7 @@ class BackendController {
         self.token = nil
     }
 
-    // MARK: - Store logged in user methods
+    // MARK: - Store Signed in user methods
 
     // This method will take care of storing the user ID. It will be called right after a successful Sign In.
     private func storeUser(username: String, completion: @escaping (Error?) -> Void) {
@@ -375,39 +371,46 @@ class BackendController {
 
     // This function will be called by a didset in userID
     // As given that the function that populates core data checks for duplicates, we don't need to worry about that.
-    private func loadUserPosts(completion: @escaping () -> Void) throws {
+    private func loadUserPosts(completion: @escaping (Bool?, Error?) -> Void = {_,_ in }) {
         guard let id = userID,
         let token = token else {
-            throw HowtoError.noAuth("UserID hasn't been assigned")
+            completion(false, HowtoError.noAuth("UserID hasn't been assigned"))
+            return
         }
         let requestURL = baseURL.appendingPathComponent("api/howto/user/\(id)")
         var request = URLRequest(url: requestURL)
         request.httpMethod = Method.get.rawValue
         request.setValue(token.token, forHTTPHeaderField: "Authorization")
 
-        var foundError: Error?
-
         dataLoader?.loadData(from: request) { data, _, error in
             if let error = error {
                 NSLog("Error fetching logged in user's posts : \(error)")
-                foundError = error
+                completion(false, error)
                 return
             }
 
             guard let data = data else {
-                foundError = HowtoError.badData("Received bad data when fetching logged in user's posts array.")
+                completion(false, HowtoError.badData("Received bad data when fetching logged in user's posts array."))
                 return
             }
 
             let decoder = JSONDecoder()
             let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
 
-            self.bgContext.perform {
+            self.bgContext.performAndWait {
                 do {
                     let decodedPosts = try decoder.decode([PostRepresentation].self, from: data)
+                    // Check if the user has no posts. And if so return right here.
+                    if decodedPosts.isEmpty {
+                        NSLog("User has no posts in the database.")
+                        completion(true, nil)
+                        return
+                    }
+                    // If the decoded posts array isn't empty
                     for post in decodedPosts {
-                        guard let id = post.id else { return }
-                        fetchRequest.predicate = NSPredicate(format: "id == %@", NSNumber(integerLiteral: Int(id)))
+                        guard let postID = post.id else { return }
+                        let nsID = NSNumber(integerLiteral: Int(postID))
+                        fetchRequest.predicate = NSPredicate(format: "id == %@", nsID)
                         // If fetch request finds a post, add it to the array and update it in core data
                         if let foundPost = try self.bgContext.fetch(fetchRequest).first {
                             self.userPosts.append(foundPost)
@@ -421,18 +424,29 @@ class BackendController {
                     }
                     // After going through the entire array, try to save context.
                     try self.bgContext.save()
-                    completion()
+                    completion(false, nil)
                 } catch {
-                    foundError = error
+                    NSLog("Error Decoding posts, Fetching from Coredata, or saving to background context: \(error)")
+                    completion(false, error)
                 }
             }
 
         }
+    }
 
-        if let error = foundError {
-            throw error
-        }
-
+    // MARK: - Signed In User's Posts Instructions
+    /*
+     The userPosts property will automatically be populated once a user is successfully signed in.
+     Therefore, refer to userPosts.count to tell the user if they have no posts.
+     Create a refresh posts button that allows the user to call this method.
+     This bethod returns:
+        - True if the user has no posts in the database.
+        - False and an error if something went wrong.
+     */
+    func forceLoadUserPosts(completion: @escaping (Bool?, Error?) -> Void) {
+        loadUserPosts(completion: { isEmpty, error in
+                completion(isEmpty, error)
+            })
     }
 
     // MARK: - Post CRUD methods
@@ -476,15 +490,6 @@ class BackendController {
         // swiftlint:enable all
     }
 
-    func forceLoadUserPosts(completion: @escaping () -> Void) {
-        do {
-            try loadUserPosts(completion: {
-                completion()
-            })
-        } catch {
-            NSLog("error: \(error)")
-        }
-    }
 }
 
 class Cache<Key: Hashable, Value> {

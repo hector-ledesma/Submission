@@ -76,6 +76,7 @@ class HowTo3Tests: XCTestCase {
         }
 
         wait(for: [expect], timeout: 5)
+        XCTAssertTrue(backend.isSignedIn)
 
     }
 
@@ -162,9 +163,9 @@ class HowTo3Tests: XCTestCase {
         wait(for: [expect], timeout: 10)
         XCTAssertTrue(backend.isSignedIn)
         let expec2 = expectation(description: "Force load posts")
-        backend.forceLoadUserPosts() {
+        backend.forceLoadUserPosts(completion: {
             expec2.fulfill()
-        }
+        })
         wait(for: [expec2], timeout: 10)
         XCTAssertTrue(!backend.userPosts.isEmpty)
     }
