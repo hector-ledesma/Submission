@@ -11,6 +11,9 @@ import CoreData
 
 class BackendController {
     private var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/")!
+    // Instead of constantly creating and deleting decoders and encoders, just make one of each and use them around the app.
+    private var encoder = JSONEncoder()
+    private var decoder = JSONDecoder()
 
     // Create a new background context so that core data can operate asynchronously
     let bgContext = CoreDataStack.shared.container.newBackgroundContext()
@@ -21,11 +24,7 @@ class BackendController {
     // This variable will let us store the user id for any methods that require it
     var userID: Int64? {
         didSet {
-            do {
-                try loadUserPosts() { }
-            } catch {
-                NSLog("Couldn't populate userPosts: \(error)")
-            }
+            loadUserPosts()
         }
     }
     // This array will contain any posts made by the user
@@ -74,7 +73,6 @@ class BackendController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            let encoder = JSONEncoder()
 
             // Try to encode the newly created user into the request body.
             let jsonData = try encoder.encode(newUser)
@@ -107,9 +105,8 @@ class BackendController {
 
             guard let data = data else { return }
 
-            let decoder = JSONDecoder()
             do {
-                _ = try decoder.decode(UserRepresentation.self, from: data)
+                _ = try self.decoder.decode(UserRepresentation.self, from: data)
             } catch {
                 NSLog("Error decoding data: \(error)")
                 completion(false, nil, error)
@@ -153,10 +150,9 @@ class BackendController {
 
             self.bgContext.perform {
                 do {
-                    let decoder = JSONDecoder()
-                    let tokenResult = try decoder.decode(Token.self, from: data)
+                    let tokenResult = try self.decoder.decode(Token.self, from: data)
                     self.token = tokenResult
-                    self.storeUser(username: username) { error in
+                    self.storeUser(username: username) { _ in
                         completion(self.isSignedIn)
                     }
                 } catch {
@@ -180,9 +176,12 @@ class BackendController {
         // All we check to see if we're logged in is whether or not we have a token.
         // Therefore all we need to do to log out, is get rid of our token.
         self.token = nil
+        // As we've added userID and Posts, clear those out on signOut as well
+        self.userID = nil
+        self.userPosts = []
     }
 
-    // MARK: - Store logged in user methods
+    // MARK: - Store Signed in user methods
 
     // This method will take care of storing the user ID. It will be called right after a successful Sign In.
     private func storeUser(username: String, completion: @escaping (Error?) -> Void) {
@@ -214,8 +213,7 @@ class BackendController {
             }
 
             do {
-                let decoder = JSONDecoder()
-                if let decodedUser = try decoder.decode([UserRepresentation].self, from: data).first {
+                if let decodedUser = try self.decoder.decode([UserRepresentation].self, from: data).first {
                     self.userID = decodedUser.id
                     completion(nil)
                 }
@@ -252,9 +250,17 @@ class BackendController {
         }
 
     }
+    private func jsonFromDicct(dict: [String: Any]) throws -> Data? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+            return jsonData
+        } catch {
+            NSLog("Error Creating JSON From username dictionary. \(error)")
+            throw error
+        }
+    }
 
     // MARK: - Post Methods
-    // TODO: Ask Jon about this
 
     // This method should never be called directly
     func fetchAllPosts(completion: @escaping ([PostRepresentation]?, Error?) -> Void) throws {
@@ -287,9 +293,8 @@ class BackendController {
                 return
             }
 
-            let decoder = JSONDecoder()
             do {
-                let posts = try decoder.decode([PostRepresentation].self, from: data)
+                let posts = try self.decoder.decode([PostRepresentation].self, from: data)
                 completion(posts, nil)
             } catch {
                 NSLog("Couldn't decode array of posts from server: \(error)")
@@ -340,7 +345,6 @@ class BackendController {
                 }
                 representations = fetchedPosts
 
-
                 // Use this context to initialize new posts into core data.
                 self.bgContext.perform {
                     for post in representations {
@@ -349,19 +353,15 @@ class BackendController {
 
                         if self.cache.value(for: id) != nil {
                             let cachedPost = self.cache.value(for: id)!
-                            self.update(post: cachedPost, with: post)
+                            self.updatePost(post: cachedPost, with: post)
                         } else {
-                            guard let newPost = Post(representation: post, context: self.bgContext) else { return }
-                            self.cache.cache(value: newPost, for: newPost .id)
+                            do {
+                                try self.savePost(by: id, from: post)
+                            } catch {
+                                completion(error)
+                                return
+                            }
                         }
-                    }
-
-                    // After creating all the new posts and updating existing ones, try to save.
-                    do {
-                        try self.bgContext.save()
-                    } catch {
-                        NSLog("Error saving background context: \(error)")
-                        completion(error)
                     }
                 }// context.perform
                 completion(nil)
@@ -373,45 +373,67 @@ class BackendController {
         }
     }
 
+    // This post shouldn't really be called, but it'll stay public just in case it's needed.
+    func syncSinglePost(with representation: PostRepresentation) {
+        guard let id = representation.id else { return }
+
+        if let cachedPost = self.cache.value(for: id) {
+            self.updatePost(post: cachedPost, with: representation)
+        } else {
+            do {
+                try self.savePost(by: id, from: representation)
+            } catch {
+                NSLog("Error syncinc single post: \(error)")
+                return
+            }
+        }
+    }
+
     // This function will be called by a didset in userID
     // As given that the function that populates core data checks for duplicates, we don't need to worry about that.
-    private func loadUserPosts(completion: @escaping () -> Void) throws {
+    private func loadUserPosts(completion: @escaping (Bool, Error?) -> Void = { _, _ in }) {
         guard let id = userID,
         let token = token else {
-            throw HowtoError.noAuth("UserID hasn't been assigned")
+            completion(false, HowtoError.noAuth("UserID hasn't been assigned"))
+            return
         }
-        let requestURL = baseURL.appendingPathComponent("api/howto/user/\(id)")
+        let requestURL = baseURL.appendingPathComponent("\(EndPoints.userPosts.rawValue)\(id)")
         var request = URLRequest(url: requestURL)
         request.httpMethod = Method.get.rawValue
         request.setValue(token.token, forHTTPHeaderField: "Authorization")
 
-        var foundError: Error?
-
         dataLoader?.loadData(from: request) { data, _, error in
             if let error = error {
                 NSLog("Error fetching logged in user's posts : \(error)")
-                foundError = error
+                completion(false, error)
                 return
             }
 
             guard let data = data else {
-                foundError = HowtoError.badData("Received bad data when fetching logged in user's posts array.")
+                completion(false, HowtoError.badData("Received bad data when fetching logged in user's posts array."))
                 return
             }
 
-            let decoder = JSONDecoder()
             let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
 
-            self.bgContext.perform {
+            self.bgContext.performAndWait {
                 do {
-                    let decodedPosts = try decoder.decode([PostRepresentation].self, from: data)
+                    let decodedPosts = try self.decoder.decode([PostRepresentation].self, from: data)
+                    // Check if the user has no posts. And if so return right here.
+                    if decodedPosts.isEmpty {
+                        NSLog("User has no posts in the database.")
+                        completion(true, nil)
+                        return
+                    }
+                    // If the decoded posts array isn't empty
                     for post in decodedPosts {
-                        guard let id = post.id else { return }
-                        fetchRequest.predicate = NSPredicate(format: "id == %@", NSNumber(integerLiteral: Int(id)))
+                        guard let postID = post.id else { return }
+                        let nsID = NSNumber(integerLiteral: Int(postID))
+                        fetchRequest.predicate = NSPredicate(format: "id == %@", nsID)
                         // If fetch request finds a post, add it to the array and update it in core data
                         if let foundPost = try self.bgContext.fetch(fetchRequest).first {
                             self.userPosts.append(foundPost)
-                            self.update(post: foundPost, with: post)
+                            self.updatePost(post: foundPost, with: post)
                         } else {
                             // If the post isn't in core data, add it.
                             if let newPost = Post(representation: post, context: self.bgContext) {
@@ -421,25 +443,102 @@ class BackendController {
                     }
                     // After going through the entire array, try to save context.
                     try self.bgContext.save()
-                    completion()
+                    completion(false, nil)
                 } catch {
-                    foundError = error
+                    NSLog("Error Decoding posts, Fetching from Coredata, or saving to background context: \(error)")
+                    completion(false, error)
                 }
             }
 
         }
+    }
 
-        if let error = foundError {
-            throw error
+    // MARK: - Signed In User's Posts Instructions
+    /*
+     The userPosts property will automatically be populated once a user is successfully signed in.
+     Therefore, refer to userPosts.count to tell the user if they have no posts.
+     Create a refresh posts button that allows the user to call this method.
+     This bethod returns:
+        - True if the user has no posts in the database.
+        - False and an error if something went wrong.
+        - If false and no error, userPosts was successfully populated.
+     */
+    func forceLoadUserPosts(completion: @escaping (Bool, Error?) -> Void) {
+        loadUserPosts(completion: { isEmpty, error in
+                completion(isEmpty, error)
+            })
+    }
+
+    func createPost(title: String, post: String, completion: @escaping (Error?) -> Void) {
+        guard let id = userID,
+            let token = token else {
+            completion(HowtoError.noAuth("No userID stored in the controller. Can't create new post."))
+            return
         }
 
+        let requestURL = baseURL.appendingPathComponent(EndPoints.howTos.rawValue)
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = Method.post.rawValue
+        request.setValue(token.token, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let dict: [String : Any] = ["title":title, "post":post, "user_id":id]
+            request.httpBody = try jsonFromDicct(dict: dict)
+        } catch {
+            NSLog("Error turning dictionary to json: \(error)")
+            completion(error)
+        }
+
+        dataLoader?.loadData(from: request, completion: { data, _, error in
+            if let error = error {
+                NSLog("Error posting new post to database : \(error)")
+                completion(error)
+                return
+            }
+
+            guard let data = data else {
+                completion(HowtoError.badData("Server send bad data when creating new post."))
+                return
+            }
+
+            self.bgContext.perform {
+                do {
+                    let postRepresentations = try self.decoder.decode([PostRepresentation].self, from: data)
+                    for post in postRepresentations {
+                        self.syncSinglePost(with: post)
+                    }
+                    completion(nil)
+                } catch {
+                    NSLog("Error decoding fetched posts from database: \(error)")
+                    completion(error)
+                }
+            }
+
+        })
     }
 
     // MARK: - Post CRUD methods
 
-    func update(post: Post, with rep: PostRepresentation) {
+    private func savePost(by userID: Int64, from representation: PostRepresentation) throws {
+        if let newPost = Post(representation: representation, context: bgContext) {
+            do {
+                try CoreDataStack.shared.save(context: bgContext)
+            } catch {
+                NSLog("Error saving background managed context: \(error)")
+                throw error
+            }
+            cache.cache(value: newPost, for: userID)
+        }
+    }
+
+    private func updatePost(post: Post, with rep: PostRepresentation) {
         post.title = rep.title
         post.post = rep.post
+    }
+
+    private func deletePost() {
+
     }
 
     // MARK: - Enums
@@ -459,6 +558,7 @@ class BackendController {
         case users = "api/user/"
         case userQuery = "api/user/u/search?username="
         case userSearch = "api/user/u/search"
+        case userPosts = "api/howto/user/"
         case register = "api/auth/register"
         case login = "api/auth/login"
         case howTos = "api/howto"
@@ -476,15 +576,6 @@ class BackendController {
         // swiftlint:enable all
     }
 
-    func forceLoadUserPosts(completion: @escaping () -> Void) {
-        do {
-            try loadUserPosts(completion: {
-                completion()
-            })
-        } catch {
-            NSLog("error: \(error)")
-        }
-    }
 }
 
 class Cache<Key: Hashable, Value> {
@@ -503,6 +594,5 @@ class Cache<Key: Hashable, Value> {
              return self.cache[key]
             // swiftlint:enable all
          }
-
      }
  }
