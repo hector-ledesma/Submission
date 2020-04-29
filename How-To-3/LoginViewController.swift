@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
         buttonToggle.toggle()
         emailTextField.isHidden = false
         logInLabel.setTitle("Cancel", for: .normal)
-        showAlertMessage(title: "Register!", message: "Please fill out the text fields", actiontitle: "Ok")
+        
         
         guard let username = usernameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             username.isEmpty == false,
@@ -47,14 +47,29 @@ class LoginViewController: UIViewController {
             password.isEmpty == false,
             let email = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
             else { return }
-        backendController.signUp(username: username, password: password, email: email) { signUpResult, response,_  in
-            DispatchQueue.main.async {
-            if response != nil && signUpResult == false {
-                
-            }
-            }
-                    }
+        backendController.signUp(username: username, password: password, email: email) { signUpResult, response, error  in
             
+            let alert: UIAlertController
+                          let action: () -> Void
+                          
+            if error != nil {
+                fatalError("Error fetching: \(String(describing: error?.localizedDescription))")
+                return
+            } else if response != nil {
+                fatalError("User existing: \(String(describing: error?.localizedDescription))")
+                return
+            } else if signUpResult == false {
+                fatalError("sign up not successful: \(String(describing: error?.localizedDescription)) ")
+                return
+                }
+              
+           
+            DispatchQueue.main.async {
+                emailTextField.text = 
+            
+            }
+        }
+        
         
         
     }
@@ -72,14 +87,20 @@ class LoginViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+//
+//    func showAlertMessage(title: String,message: String, actiontitle: String) {
+//        let endAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        let endAction = UIAlertAction(title: actiontitle, style: .default){ (action:UIAlertAction) in
+//
+//        }
+//        endAlert.addAction(endAction)
+//        present(endAlert, animated: true, completion: nil)
+//    }
     
-    func showAlertMessage(title: String,message: String, actiontitle: String) {
-        let endAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let endAction = UIAlertAction(title: actiontitle, style: .default){ (action:UIAlertAction) in
-            
-        }
-        endAlert.addAction(endAction)
-        present(endAlert, animated: true, completion: nil)
+    private func alert(title: String, message: String) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        return alert
     }
     
 }

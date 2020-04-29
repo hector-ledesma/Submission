@@ -46,7 +46,7 @@
                                                     <constraint firstAttribute="height" constant="35" id="k2D-rT-2Zg"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -78,7 +78,6 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="logInButtonPressed:" destination="WHF-Vk-QcS" eventType="touchUpInside" id="QTt-1p-wtw"/>
-                                                    <segue destination="gp0-Fk-Ky5" kind="show" id="YZB-yO-n9Z"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -101,6 +100,7 @@
                         <outlet property="passwordTextField" destination="A3r-0G-yNU" id="xP8-zO-RfF"/>
                         <outlet property="registerLabel" destination="aHB-pn-GdD" id="aaG-2E-Pi7"/>
                         <outlet property="usernameTextField" destination="DUe-vf-Jms" id="8RY-4v-7BJ"/>
+                        <segue destination="gp0-Fk-Ky5" kind="show" id="GZS-fn-Csu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qNu-f3-W3c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
