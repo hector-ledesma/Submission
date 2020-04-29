@@ -152,7 +152,7 @@ class BackendController {
                     let decoder = JSONDecoder()
                     let tokenResult = try decoder.decode(Token.self, from: data)
                     self.token = tokenResult
-                    self.storeUser(username: username) { error in
+                    self.storeUser(username: username) { _ in
                         completion(self.isSignedIn)
                     }
                 } catch {
@@ -253,7 +253,6 @@ class BackendController {
     }
 
     // MARK: - Post Methods
-    // TODO: Ask Jon about this
 
     // This method should never be called directly
     func fetchAllPosts(completion: @escaping ([PostRepresentation]?, Error?) -> Void) throws {
@@ -339,7 +338,6 @@ class BackendController {
                 }
                 representations = fetchedPosts
 
-
                 // Use this context to initialize new posts into core data.
                 self.bgContext.perform {
                     for post in representations {
@@ -348,19 +346,15 @@ class BackendController {
 
                         if self.cache.value(for: id) != nil {
                             let cachedPost = self.cache.value(for: id)!
-                            self.update(post: cachedPost, with: post)
+                            self.updatePost(post: cachedPost, with: post)
                         } else {
-                            guard let newPost = Post(representation: post, context: self.bgContext) else { return }
-                            self.cache.cache(value: newPost, for: newPost .id)
+                            do {
+                                try self.savePost(by: id, from: post)
+                            } catch {
+                                completion(error)
+                                return
+                            }
                         }
-                    }
-
-                    // After creating all the new posts and updating existing ones, try to save.
-                    do {
-                        try self.bgContext.save()
-                    } catch {
-                        NSLog("Error saving background context: \(error)")
-                        completion(error)
                     }
                 }// context.perform
                 completion(nil)
@@ -374,7 +368,7 @@ class BackendController {
 
     // This function will be called by a didset in userID
     // As given that the function that populates core data checks for duplicates, we don't need to worry about that.
-    private func loadUserPosts(completion: @escaping (Bool, Error?) -> Void = {_,_ in }) {
+    private func loadUserPosts(completion: @escaping (Bool, Error?) -> Void = { _, _ in }) {
         guard let id = userID,
         let token = token else {
             completion(false, HowtoError.noAuth("UserID hasn't been assigned"))
@@ -417,7 +411,7 @@ class BackendController {
                         // If fetch request finds a post, add it to the array and update it in core data
                         if let foundPost = try self.bgContext.fetch(fetchRequest).first {
                             self.userPosts.append(foundPost)
-                            self.update(post: foundPost, with: post)
+                            self.updatePost(post: foundPost, with: post)
                         } else {
                             // If the post isn't in core data, add it.
                             if let newPost = Post(representation: post, context: self.bgContext) {
@@ -455,9 +449,29 @@ class BackendController {
 
     // MARK: - Post CRUD methods
 
-    func update(post: Post, with rep: PostRepresentation) {
+    private func savePost(by userID: Int64, from representation: PostRepresentation) throws {
+        if let newPost = Post(representation: representation, context: bgContext) {
+            do {
+                try CoreDataStack.shared.save(context: bgContext)
+            } catch {
+                NSLog("Error saving background managed context: \(error)")
+                throw error
+            }
+            cache.cache(value: newPost, for: userID)
+        }
+    }
+
+    private func savePost(by userID: Int64?, title: String, post: String) {
+
+    }
+
+    private func updatePost(post: Post, with rep: PostRepresentation) {
         post.title = rep.title
         post.post = rep.post
+    }
+
+    private func deletePost() {
+
     }
 
     // MARK: - Enums

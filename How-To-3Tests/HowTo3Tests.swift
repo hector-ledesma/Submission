@@ -13,7 +13,7 @@ import CoreData
 class HowTo3Tests: XCTestCase {
     // Sorry swiftlint my friend. But there's nothing I can do about this long token lol
     // swiftlint:disable all
-    let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJ1c2VybmFtZSI6IlRlc3RpbmcyMiIsImlhdCI6MTU4ODEzMjU1NiwiZXhwIjoxNTg4MTc1NzU2fQ.QC4YX42LKUlf700MgXsMxg-xw_YiJjPnW3DKFxh5300"
+    let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJ1c2VybmFtZSI6IlRlc3RpbmcyMiIsImlhdCI6MTU4ODE4ODkxMCwiZXhwIjoxNTg4MjMyMTEwfQ.YUeUhpzuBHSwddJvEYwuo20e-rQR7bJr_B29-nbLfdk"
     let backend = BackendController()
     // swiftlint:enable all
 
