@@ -170,24 +170,52 @@ class BackendController {
 
     // MARK: - Post Methods
 
-    func fetchAllPosts() throws -> [PostRepresentation] {
+    func fetchAllPosts(completion: @escaping ([PostRepresentation]?, Error?) -> Void) throws {
 
         // If there's no token, user isn't authorized. Throw custom error.
         guard let token = token else {
             throw HowtoError.noAuth("No token in controller. User isn't logged in.")
         }
-        var posts: [PostRepresentation] = []
+
         baseURL.appendPathComponent(EndPoints.howTos.rawValue)
         var request = URLRequest(url: baseURL)
         request.httpMethod = Method.post.rawValue
         request.setValue("\(token)", forHTTPHeaderField: "Authorization")
-        return posts
+
+        dataLoader?.loadData(from: request, completion: { data, response, error in
+            // Always log the status code response from server.
+            if let response = response as? HTTPURLResponse {
+                NSLog("Server responded with: \(response.statusCode)")
+            }
+
+            if let error = error {
+                NSLog("Error fetching all existing posts from server : \(error)")
+                completion(nil, error)
+                return
+            }
+
+            // use badData when unwrapping data from server.
+            guard let data = data else {
+                completion(nil, HowtoError.badData("From server"))
+                return
+            }
+
+            let decoder = JSONDecoder()
+            do {
+                let posts = try decoder.decode([PostRepresentation].self, from: data)
+                completion(posts, nil)
+            } catch {
+                NSLog("Couldn't decode array of posts from server.")
+                completion(nil, error)
+            }
+        })
     }
 
     // MARK: - Enums
 
     private enum HowtoError: Error {
         case noAuth(String)
+        case badData(String)
     }
 
     private enum Method: String {
