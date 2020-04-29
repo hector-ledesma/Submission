@@ -14,6 +14,11 @@ class PostDetailViewController: UIViewController {
     @IBOutlet weak var timeStamp: UILabel!
     @IBOutlet weak var authorName: UILabel!
     
+    var postRepresentation: PostRepresentation? {
+        didSet {
+            updateViews()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +27,18 @@ class PostDetailViewController: UIViewController {
     }
     
     @IBAction func likesButtonPressed(_ sender: UIButton) {
+//        var likes = []
+//        if sender.isSelected {
+//            
+//        }
+    }
+    
+    
+    private func updateViews() {
+        guard let postRepresentation = postRepresentation else { return }
+        postDescription.text = postRepresentation.title
+        timeStamp.text = postRepresentation.timestamp
+        authorName.text = String(postRepresentation.userID)
     }
     
     /*

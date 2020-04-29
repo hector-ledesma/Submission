@@ -54,6 +54,7 @@ class LoginViewController: UIViewController {
             DispatchQueue.main.async {
                 if self.backendController.isSignedIn {
                     self.performSegue(withIdentifier: "LoginSegue", sender: self)
+
                 } else {
                    
                 }
