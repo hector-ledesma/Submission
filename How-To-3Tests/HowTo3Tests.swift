@@ -171,4 +171,29 @@ class HowTo3Tests: XCTestCase {
         wait(for: [expec2], timeout: 10)
         XCTAssertTrue(!backend.userPosts.isEmpty)
     }
+
+    func testCreatePost() {
+        let signinExpect = expectation(description: "Testing create new post.")
+        backend.signIn(username: "Testing22", password: "test") { _ in
+            signinExpect.fulfill()
+        }
+        wait(for: [signinExpect], timeout: 5)
+        let count = backend.userPosts.count
+        print(count)
+        let createExpect = expectation(description: "Expectation for creating post")
+        backend.createPost(title: "New post", post: "From testing grounds") { error in
+            XCTAssertNil(error)
+            createExpect.fulfill()
+        }
+        wait(for: [createExpect], timeout: 5)
+
+        let refetchUserExpect = expectation(description: "Last expectation for testing create post")
+        backend.forceLoadUserPosts { isEmpty, error in
+            XCTAssertFalse(isEmpty)
+            XCTAssertNil(error)
+            refetchUserExpect.fulfill()
+        }
+        wait(for: [refetchUserExpect], timeout: 5)
+        XCTAssertTrue(count < backend.userPosts.count)
+    }
 }

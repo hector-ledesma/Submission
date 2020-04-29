@@ -353,7 +353,7 @@ class BackendController {
 
                         if self.cache.value(for: id) != nil {
                             let cachedPost = self.cache.value(for: id)!
-                            self.updatePost(post: cachedPost, with: post)
+                            self.update(post: cachedPost, with: post)
                         } else {
                             do {
                                 try self.savePost(by: id, from: post)
@@ -378,7 +378,7 @@ class BackendController {
         guard let id = representation.id else { return }
 
         if let cachedPost = self.cache.value(for: id) {
-            self.updatePost(post: cachedPost, with: representation)
+            self.update(post: cachedPost, with: representation)
         } else {
             do {
                 try self.savePost(by: id, from: representation)
@@ -433,7 +433,7 @@ class BackendController {
                         // If fetch request finds a post, add it to the array and update it in core data
                         if let foundPost = try self.bgContext.fetch(fetchRequest).first {
                             self.userPosts.append(foundPost)
-                            self.updatePost(post: foundPost, with: post)
+                            self.update(post: foundPost, with: post)
                         } else {
                             // If the post isn't in core data, add it.
                             if let newPost = Post(representation: post, context: self.bgContext) {
@@ -504,10 +504,8 @@ class BackendController {
 
             self.bgContext.perform {
                 do {
-                    let postRepresentations = try self.decoder.decode([PostRepresentation].self, from: data)
-                    for post in postRepresentations {
-                        self.syncSinglePost(with: post)
-                    }
+                    let post = try self.decoder.decode(PostRepresentation.self, from: data)
+                    self.syncSinglePost(with: post)
                     completion(nil)
                 } catch {
                     NSLog("Error decoding fetched posts from database: \(error)")
@@ -532,7 +530,54 @@ class BackendController {
         }
     }
 
-    private func updatePost(post: Post, with rep: PostRepresentation) {
+    func updatePost(at post: Post, title: String, post description: String, completion: @escaping (Error?) -> Void) {
+        guard let id = userID,
+            let token = token else {
+                completion(HowtoError.noAuth("User is not logged in."))
+                return
+        }
+
+        let requestURL = baseURL.appendingPathComponent(EndPoints.howTos.rawValue).appendingPathComponent("\(post.id)")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = Method.put.rawValue
+        request.setValue(token.token, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let dict: [String : Any] = ["title":title, "post":description, "user_id":id]
+            request.httpBody = try jsonFromDicct(dict: dict)
+        } catch {
+            NSLog("Error turning dictionary to json: \(error)")
+            completion(error)
+        }
+
+        dataLoader?.loadData(from: request, completion: { data, _, error in
+            if let error = error {
+                NSLog("Error posting new post to database : \(error)")
+                completion(error)
+                return
+            }
+
+            guard let data = data else {
+                completion(HowtoError.badData("Server sent bad data when updating post."))
+                return
+            }
+
+            self.bgContext.perform {
+                do {
+                    let post = try self.decoder.decode(PostRepresentation.self, from: data)
+                    self.syncSinglePost(with: post)
+                    completion(nil)
+                } catch {
+                    NSLog("Error decoding fetched posts from database: \(error)")
+                    completion(error)
+                }
+            }
+
+        })
+    }
+
+    private func update(post: Post, with rep: PostRepresentation) {
         post.title = rep.title
         post.post = rep.post
     }
