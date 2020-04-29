@@ -99,7 +99,7 @@ class HowTo3Tests: XCTestCase {
 
     func testSyncPostsCoreData() {
         backend.injectToken(token)
-        let expect = expectation(description: "Syn posts expectation")
+        let expect = expectation(description: "Syn posts expectation.")
 
         backend.syncPosts { error in
             XCTAssertNil(error)
