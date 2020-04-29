@@ -371,7 +371,7 @@ class BackendController {
 
     // This function will be called by a didset in userID
     // As given that the function that populates core data checks for duplicates, we don't need to worry about that.
-    private func loadUserPosts(completion: @escaping (Bool?, Error?) -> Void = {_,_ in }) {
+    private func loadUserPosts(completion: @escaping (Bool, Error?) -> Void = {_,_ in }) {
         guard let id = userID,
         let token = token else {
             completion(false, HowtoError.noAuth("UserID hasn't been assigned"))
@@ -443,7 +443,7 @@ class BackendController {
         - True if the user has no posts in the database.
         - False and an error if something went wrong.
      */
-    func forceLoadUserPosts(completion: @escaping (Bool?, Error?) -> Void) {
+    func forceLoadUserPosts(completion: @escaping (Bool, Error?) -> Void) {
         loadUserPosts(completion: { isEmpty, error in
                 completion(isEmpty, error)
             })
