@@ -169,7 +169,7 @@ class BackendController {
     }
 
     // MARK: - Post Methods
-
+    // TODO: Ask Jon about this
     func fetchAllPosts(completion: @escaping ([PostRepresentation]?, Error?) -> Void) throws {
 
         // If there's no token, user isn't authorized. Throw custom error.
@@ -210,6 +210,7 @@ class BackendController {
             }
         })
     }
+    
 
     // MARK: - Enums
 
