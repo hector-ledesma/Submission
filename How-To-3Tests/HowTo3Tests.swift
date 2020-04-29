@@ -100,14 +100,14 @@ class HowTo3Tests: XCTestCase {
 
     func testSyncPostsCoreData() {
         backend.injectToken(token)
-        let expect = expectation(description: "Syn posts expectation.")
+        let syncExpect = expectation(description: "Syn posts expectation.")
 
         // First pass to check that it works.
         backend.syncPosts { error in
             XCTAssertNil(error)
-            expect.fulfill()
+            syncExpect.fulfill()
         }
-        wait(for: [expect], timeout: 10)
+        wait(for: [syncExpect], timeout: 10)
 
         let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
         let moc = CoreDataStack.shared.mainContext

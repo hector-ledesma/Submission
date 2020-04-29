@@ -11,6 +11,9 @@ import CoreData
 
 class BackendController {
     private var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/")!
+    // Instead of constantly creating and deleting decoders and encoders, just make one of each and use them around the app.
+    private var encoder = JSONEncoder()
+    private var decoder = JSONDecoder()
 
     // Create a new background context so that core data can operate asynchronously
     let bgContext = CoreDataStack.shared.container.newBackgroundContext()
@@ -70,7 +73,6 @@ class BackendController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            let encoder = JSONEncoder()
 
             // Try to encode the newly created user into the request body.
             let jsonData = try encoder.encode(newUser)
@@ -103,9 +105,8 @@ class BackendController {
 
             guard let data = data else { return }
 
-            let decoder = JSONDecoder()
             do {
-                _ = try decoder.decode(UserRepresentation.self, from: data)
+                _ = try self.decoder.decode(UserRepresentation.self, from: data)
             } catch {
                 NSLog("Error decoding data: \(error)")
                 completion(false, nil, error)
@@ -149,8 +150,7 @@ class BackendController {
 
             self.bgContext.perform {
                 do {
-                    let decoder = JSONDecoder()
-                    let tokenResult = try decoder.decode(Token.self, from: data)
+                    let tokenResult = try self.decoder.decode(Token.self, from: data)
                     self.token = tokenResult
                     self.storeUser(username: username) { _ in
                         completion(self.isSignedIn)
@@ -213,8 +213,7 @@ class BackendController {
             }
 
             do {
-                let decoder = JSONDecoder()
-                if let decodedUser = try decoder.decode([UserRepresentation].self, from: data).first {
+                if let decodedUser = try self.decoder.decode([UserRepresentation].self, from: data).first {
                     self.userID = decodedUser.id
                     completion(nil)
                 }
@@ -251,6 +250,15 @@ class BackendController {
         }
 
     }
+    private func jsonFromDicct(dict: [String: Any]) throws -> Data? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+            return jsonData
+        } catch {
+            NSLog("Error Creating JSON From username dictionary. \(error)")
+            throw error
+        }
+    }
 
     // MARK: - Post Methods
 
@@ -285,9 +293,8 @@ class BackendController {
                 return
             }
 
-            let decoder = JSONDecoder()
             do {
-                let posts = try decoder.decode([PostRepresentation].self, from: data)
+                let posts = try self.decoder.decode([PostRepresentation].self, from: data)
                 completion(posts, nil)
             } catch {
                 NSLog("Couldn't decode array of posts from server: \(error)")
@@ -391,12 +398,11 @@ class BackendController {
                 return
             }
 
-            let decoder = JSONDecoder()
             let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
 
             self.bgContext.performAndWait {
                 do {
-                    let decodedPosts = try decoder.decode([PostRepresentation].self, from: data)
+                    let decodedPosts = try self.decoder.decode([PostRepresentation].self, from: data)
                     // Check if the user has no posts. And if so return right here.
                     if decodedPosts.isEmpty {
                         NSLog("User has no posts in the database.")
@@ -448,12 +454,40 @@ class BackendController {
     }
 
     func createPost(title: String, post: String, completion: @escaping (Error?) -> Void) {
-        guard let id = userID else {
+        guard let id = userID,
+            let token = token else {
             completion(HowtoError.noAuth("No userID stored in the controller. Can't create new post."))
             return
         }
 
-        let requestURL = baseURL.appendingPathComponent("")
+        let requestURL = baseURL.appendingPathComponent(EndPoints.howTos.rawValue)
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = Method.post.rawValue
+        request.setValue(token.token, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let dict: [String : Any] = ["title":title, "post":post, "user_id":id]
+            request.httpBody = try jsonFromDicct(dict: dict)
+        } catch {
+            NSLog("Error turning dictionary to json: \(error)")
+            completion(error)
+        }
+
+        dataLoader?.loadData(from: request, completion: { data, _, error in
+            if let error = error {
+                NSLog("Error posting new post to database : \(error)")
+                completion(error)
+                return
+            }
+
+            guard let data = data else {
+                completion(HowtoError.badData("Server send bad data when creating new post."))
+                return
+            }
+
+
+        })
     }
 
     // MARK: - Post CRUD methods
