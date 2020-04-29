@@ -170,11 +170,25 @@ class BackendController {
 
     // MARK: - Post Methods
 
-    func fetchAllPosts() {
-        
+    func fetchAllPosts() throws -> [PostRepresentation] {
+
+        // If there's no token, user isn't authorized. Throw custom error.
+        guard let token = token else {
+            throw HowtoError.noAuth("No token in controller. User isn't logged in.")
+        }
+        var posts: [PostRepresentation] = []
+        baseURL.appendPathComponent(EndPoints.howTos.rawValue)
+        var request = URLRequest(url: baseURL)
+        request.httpMethod = Method.post.rawValue
+        request.setValue("\(token)", forHTTPHeaderField: "Authorization")
+        return posts
     }
 
     // MARK: - Enums
+
+    private enum HowtoError: Error {
+        case noAuth(String)
+    }
 
     private enum Method: String {
         case get = "GET"
@@ -191,3 +205,20 @@ class BackendController {
 
 }
 
+class Cache<Key: Hashable, Value> {
+     private var cache: [Key : Value] = [ : ]
+     private var queue = DispatchQueue(label: "Cache serial queue")
+
+     func cache(value: Value, for key: Key) {
+         queue.async {
+             self.cache[key] = value
+         }
+     }
+
+     func value(for key: Key) -> Value? {
+         queue.sync {
+             return self.cache[key]
+         }
+
+     }
+ }
