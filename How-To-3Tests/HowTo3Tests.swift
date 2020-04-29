@@ -7,12 +7,14 @@
 //
 
 import XCTest
+import CoreData
 @testable import How_To_3
 
 class HowTo3Tests: XCTestCase {
     // Sorry swiftlint my friend. But there's nothing I can do about this long token lol
     // swiftlint:disable all
     let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJ1c2VybmFtZSI6IlRlc3RpbmcyMiIsImlhdCI6MTU4ODEzMjU1NiwiZXhwIjoxNTg4MTc1NzU2fQ.QC4YX42LKUlf700MgXsMxg-xw_YiJjPnW3DKFxh5300"
+    let backend = BackendController()
     // swiftlint:enable all
 
     override func setUpWithError() throws {
@@ -51,7 +53,6 @@ class HowTo3Tests: XCTestCase {
     }
 
     func testSignUp() {
-        let backend = BackendController()
         let expect = expectation(description: "got it")
         backend.signUp(username: "Testing3", password: "testing", email: "testing3@test.com") { newUser, response, _ in
             if let response = response as? HTTPURLResponse,
@@ -67,7 +68,6 @@ class HowTo3Tests: XCTestCase {
     }
 
     func testSignIn() {
-        let backend = BackendController()
         let expect = expectation(description: "got it")
 
         backend.signIn(username: "Testing22", password: "test") { logged in
@@ -80,7 +80,6 @@ class HowTo3Tests: XCTestCase {
     }
 
     func testFetchAllPosts() {
-        let backend = BackendController()
         backend.injectToken(token)
         let expect = expectation(description: "Fetching posts")
 
@@ -99,7 +98,27 @@ class HowTo3Tests: XCTestCase {
     }
 
     func testSyncPostsCoreData() {
-        
+        backend.injectToken(token)
+        let expect = expectation(description: "Syn posts expectation")
+
+        backend.syncPosts { error in
+            XCTAssertNil(error)
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 10)
+
+        let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
+        let moc = CoreDataStack.shared.mainContext
+        moc.reset()
+        do {
+            let fetchedResults = try moc.fetch(fetchRequest)
+            print(fetchedResults)
+            XCTAssertFalse(fetchedResults.isEmpty)
+        } catch {
+            NSLog("Couldn't fetch ----- : \(error)")
+            XCTFail("If the result is empy, nothing was fetched.")
+        }
+
     }
 
 }

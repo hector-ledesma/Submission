@@ -198,7 +198,7 @@ class BackendController {
 
             // use badData when unwrapping data from server.
             guard let data = data else {
-                completion(nil, HowtoError.badData("From server"))
+                completion(nil, HowtoError.badData("Bad data received from server"))
                 return
             }
 
@@ -207,7 +207,7 @@ class BackendController {
                 let posts = try decoder.decode([PostRepresentation].self, from: data)
                 completion(posts, nil)
             } catch {
-                NSLog("Couldn't decode array of posts from server.")
+                NSLog("Couldn't decode array of posts from server: \(error)")
                 completion(nil, error)
             }
         })
@@ -229,25 +229,26 @@ class BackendController {
                     return
                 }
                 representations = fetchedPosts
+
+                // Create a new background context so that core data can operate asynchronously
+                let context = CoreDataStack.shared.container.newBackgroundContext()
+                // Use this context to initialize new posts into core data.
+                context.perform {
+                    for post in representations {
+                        Post(representation: post, context: context)
+                    }
+
+                    // After creating all the new posts, try to save.
+                    do {
+                        try context.save()
+                    } catch {
+                        NSLog("Error saving background context: \(error)")
+                        completion(error)
+                    }
+                }// context.perform
+                completion(nil)
+
             }// Fetch closure
-
-            // Create a new background context so that core data can operate asynchronously
-            let context = CoreDataStack.shared.container.newBackgroundContext()
-            // Use this context to initialize new posts into core data.
-            context.perform {
-                for post in representations {
-                    Post(representation: post, context: context)
-                }
-
-                // After creating all the new posts, try to save.
-                do {
-                    try context.save()
-                    completion(nil)
-                } catch {
-                    NSLog("Error saving background context: \(error)")
-                    completion(error)
-                }
-            }// context.perform
 
         } catch {
             completion(error)
