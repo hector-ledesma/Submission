@@ -9,22 +9,22 @@
 import UIKit
 import CoreData
 class PostDetailViewController: UIViewController {
-
+    
+  private var wasEdited = false
+    
     @IBOutlet weak var postDescription: UITextView!
     @IBOutlet weak var timeStamp: UILabel!
     @IBOutlet weak var authorName: UILabel!
+    @IBOutlet weak var changeTitleTextField: UITextField!
+    @IBOutlet weak var postTitleLabel: UILabel!
     
-    var postRepresentation: PostRepresentation? {
-        didSet {
-            updateViews()
-        }
-    }
+    var postRepresentation: PostRepresentation?
     var post: Post?
     var backendController: BackendController?
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+ navigationItem.rightBarButtonItem = editButtonItem
+       updateViews()
     }
     
     @IBAction func likesButtonPressed(_ sender: UIButton) {
@@ -33,21 +33,32 @@ class PostDetailViewController: UIViewController {
 //        }
     }
     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: true)
+        
+        if editing { wasEdited = true }
+        postDescription.isUserInteractionEnabled = editing
+        changeTitleTextField.isUserInteractionEnabled = editing
+    }
     
     private func updateViews() {
-        guard let postRepresentation = postRepresentation else { return }
-        guard let post = post else { return }
-        postDescription.text = postRepresentation.title
-        timeStamp.text = postRepresentation.timestamp
-        authorName.text = String(postRepresentation.userID)
-        
-        backendController?.syncSinglePost(with: postRepresentation)
-        do {
-           try CoreDataStack.shared.mainContext.save()
-        } catch {
-            NSLog("Couldn't update the views")
-            return 
-        }
+       
+        guard let post = post,
+            let title = changeTitleTextField.text,
+            !title.isEmpty,
+            let postBody = postDescription.text,
+            !postBody.isEmpty
+            else { return }
+      
+        backendController?.updatePost(at: post, title: title, post: postBody, completion: { error in
+            if let error = error {
+                NSLog("Error in updating the post")
+            } else {
+                DispatchQueue.main.async {
+                    
+                }
+            }
+        })
     }
     
     /*

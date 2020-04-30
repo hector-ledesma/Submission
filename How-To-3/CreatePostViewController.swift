@@ -41,6 +41,10 @@ class CreatePostViewController: UIViewController, PostPresenter {
             if error != nil {
                 NSLog("Error posting posts")
                 return
+            }else {
+                DispatchQueue.main.async {
+                    self.updateViews()
+                }
             }
         }
         do {
@@ -58,8 +62,6 @@ class CreatePostViewController: UIViewController, PostPresenter {
         guard let newPost = self.post else { return }
         self.titleTextField.text = newPost.title
         self.postDescription.text = newPost.post
-        self.authorLabel.text = String(newPost.userID)
-        self.timeStamp.text = newPost.timestamp
         
     }
     

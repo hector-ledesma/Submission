@@ -197,7 +197,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="uTM-cE-L7h">
-                                <rect key="frame" x="20" y="271" width="374" height="354"/>
+                                <rect key="frame" x="20" y="268" width="374" height="360"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Xg-Hn-9As">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="24"/>
@@ -206,10 +206,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RRU-hy-H1P">
-                                        <rect key="frame" x="0.0" y="34" width="374" height="286"/>
+                                        <rect key="frame" x="0.0" y="34" width="374" height="292"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2ez-ES-Mhb">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="276"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="282"/>
                                                 <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -217,7 +217,7 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zjg-sm-dVB">
-                                                <rect key="frame" x="0.0" y="284" width="374" height="2"/>
+                                                <rect key="frame" x="0.0" y="290" width="374" height="2"/>
                                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="2" id="Ptk-AQ-kbP"/>
@@ -226,7 +226,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="HzG-YC-Vhq">
-                                        <rect key="frame" x="0.0" y="330" width="374" height="24"/>
+                                        <rect key="frame" x="0.0" y="336" width="374" height="24"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRV-Pb-uFp">
                                                 <rect key="frame" x="0.0" y="0.0" width="179.5" height="24"/>
@@ -248,25 +248,46 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="OwJ-zt-UTp">
+                                <rect key="frame" x="20" y="108" width="374" height="114"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iUl-Di-ErQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Change Ttitle:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nMB-XI-zco">
+                                        <rect key="frame" x="0.0" y="80" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="uTM-cE-L7h" firstAttribute="centerX" secondItem="Cft-ij-PoX" secondAttribute="centerX" id="6hZ-aQ-M83"/>
                             <constraint firstItem="uTM-cE-L7h" firstAttribute="centerY" secondItem="Cft-ij-PoX" secondAttribute="centerY" id="6j5-Kg-VxI"/>
-                            <constraint firstItem="uTM-cE-L7h" firstAttribute="top" secondItem="KPN-Fe-uAD" secondAttribute="top" constant="183" id="JEG-yz-GcY"/>
+                            <constraint firstItem="OwJ-zt-UTp" firstAttribute="leading" secondItem="KPN-Fe-uAD" secondAttribute="leading" constant="20" id="Hht-4w-eUa"/>
+                            <constraint firstItem="uTM-cE-L7h" firstAttribute="top" secondItem="KPN-Fe-uAD" secondAttribute="top" constant="180" id="JEG-yz-GcY"/>
+                            <constraint firstItem="OwJ-zt-UTp" firstAttribute="top" secondItem="KPN-Fe-uAD" secondAttribute="top" constant="20" id="Zdf-6c-eEl"/>
+                            <constraint firstItem="KPN-Fe-uAD" firstAttribute="trailing" secondItem="OwJ-zt-UTp" secondAttribute="trailing" constant="20" id="gfa-8w-erT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KPN-Fe-uAD"/>
                     </view>
                     <navigationItem key="navigationItem" id="3pl-eV-Tm7"/>
                     <connections>
                         <outlet property="authorName" destination="HHd-2C-zWe" id="YBe-w3-FUY"/>
+                        <outlet property="changeTitleTextField" destination="nMB-XI-zco" id="6qO-t3-e8p"/>
                         <outlet property="postDescription" destination="2ez-ES-Mhb" id="joM-pZ-0yV"/>
+                        <outlet property="postTitleLabel" destination="iUl-Di-ErQ" id="P9v-TD-tn9"/>
                         <outlet property="timeStamp" destination="9Xg-Hn-9As" id="yTG-Hr-Kd4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ss7-8o-nmc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4180" y="-469"/>
+            <point key="canvasLocation" x="4363.768115942029" y="2.6785714285714284"/>
         </scene>
         <!--Home-->
         <scene sceneID="EWr-mk-W69">
@@ -296,7 +317,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CdQ-55-ZKq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2359" y="287"/>
+            <point key="canvasLocation" x="2501" y="435"/>
         </scene>
         <!--MainTableView-->
         <scene sceneID="OFV-Eu-4Vp">
@@ -375,7 +396,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OC8-yp-oeG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2359" y="-370"/>
+            <point key="canvasLocation" x="2439" y="-389"/>
         </scene>
         <!--All Posts Tab Bar Controller-->
         <scene sceneID="CsG-He-GLh">
