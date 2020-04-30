@@ -635,8 +635,9 @@ class BackendController {
         2. Only a bool value if we communicated with the server successfully:
             A. It will return True if we deleted the chosen post
             B. False if the server wasn't able to delete the post
+            C. BOTH! ONLY IF: We successfully deleted from the server, but were unable to delete from Core Data
      */
-    private func deletePostServer(post: Post, completion: @escaping (Bool?, Error?) -> Void) {
+    func deletePostServer(post: Post, completion: @escaping (Bool?, Error?) -> Void) {
         guard let id = userID,
         let token = token else {
             completion(nil, HowtoError.noAuth("User not logged in."))
@@ -668,18 +669,30 @@ class BackendController {
                 return
             }
 
+            var success: Bool = false
+
             do {
                 let response = try self.decoder.decode(Int.self, from: data)
-                let success: Bool = response == 1 ? true : false
-                completion(success, nil)
+                success = response == 1 ? true : false
             } catch {
                 NSLog("Error decoding response from server after deleting: \(error)")
                 completion(nil, error)
+                return
+            }
+
+            // Separate these 2 do catch so we may know which one specifically breaks.
+
+            do {
+                if success {
+                    try CoreDataStack.shared.delete(post: post, context: self.bgContext)
+                    completion(success, nil)
+                }
+            } catch {
+                NSLog("Error saving to CoreData persistence")
+                completion(success, error)
+                return
             }
         })
-    }
-    private func deletePostCore(post: Post) {
-        
     }
 
     // MARK: - Enums
