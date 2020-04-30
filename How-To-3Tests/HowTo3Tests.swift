@@ -226,7 +226,7 @@ class HowTo3Tests: XCTestCase {
     func testDeletePost() {
 
         let deleteSignexpectation = expectation(description: "Signing in to delete a post.")
-        backend.signIn(username: "Testing22", password: "test") { loggedIn in
+        backend.signIn(username: "Testing22", password: "test") { _ in
             deleteSignexpectation.fulfill()
         }
         wait(for: [deleteSignexpectation], timeout: timeout)
