@@ -685,6 +685,41 @@ class BackendController {
         })
     }
 
+    // MARK: - MISC Methods
+
+    // MARK: - Author's Name Instructions
+    /*
+     This method takes in:
+        - Author's ID and that's it
+     This method will return the name of the author as an optional string. or an Error.
+     Use the optional string if there's no error to assign name of author to cell.
+     */
+    func postAuthorName(author id: Int64, completion: @escaping (String?, Error?) -> Void) {
+        let requestURL = baseURL.appendingPathComponent("\(EndPoints.users.rawValue)\(id)")
+
+        dataLoader?.loadData(from: requestURL, completion: { data, _, error in
+            if let error = error {
+                NSLog("Error from server : \(error)")
+                completion(nil, error)
+                return
+            }
+
+            guard let data = data else {
+                completion(nil, HowtoError.badData("Bad data from server when fetching user by ID"))
+                return
+            }
+
+            do {
+                if let decodedUser = try self.decoder.decode([UserRepresentation].self, from: data).first {
+                    completion(decodedUser.username, nil)
+                }
+            } catch {
+                NSLog("Error decoding user from server response: \(error)")
+                completion(nil, error)
+            }
+        })
+    }
+
     // MARK: - Enums
 
     private enum HowtoError: Error {
