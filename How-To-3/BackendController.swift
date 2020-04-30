@@ -45,16 +45,16 @@ class BackendController {
     }
     /*
      The isSignedIn property should be used EVERYWHERE:
-        - Segues should only work if isSignedIn is true.
-        - Views should only be rendered into the screen if isSignedIn is true.
-        - Etc.
+     - Segues should only work if isSignedIn is true.
+     - Views should only be rendered into the screen if isSignedIn is true.
+     - Etc.
      If at any point isSignedIn is false, the else clause should popthe navigation controller back to the first controller.
      e.g:
-        if isSignedIn {
-            Load everything
-        } else {
-            Use exit connection to send user back to log in screen
-        }
+     if isSignedIn {
+     Load everything
+     } else {
+     Use exit connection to send user back to log in screen
+     }
      */
     var dataLoader: DataLoader?
 
@@ -90,9 +90,9 @@ class BackendController {
         // MARK: - SignUp Completion Instructions
         /*
          Bool will always be false unless a NEW user was successfully created in the database. Meaning:
-            - If bool is true, all other checking can be skipped.
-            - An error will only be thrown when something went wrong sending data or decoding the data sent by the server.
-            - A response will only be thrown when user already exists.
+         - If bool is true, all other checking can be skipped.
+         - An error will only be thrown when something went wrong sending data or decoding the data sent by the server.
+         - A response will only be thrown when user already exists.
          */
         dataLoader?.loadData(from: request) { data, response, error in
 
@@ -171,8 +171,8 @@ class BackendController {
         // MARK: - SignIn Instructions
         /*
          As we really don't want the token to leave this controller, all you'll need is to check if user is signed in is:
-            - Is token nil? Use isSignedIn property. If it is nil, then user isn't logged in.
-            - If user isn't logged in, use signIn method. The completion closure will return true only after a token has been successfully saved.
+         - Is token nil? Use isSignedIn property. If it is nil, then user isn't logged in.
+         - If user isn't logged in, use signIn method. The completion closure will return true only after a token has been successfully saved.
          */
     }
 
@@ -397,9 +397,9 @@ class BackendController {
     // As given that the function that populates core data checks for duplicates, we don't need to worry about that.
     private func loadUserPosts(completion: @escaping (Bool, Error?) -> Void = { _, _ in }) {
         guard let id = userID,
-        let token = token else {
-            completion(false, HowtoError.noAuth("UserID hasn't been assigned"))
-            return
+            let token = token else {
+                completion(false, HowtoError.noAuth("UserID hasn't been assigned"))
+                return
         }
         let requestURL = baseURL.appendingPathComponent("\(EndPoints.userPosts.rawValue)\(id)")
         var request = URLRequest(url: requestURL)
@@ -420,69 +420,64 @@ class BackendController {
 
             let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
 
-//            self.bgContext.performAndWait {
-                let handleFetchedPosts = BlockOperation {
-                    do {
-                        let decodedPosts = try self.decoder.decode([PostRepresentation].self, from: data)
-                        // Check if the user has no posts. And if so return right here.
-                        if decodedPosts.isEmpty {
-                            NSLog("User has no posts in the database.")
-                            completion(true, nil)
-                            return
-                        }
-                        // If the decoded posts array isn't empty
-                        for post in decodedPosts {
-                            guard let postID = post.id else { return }
-                            let nsID = NSNumber(integerLiteral: Int(postID))
-                            fetchRequest.predicate = NSPredicate(format: "id == %@", nsID)
-                            // If fetch request finds a post, add it to the array and update it in core data
-                            let foundPost = try self.bgContext.fetch(fetchRequest).first
-                            if let foundPost = foundPost {
-                                self.update(post: foundPost, with: post)
-                                // Check if post has already been added.
-                                if let found = self.userPosts.first(where: {$0 == foundPost}) {
-                                    NSLog("Post already added to user's posts.")
-                                } else {
-                                    self.userPosts.append(foundPost)
-                                }
-                            } else {
-                                //                             If the post isn't in core data, add it.
-                                if let newPost = Post(representation: post, context: self.bgContext) {
-                                    self.userPosts.append(newPost)
-                                }
-                                //                            try self.savePost(by: id, from: post)
-                            }
-                        }
-                    } catch {
-                        NSLog("Error Decoding posts, Fetching from Coredata: \(error)")
-                        completion(false, error)
+            let handleFetchedPosts = BlockOperation {
+                do {
+                    let decodedPosts = try self.decoder.decode([PostRepresentation].self, from: data)
+                    // Check if the user has no posts. And if so return right here.
+                    if decodedPosts.isEmpty {
+                        NSLog("User has no posts in the database.")
+                        completion(true, nil)
+                        return
                     }
+                    // If the decoded posts array isn't empty
+                    for post in decodedPosts {
+                        guard let postID = post.id else { return }
+                        // swiftlint:disable all
+                        let nsID = NSNumber(integerLiteral: Int(postID))
+                        // swiftlint:enable all
+                        fetchRequest.predicate = NSPredicate(format: "id == %@", nsID)
+                        // If fetch request finds a post, add it to the array and update it in core data
+                        let foundPost = try self.bgContext.fetch(fetchRequest).first
+                        if let foundPost = foundPost {
+                            self.update(post: foundPost, with: post)
+                            // Check if post has already been added.
+                            if self.userPosts.first(where: { $0 == foundPost }) != nil {
+                                NSLog("Post already added to user's posts.")
+                            } else {
+                                self.userPosts.append(foundPost)
+                            }
+                        } else {
+                            //                             If the post isn't in core data, add it.
+                            if let newPost = Post(representation: post, context: self.bgContext) {
+                                self.userPosts.append(newPost)
+                            }
+                            //                            try self.savePost(by: id, from: post)
+                        }
+                    }
+                } catch {
+                    NSLog("Error Decoding posts, Fetching from Coredata: \(error)")
+                    completion(false, error)
                 }
+            }
 
+            let handleSaving = BlockOperation {
+                // After going through the entire array, try to save context.
+                // Make sure to do this in a separate do try catch so we know where things fail
                 let handleSaving = BlockOperation {
                     do {
                         // After going through the entire array, try to save context.
                         // Make sure to do this in a separate do try catch so we know where things fail
-                        let handleSaving = BlockOperation {
-                            do {
-                                // After going through the entire array, try to save context.
-                                // Make sure to do this in a separate do try catch so we know where things fail
-                                try CoreDataStack.shared.save(context: self.bgContext)
-                                completion(false, nil)
-                            } catch {
-                                NSLog("Error saving context. \(error)")
-                                completion(false, error)
-                            }
-                        }
-                        self.operationQueue.addOperations([handleSaving], waitUntilFinished: true)
+                        try CoreDataStack.shared.save(context: self.bgContext)
+                        completion(false, nil)
                     } catch {
-                        NSLog("Error saving context.")
+                        NSLog("Error saving context. \(error)")
                         completion(false, error)
                     }
                 }
-                handleSaving.addDependency(handleFetchedPosts)
-                self.operationQueue.addOperations([handleFetchedPosts, handleSaving], waitUntilFinished: true)
-//            }
+                self.operationQueue.addOperations([handleSaving], waitUntilFinished: true)
+            }
+            handleSaving.addDependency(handleFetchedPosts)
+            self.operationQueue.addOperations([handleFetchedPosts, handleSaving], waitUntilFinished: true)
         }
     }
 
@@ -492,31 +487,31 @@ class BackendController {
      Therefore, refer to userPosts.count to tell the user if they have no posts.
      Create a refresh posts button that allows the user to call this method.
      This bethod returns:
-        - True if the user has no posts in the database.
-        - False and an error if something went wrong.
-        - If false and no error, userPosts was successfully populated.
+     - True if the user has no posts in the database.
+     - False and an error if something went wrong.
+     - If false and no error, userPosts was successfully populated.
      */
     func forceLoadUserPosts(completion: @escaping (Bool, Error?) -> Void) {
         loadUserPosts(completion: { isEmpty, error in
-                completion(isEmpty, error)
-            })
+            completion(isEmpty, error)
+        })
     }
 
     // MARK: - Create New Post Instructions
     /*
      This function will ONLY work if the user is signed in.
      What you need to pass in when calling this method is simply:
-        - Title
-        - Content of post
+     - Title
+     - Content of post
      The post will take care of merging with core data, and updating cache.
      Closure only returns an error, therefore:
-        - If completion returns no error, everything went ok and you're free to reload view.
+     - If completion returns no error, everything went ok and you're free to reload view.
      */
     func createPost(title: String, post: String, completion: @escaping (Error?) -> Void) {
         guard let id = userID,
             let token = token else {
-            completion(HowtoError.noAuth("No userID stored in the controller. Can't create new post."))
-            return
+                completion(HowtoError.noAuth("No userID stored in the controller. Can't create new post."))
+                return
         }
 
         let requestURL = baseURL.appendingPathComponent(EndPoints.howTos.rawValue)
@@ -526,7 +521,7 @@ class BackendController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            let dict: [String : Any] = ["title":title, "post":post, "user_id":id]
+            let dict: [String: Any] = ["title": title, "post": post, "user_id": id]
             request.httpBody = try jsonFromDicct(dict: dict)
         } catch {
             NSLog("Error turning dictionary to json: \(error)")
@@ -596,7 +591,7 @@ class BackendController {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
-            let dict: [String : Any] = ["title":title, "post":description, "user_id":id]
+            let dict: [String: Any] = ["title": title, "post": description, "user_id": id]
             request.httpBody = try jsonFromDicct(dict: dict)
         } catch {
             NSLog("Error turning dictionary to json: \(error)")
@@ -637,21 +632,21 @@ class BackendController {
     // MARK: - Delete Post Instructions
     /*
      This will be the only methos that:
-        1. Uses query parameters
-        2. Returns a number to determine bool valuse
+     1. Uses query parameters
+     2. Returns a number to determine bool valuse
 
      The closure returns:
-        1. Only an error if something went wrong
-        2. Only a bool value if we communicated with the server successfully:
-            A. It will return True if we deleted the chosen post
-            B. False if the server wasn't able to delete the post
-            C. BOTH! ONLY IF: We successfully deleted from the server, but were unable to delete from Core Data
+     1. Only an error if something went wrong
+     2. Only a bool value if we communicated with the server successfully:
+     A. It will return True if we deleted the chosen post
+     B. False if the server wasn't able to delete the post
+     C. BOTH! ONLY IF: We successfully deleted from the server, but were unable to delete from Core Data
      */
     func deletePost(post: Post, completion: @escaping (Bool?, Error?) -> Void) {
         guard let id = userID,
-        let token = token else {
-            completion(nil, HowtoError.noAuth("User not logged in."))
-            return
+            let token = token else {
+                completion(nil, HowtoError.noAuth("User not logged in."))
+                return
         }
 
         // Our only DELETE endpoint utilizes query parameters.
@@ -674,7 +669,7 @@ class BackendController {
             }
 
             guard let data = data else {
-                NSLog("Error unwrapping data sent form server: \(error)")
+                NSLog("Error unwrapping data sent form server: \(HowtoError.badData("Bad data received from server after deleting post."))")
                 completion(nil, HowtoError.badData("Bad data from server when deleting."))
                 return
             }
@@ -700,7 +695,7 @@ class BackendController {
     // MARK: - Author's Name Instructions
     /*
      This method takes in:
-        - Author's ID and that's it
+     - Author's ID and that's it
      This method will return the name of the author as an optional string. or an Error.
      Use the optional string if there's no error to assign name of author to cell.
      */
@@ -768,20 +763,20 @@ class BackendController {
 }
 
 class Cache<Key: Hashable, Value> {
-     private var cache: [Key: Value] = [ : ]
-     private var queue = DispatchQueue(label: "Cache serial queue")
+    private var cache: [Key: Value] = [ : ]
+    private var queue = DispatchQueue(label: "Cache serial queue")
 
-     func cache(value: Value, for key: Key) {
-         queue.async {
-             self.cache[key] = value
-         }
-     }
+    func cache(value: Value, for key: Key) {
+        queue.async {
+            self.cache[key] = value
+        }
+    }
 
-     func value(for key: Key) -> Value? {
-         queue.sync {
+    func value(for key: Key) -> Value? {
+        queue.sync {
             // swiftlint:disable all
-             return self.cache[key]
+            return self.cache[key]
             // swiftlint:enable all
-         }
-     }
- }
+        }
+    }
+}

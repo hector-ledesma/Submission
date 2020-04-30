@@ -77,9 +77,10 @@ line_length:
 multiline_arguments:
   only_enforce_after_first_closure_on_first_line: true
 type_body_length:
-  warning: 400
+  warning: 500
   error: 700
 vertical_whitespace:
   max_empty_lines: 2
 trailing_whitespace:
   ignores_empty_lines: true
+
