@@ -7,23 +7,31 @@
 //
 
 import UIKit
-
+import CoreData
 class MainPostTableViewCell: UITableViewCell {
+   
+    @IBOutlet private weak var postTitleLabel: UILabel!
+    @IBOutlet private weak var likesLabel: UILabel!
+    @IBOutlet private weak var authorNameLabel: UILabel!
+    @IBOutlet private weak var timeStampLabel: UILabel!
     
-    @IBOutlet weak var postTitleLabel: UILabel!
-    @IBOutlet weak var likesLabel: UILabel!
-    @IBOutlet weak var authorNameLabel: UILabel!
-    @IBOutlet weak var timeStampLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+  
+    var post: Post? {
+        didSet {
+            updateViews()
+        }
     }
+    var backendController: BackendController?
+    var postRepresentation: PostRepresentation?
+    
+    
+    private func updateViews() {
+        guard let post = post else { return }
+        postTitleLabel.text = post.title
+        authorNameLabel.text = String(post.userID)
+        timeStampLabel.text = post.timestamp
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
     }
 
 }

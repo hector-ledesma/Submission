@@ -18,7 +18,7 @@ class CoreDataStack {
 
     // The container sets up the model, context and store coordinator all at once.
     var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Refresh")
+        let container = NSPersistentContainer(name: "HowTo")
 
         // First we want to load what we have.
         container.loadPersistentStores { _, error in
@@ -56,6 +56,16 @@ class CoreDataStack {
                 saveError = error
             }
         }
+        if let error = saveError { throw error }
+    }
+
+    func delete(post: Post, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+
+        var saveError: Error?
+        context.performAndWait {
+            context.delete(post)
+        }
+
         if let error = saveError { throw error }
     }
 

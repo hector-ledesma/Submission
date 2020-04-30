@@ -7,9 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F2E42FE245A662200DE88EC /* AllPostsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2E42FD245A662200DE88EC /* AllPostsTabBarController.swift */; };
+		3F2E4300245A679D00DE88EC /* TabBarProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2E42FF245A679D00DE88EC /* TabBarProtocol.swift */; };
+		3F2E4302245AAE9600DE88EC /* MainTableView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F2E4301245AAE9600DE88EC /* MainTableView.storyboard */; };
+		3F2E4304245ACA0B00DE88EC /* InterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2E4303245ACA0B00DE88EC /* InterViewController.swift */; };
+		3F3A00402458D27A0019E2ED /* MyPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A003F2458D27A0019E2ED /* MyPostTableViewCell.swift */; };
+		3F3A00462458D3000019E2ED /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A00452458D3000019E2ED /* PostDetailViewController.swift */; };
+		3F3A00482458D3320019E2ED /* MyPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A00472458D3320019E2ED /* MyPostsViewController.swift */; };
+		3F4823612459CAE200D6DCFB /* MainPostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4823602459CAE200D6DCFB /* MainPostTableViewController.swift */; };
+		3F4823632459F1E000D6DCFB /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4823622459F1E000D6DCFB /* CreatePostViewController.swift */; };
 		3F78685F2458198000FE8571 /* MainPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F78685E2458198000FE8571 /* MainPostTableViewCell.swift */; };
 		3F9A861D2457C76600F6AE1B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A861C2457C76600F6AE1B /* LoginViewController.swift */; };
-		3F9A861F2457D0BC00F6AE1B /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A861E2457D0BC00F6AE1B /* MainTableViewController.swift */; };
 		9C2317EA2457B69A000A4A6B /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2317E92457B69A000A4A6B /* Token.swift */; };
 		9C2317EC2457B8E5000A4A6B /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2317EB2457B8E5000A4A6B /* DataLoader.swift */; };
 		9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C354D24575A130021AE1C /* AppDelegate.swift */; };
@@ -32,8 +40,8 @@
 		9C732D1F24587AB500168FC5 /* User+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C732D1E24587AB500168FC5 /* User+Mock.swift */; };
 		9C732D2524588E9500168FC5 /* Post+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C732D2424588E9500168FC5 /* Post+Mock.swift */; };
 		9C732D2724588EAA00168FC5 /* MockDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C732D2624588EAA00168FC5 /* MockDataLoader.swift */; };
-		9C99C7192458AA2500EF4179 /* How_To_3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C99C7182458AA2500EF4179 /* How_To_3Tests.swift */; };
-		9C99C7272458AA7900EF4179 /* How_To_3UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C99C7262458AA7900EF4179 /* How_To_3UITests.swift */; };
+		9C99C7192458AA2500EF4179 /* HowTo3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C99C7182458AA2500EF4179 /* HowTo3Tests.swift */; };
+		9C99C7272458AA7900EF4179 /* HowTo3UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C99C7262458AA7900EF4179 /* HowTo3UITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,9 +62,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F2E42FD245A662200DE88EC /* AllPostsTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostsTabBarController.swift; sourceTree = "<group>"; };
+		3F2E42FF245A679D00DE88EC /* TabBarProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarProtocol.swift; sourceTree = "<group>"; };
+		3F2E4301245AAE9600DE88EC /* MainTableView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainTableView.storyboard; sourceTree = "<group>"; };
+		3F2E4303245ACA0B00DE88EC /* InterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterViewController.swift; sourceTree = "<group>"; };
+		3F3A003F2458D27A0019E2ED /* MyPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableViewCell.swift; sourceTree = "<group>"; };
+		3F3A00452458D3000019E2ED /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
+		3F3A00472458D3320019E2ED /* MyPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsViewController.swift; sourceTree = "<group>"; };
+		3F4823602459CAE200D6DCFB /* MainPostTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPostTableViewController.swift; sourceTree = "<group>"; };
+		3F4823622459F1E000D6DCFB /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		3F78685E2458198000FE8571 /* MainPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPostTableViewCell.swift; sourceTree = "<group>"; };
 		3F9A861C2457C76600F6AE1B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		3F9A861E2457D0BC00F6AE1B /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
 		9C2317E92457B69A000A4A6B /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		9C2317EB2457B8E5000A4A6B /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		9C4C354A24575A130021AE1C /* How-To-3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "How-To-3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,10 +98,10 @@
 		9C732D2424588E9500168FC5 /* Post+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+Mock.swift"; sourceTree = "<group>"; };
 		9C732D2624588EAA00168FC5 /* MockDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataLoader.swift; sourceTree = "<group>"; };
 		9C99C7162458AA2500EF4179 /* How-To-3Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "How-To-3Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9C99C7182458AA2500EF4179 /* How_To_3Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How_To_3Tests.swift; sourceTree = "<group>"; };
+		9C99C7182458AA2500EF4179 /* HowTo3Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowTo3Tests.swift; sourceTree = "<group>"; };
 		9C99C71A2458AA2500EF4179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C99C7242458AA7900EF4179 /* How-To-3UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "How-To-3UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9C99C7262458AA7900EF4179 /* How_To_3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How_To_3UITests.swift; sourceTree = "<group>"; };
+		9C99C7262458AA7900EF4179 /* HowTo3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowTo3UITests.swift; sourceTree = "<group>"; };
 		9C99C7282458AA7900EF4179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,7 +180,12 @@
 			isa = PBXGroup;
 			children = (
 				3F9A861C2457C76600F6AE1B /* LoginViewController.swift */,
-				3F9A861E2457D0BC00F6AE1B /* MainTableViewController.swift */,
+				3F3A00452458D3000019E2ED /* PostDetailViewController.swift */,
+				3F3A00472458D3320019E2ED /* MyPostsViewController.swift */,
+				3F4823602459CAE200D6DCFB /* MainPostTableViewController.swift */,
+				3F4823622459F1E000D6DCFB /* CreatePostViewController.swift */,
+				3F2E42FD245A662200DE88EC /* AllPostsTabBarController.swift */,
+				3F2E4303245ACA0B00DE88EC /* InterViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -173,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				3F78685E2458198000FE8571 /* MainPostTableViewCell.swift */,
+				3F3A003F2458D27A0019E2ED /* MyPostTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -191,6 +213,7 @@
 			children = (
 				9C4C355324575A130021AE1C /* Main.storyboard */,
 				9C4C355824575A1A0021AE1C /* LaunchScreen.storyboard */,
+				3F2E4301245AAE9600DE88EC /* MainTableView.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -233,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				9C4C357F245768B70021AE1C /* Extensions.swift */,
+				3F2E42FF245A679D00DE88EC /* TabBarProtocol.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -250,7 +274,7 @@
 		9C99C7172458AA2500EF4179 /* How-To-3Tests */ = {
 			isa = PBXGroup;
 			children = (
-				9C99C7182458AA2500EF4179 /* How_To_3Tests.swift */,
+				9C99C7182458AA2500EF4179 /* HowTo3Tests.swift */,
 				9C99C71A2458AA2500EF4179 /* Info.plist */,
 			);
 			path = "How-To-3Tests";
@@ -259,7 +283,7 @@
 		9C99C7252458AA7900EF4179 /* How-To-3UITests */ = {
 			isa = PBXGroup;
 			children = (
-				9C99C7262458AA7900EF4179 /* How_To_3UITests.swift */,
+				9C99C7262458AA7900EF4179 /* HowTo3UITests.swift */,
 				9C99C7282458AA7900EF4179 /* Info.plist */,
 			);
 			path = "How-To-3UITests";
@@ -373,6 +397,7 @@
 				9C4C355A24575A1A0021AE1C /* LaunchScreen.storyboard in Resources */,
 				9C4C355724575A1A0021AE1C /* Assets.xcassets in Resources */,
 				9C4C355524575A130021AE1C /* Main.storyboard in Resources */,
+				3F2E4302245AAE9600DE88EC /* MainTableView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,7 +433,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-            
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --config \"$SRCROOT/swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -419,18 +443,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C732D1F24587AB500168FC5 /* User+Mock.swift in Sources */,
+				3F3A00462458D3000019E2ED /* PostDetailViewController.swift in Sources */,
 				9C4C3573245762500021AE1C /* Post+Convenience.swift in Sources */,
 				9C732D2724588EAA00168FC5 /* MockDataLoader.swift in Sources */,
 				9C4C3584245769720021AE1C /* PostModelController.swift in Sources */,
 				9C4C356F2457620B0021AE1C /* CoreDataStack.swift in Sources */,
 				9C4C3577245764620021AE1C /* User+Codable.swift in Sources */,
-				3F9A861F2457D0BC00F6AE1B /* MainTableViewController.swift in Sources */,
 				9C2317EC2457B8E5000A4A6B /* DataLoader.swift in Sources */,
 				9C4C3582245769670021AE1C /* UserModelController.swift in Sources */,
 				9C4C357D245768450021AE1C /* Post+Codable.swift in Sources */,
 				9C2317EA2457B69A000A4A6B /* Token.swift in Sources */,
 				9C4C35792457648A0021AE1C /* PostRepresentation.swift in Sources */,
 				9C4C35712457622B0021AE1C /* User+Convenience.swift in Sources */,
+				3F3A00482458D3320019E2ED /* MyPostsViewController.swift in Sources */,
+				3F4823632459F1E000D6DCFB /* CreatePostViewController.swift in Sources */,
+				3F2E42FE245A662200DE88EC /* AllPostsTabBarController.swift in Sources */,
+				3F4823612459CAE200D6DCFB /* MainPostTableViewController.swift in Sources */,
 				9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */,
 				9C732D2524588E9500168FC5 /* Post+Mock.swift in Sources */,
 				9C4C3580245768B70021AE1C /* Extensions.swift in Sources */,
@@ -438,8 +466,11 @@
 				3F9A861D2457C76600F6AE1B /* LoginViewController.swift in Sources */,
 				9C4C357B245767B80021AE1C /* UserRepresentation.swift in Sources */,
 				9C4C35752457640D0021AE1C /* BackendController.swift in Sources */,
+				3F3A00402458D27A0019E2ED /* MyPostTableViewCell.swift in Sources */,
+				3F2E4300245A679D00DE88EC /* TabBarProtocol.swift in Sources */,
 				3F78685F2458198000FE8571 /* MainPostTableViewCell.swift in Sources */,
 				9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */,
+				3F2E4304245ACA0B00DE88EC /* InterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,7 +478,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C99C7192458AA2500EF4179 /* How_To_3Tests.swift in Sources */,
+				9C99C7192458AA2500EF4179 /* HowTo3Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,7 +486,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C99C7272458AA7900EF4179 /* How_To_3UITests.swift in Sources */,
+				9C99C7272458AA7900EF4179 /* HowTo3UITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,7 +644,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9X39F4XCTQ;
+				DEVELOPMENT_TEAM = MFBD923VWU;
 				INFOPLIST_FILE = "How-To-3/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -631,7 +662,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9X39F4XCTQ;
+				DEVELOPMENT_TEAM = MFBD923VWU;
 				INFOPLIST_FILE = "How-To-3/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

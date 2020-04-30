@@ -18,7 +18,7 @@ struct UserRepresentation: Codable {
 
     var id: Int64?
     var username: String
-    var password: String
+    var password: String?
     var email: String
 
     private enum CodingKeys: String, CodingKey {
@@ -32,5 +32,24 @@ struct UserRepresentation: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(username, forKey: .username)
         try container.encode(password, forKey: .password)
+        try container.encode(email, forKey: .email)
+    }
+
+    init(username: String, password: String, email: String, id: Int64? = nil) {
+        self.id = id
+        self.username = username
+        self.password = password
+        self.email = email
+
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let decodedID = try container.decode(Int.self, forKey: .id)
+        id = Int64(decodedID)
+        username = try container.decode(String.self, forKey: .username)
+//        password = try container.decode(String.self, forKey: .password)
+        password = try container.decodeIfPresent(String.self, forKey: .password)
+        email = try container.decode(String.self, forKey: .email)
     }
 }
