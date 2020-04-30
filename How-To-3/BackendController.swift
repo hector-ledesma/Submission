@@ -574,7 +574,8 @@ class BackendController {
      */
     func updatePost(at post: Post, title: String, post description: String, completion: @escaping (Error?) -> Void) {
         guard let id = userID,
-            let token = token else {
+            let token = token,
+            id == post.userID else {
                 completion(HowtoError.noAuth("User is not logged in."))
                 return
         }
