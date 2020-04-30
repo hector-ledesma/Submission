@@ -223,12 +223,29 @@ class HowTo3Tests: XCTestCase {
         wait(for: [updateExpect], timeout: timeout)
     }
 
-    func test() {
-        var requestURL = URLComponents(string: "https://how-to-application.herokuapp.com/howto/6/delete")!
-        requestURL.queryItems = [
-            URLQueryItem(name: "user_id", value: "21")
-        ]
+    func testDeletePost() {
 
-        print(requestURL.url)
+        let deleteSignexpectation = expectation(description: "Signing in to delete a post.")
+        backend.signIn(username: "Testing22", password: "test") { loggedIn in
+            deleteSignexpectation.fulfill()
+        }
+        wait(for: [deleteSignexpectation], timeout: timeout)
+
+        // We'll populate the user's posts so we can use the first post in the array for deletion.
+        let loadToDeleteExpect = expectation(description: "Load user posts so we may delete one.")
+        backend.forceLoadUserPosts { _, _ in
+            loadToDeleteExpect.fulfill()
+        }
+        wait(for: [loadToDeleteExpect], timeout: timeout)
+
+        let deletePostExpect = expectation(description: "Delete post method expectation")
+        backend.deletePost(post: backend.userPosts[0]) { deleted, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(deleted)
+            // Consider the not nil check as unwrapping, so force unwrapping is safe
+            XCTAssertTrue(deleted!)
+            deletePostExpect.fulfill()
+        }
+        wait(for: [deletePostExpect], timeout: 20)
     }
 }

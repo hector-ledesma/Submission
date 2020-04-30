@@ -637,7 +637,7 @@ class BackendController {
             B. False if the server wasn't able to delete the post
             C. BOTH! ONLY IF: We successfully deleted from the server, but were unable to delete from Core Data
      */
-    func deletePostServer(post: Post, completion: @escaping (Bool?, Error?) -> Void) {
+    func deletePost(post: Post, completion: @escaping (Bool?, Error?) -> Void) {
         guard let id = userID,
         let token = token else {
             completion(nil, HowtoError.noAuth("User not logged in."))
@@ -647,7 +647,7 @@ class BackendController {
         // Our only DELETE endpoint utilizes query parameters.
         // Must use a new URL to construct commponents
 
-        var requestURL = URLComponents(string: "https://how-to-application.herokuapp.com/howto/\(post.id)/delete")!
+        var requestURL = URLComponents(string: "https://how-to-application.herokuapp.com/api/howto/\(post.id)/delete")!
         requestURL.queryItems = [
             URLQueryItem(name: "user_id", value: String(id))
         ]
@@ -674,24 +674,14 @@ class BackendController {
             do {
                 let response = try self.decoder.decode(Int.self, from: data)
                 success = response == 1 ? true : false
+                if success { self.bgContext.delete(post) }
+                completion(success, nil)
             } catch {
                 NSLog("Error decoding response from server after deleting: \(error)")
                 completion(nil, error)
                 return
             }
 
-            // Separate these 2 do catch so we may know which one specifically breaks.
-
-            do {
-                if success {
-                    try CoreDataStack.shared.delete(post: post, context: self.bgContext)
-                    completion(success, nil)
-                }
-            } catch {
-                NSLog("Error saving to CoreData persistence")
-                completion(success, error)
-                return
-            }
         })
     }
 
