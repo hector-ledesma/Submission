@@ -13,7 +13,7 @@ import CoreData
 class HowTo3Tests: XCTestCase {
     // Sorry swiftlint my friend. But there's nothing I can do about this long token lol
     // swiftlint:disable all
-    let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJ1c2VybmFtZSI6IlRlc3RpbmcyMiIsImlhdCI6MTU4ODIwMDk0OCwiZXhwIjoxNTg4MjQ0MTQ4fQ.kVzVJ_E4p3u1CC4CvzHjiiFcqFp6wrs1xqnuAp1Qm6k"
+    let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiVGVzdGluZzIyIiwiaWF0IjoxNTg4MjY4NzEwLCJleHAiOjE1ODgzMTE5MTB9.XQOdefwj-pCB_KVfjQPr_3mN-JXEq9LgTwBYZATCV4U"
     var backend: BackendController!
     let timeout: Double = 10
     // swiftlint:enable all
@@ -251,7 +251,7 @@ class HowTo3Tests: XCTestCase {
 
     func testFetchAuthorName() {
         let authorExpec = expectation(description: "Getting author name from ID")
-        backend.postAuthorName(id: 21) { author, error in
+        backend.postAuthorName(author: 2) { author, error in
             XCTAssertNil(error)
             XCTAssertNotNil(author)
             XCTAssertEqual(author!, "Testing22")

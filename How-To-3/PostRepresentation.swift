@@ -15,6 +15,7 @@ class PostRepresentation: Codable {
     var post: String
     var timestamp: String
     var userID: Int64
+    var likes: Int64
     
 
     enum CodingKeys: String, CodingKey {
@@ -23,6 +24,7 @@ class PostRepresentation: Codable {
         case post
         case timestamp = "created_at"
         case userID = "user_id"
+        case likes
     }
 
     func encode(to encoder: Encoder) throws {
@@ -39,5 +41,6 @@ class PostRepresentation: Codable {
         post = try container.decode(String.self, forKey: .post)
         timestamp = try container.decode(String.self, forKey: .timestamp)
         userID = try container.decode(Int64.self, forKey: .userID)
+        likes = try container.decode(Int64.self, forKey: .likes)
     }
 }

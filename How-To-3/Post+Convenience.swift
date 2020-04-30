@@ -15,6 +15,7 @@ extension Post {
                                         timestamp: String,
                                         title: String,
                                         userID: Int64,
+                                        likes: Int64,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.id = id
@@ -22,6 +23,7 @@ extension Post {
         self.timestamp = timestamp
         self.title = title
         self.userID = userID
+        self.likes = likes
     }
 
     @discardableResult convenience init?(representation: PostRepresentation,
@@ -36,6 +38,7 @@ extension Post {
                   timestamp: representation.timestamp,
                   title: representation.title,
                   userID: representation.userID,
+                  likes: representation.likes,
                   context: context)
     }
 }
