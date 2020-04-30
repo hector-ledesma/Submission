@@ -624,8 +624,62 @@ class BackendController {
         post.post = rep.post
     }
 
-    private func deletePost() {
+    // MARK: - Delete Post Instructions
+    /*
+     This will be the only methos that:
+        1. Uses query parameters
+        2. Returns a number to determine bool valuse
 
+     The closure returns:
+        1. Only an error if something went wrong
+        2. Only a bool value if we communicated with the server successfully:
+            A. It will return True if we deleted the chosen post
+            B. False if the server wasn't able to delete the post
+     */
+    private func deletePostServer(post: Post, completion: @escaping (Bool?, Error?) -> Void) {
+        guard let id = userID,
+        let token = token else {
+            completion(nil, HowtoError.noAuth("User not logged in."))
+            return
+        }
+
+        // Our only DELETE endpoint utilizes query parameters.
+        // Must use a new URL to construct commponents
+
+        var requestURL = URLComponents(string: "https://how-to-application.herokuapp.com/howto/\(post.id)/delete")!
+        requestURL.queryItems = [
+            URLQueryItem(name: "user_id", value: String(id))
+        ]
+
+        var request = URLRequest(url: requestURL.url!)
+        request.httpMethod = Method.delete.rawValue
+        request.setValue(token.token, forHTTPHeaderField: "Authorization")
+
+        dataLoader?.loadData(from: request, completion: { data, _, error in
+            if let error = error {
+                NSLog("Error from server when attempting to delete. : \(error)")
+                completion(nil, error)
+                return
+            }
+
+            guard let data = data else {
+                NSLog("Error unwrapping data sent form server: \(error)")
+                completion(nil, HowtoError.badData("Bad data from server when deleting."))
+                return
+            }
+
+            do {
+                let response = try self.decoder.decode(Int.self, from: data)
+                let success: Bool = response == 1 ? true : false
+                completion(success, nil)
+            } catch {
+                NSLog("Error decoding response from server after deleting: \(error)")
+                completion(nil, error)
+            }
+        })
+    }
+    private func deletePostCore(post: Post) {
+        
     }
 
     // MARK: - Enums

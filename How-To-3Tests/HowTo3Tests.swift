@@ -222,4 +222,13 @@ class HowTo3Tests: XCTestCase {
         }
         wait(for: [updateExpect], timeout: timeout)
     }
+
+    func test() {
+        var requestURL = URLComponents(string: "https://how-to-application.herokuapp.com/howto/6/delete")!
+        requestURL.queryItems = [
+            URLQueryItem(name: "user_id", value: "21")
+        ]
+
+        print(requestURL.url)
+    }
 }
