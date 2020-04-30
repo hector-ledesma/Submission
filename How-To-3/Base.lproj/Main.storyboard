@@ -188,7 +188,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Browse How-To's" largeTitleDisplayMode="always" id="y7B-ZZ-MLD">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="barmenu" id="f1y-Bq-L7N"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="barmenu" id="f1y-Bq-L7N">
+                            <connections>
+                                <segue destination="ec3-g2-qvu" kind="presentation" id="T6f-GF-E1W"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JTk-G0-Thb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -529,15 +533,49 @@
             <objects>
                 <viewController id="ec3-g2-qvu" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aaX-Mm-bfB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="McN-TH-vuY">
+                                <rect key="frame" x="110.5" y="250" width="193.5" height="46"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DSL-lr-OIF">
+                                <rect key="frame" x="136" y="351.5" width="142" height="139"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bs8-mO-khI">
+                                        <rect key="frame" x="0.0" y="0.0" width="142" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Make a Guide"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NkY-rL-6FR">
+                                        <rect key="frame" x="15.5" y="49" width="111" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="My Guides"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nfu-Sb-poQ">
+                                        <rect key="frame" x="25.5" y="98" width="91" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Sign Out"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="DSL-lr-OIF" firstAttribute="centerX" secondItem="aaX-Mm-bfB" secondAttribute="centerX" id="6AA-Ub-i89"/>
+                            <constraint firstItem="McN-TH-vuY" firstAttribute="top" secondItem="2DN-Dy-d2H" secondAttribute="top" constant="250" id="6gM-1t-5qn"/>
+                            <constraint firstItem="McN-TH-vuY" firstAttribute="centerX" secondItem="aaX-Mm-bfB" secondAttribute="centerX" id="GFR-aP-VSy"/>
+                            <constraint firstItem="DSL-lr-OIF" firstAttribute="centerY" secondItem="aaX-Mm-bfB" secondAttribute="centerY" id="erM-Wf-eJB"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="2DN-Dy-d2H"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FFE-b1-P3N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1959" y="-583"/>
+            <point key="canvasLocation" x="2713" y="90"/>
         </scene>
     </scenes>
     <resources>
