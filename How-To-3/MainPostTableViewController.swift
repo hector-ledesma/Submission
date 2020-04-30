@@ -8,10 +8,14 @@
 
 import UIKit
 import CoreData
+protocol PostSelectionDelegate: class {
+    func postWasSelected(post: Post)
+}
 class MainPostTableViewController: UITableViewController {
     
+   
     var searchPost = [String]()
-    
+    weak var delegate: PostSelectionDelegate?
     var backendController = BackendController()
     private let searchController = UISearchController(searchResultsController: nil)
     
@@ -25,6 +29,12 @@ class MainPostTableViewController: UITableViewController {
         try? frc.performFetch()
         return frc
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    
+        tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +66,8 @@ class MainPostTableViewController: UITableViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
+    @IBAction func refreshDataPressed(_ sender: UIBarButtonItem) {
+    }
     
     
     // MARK: - Table view data source
@@ -75,6 +87,10 @@ class MainPostTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let post = fetchedResultsController.object(at: indexPath)
+           delegate?.postWasSelected(post: post)
+       }
     
     /*
      // Override to support conditional editing of the table view.

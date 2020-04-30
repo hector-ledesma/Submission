@@ -8,7 +8,12 @@
 
 import UIKit
 
-class MyPostsViewController: UIViewController {
+class MyPostsViewController: UIViewController, PostPresenter, PostSelectionDelegate {
+    func postWasSelected(post: Post) {
+        print(post)
+    }
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,14 +22,22 @@ class MyPostsViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+           if segue.identifier == "PostTable" {
+            guard let backendController = backendController else { return }
+               guard let postsTVC = segue.destination as? MainPostTableViewController else { return }
+               
+               postsTVC.backendController = backendController
+            postsTVC.delegate = self
+               
+               mainPostTableViewController = postsTVC
+           }
+           
+       }
+       
+       var mainPostTableViewController: MainPostTableViewController?
+       
+       var backendController: BackendController?
 
 }

@@ -8,51 +8,45 @@
 
 import UIKit
 
-class CreatePostViewController: UIViewController {
+class CreatePostViewController: UIViewController, PostPresenter {
     
     @IBOutlet weak var postDescription: UITextView!
     @IBOutlet weak var titleTextField: UITextField!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-    }
-    var post: Post? {
-        didSet {
-            updateViews()
-        }
-    }
+    var post: Post?
     var backendController: BackendController?
     var mainPostTableViewController: MainPostTableViewController?
     
     @IBAction func addPostButtonTapped(_ sender: UIButton) {
         guard let backendController = backendController else { return }
         guard let title = titleTextField.text,
-            let date = post?.timestamp,
-            let userID = post?.userID,
-            let post =  postDescription.text else { return }
-            
-        backendController.createPost(title: title, post: post) { (error) in
-            if let error = error else {
-                NSLog("There was an error creating post")
+                   !title.isEmpty,
+                   let bodyText = postDescription.text, !bodyText.isEmpty else {
+                       return
+               }
+        guard let name = post?.userID,
+            let id = post?.id,
+            let time = post?.timestamp
+        else { return }
+
+        backendController.createPost(title: title, post: bodyText) { error in
+            if error != nil {
+                NSLog("Error in creating posts")
                 return
             }
-            
-            DispatchQueue.main.async {
-                if backendController.isSignedIn {
-                    title = post
-                }
-            }
         }
-        
+            do {
+                    try CoreDataStack.shared.mainContext.save()
+                } catch {
+                    NSLog("Error saving managed object context: \(error)")
+                    return
+                }
+        print("hi my name is bharat")
+               dismiss(animated: true, completion: nil)
+       
     }
     
-    private func updateViews() {
-        guard let post = post else { return }
-        titleTextField.text = post.title
-        postDescription.text = post.post
-    }
+    
     /*
      // MARK: - Navigation
      

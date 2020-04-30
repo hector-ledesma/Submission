@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreData
 class PostDetailViewController: UIViewController {
 
     @IBOutlet weak var postDescription: UITextView!
@@ -19,7 +19,8 @@ class PostDetailViewController: UIViewController {
             updateViews()
         }
     }
-    
+    var post: Post?
+    var backendController: BackendController?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,9 +36,18 @@ class PostDetailViewController: UIViewController {
     
     private func updateViews() {
         guard let postRepresentation = postRepresentation else { return }
+        guard let post = post else { return }
         postDescription.text = postRepresentation.title
         timeStamp.text = postRepresentation.timestamp
         authorName.text = String(postRepresentation.userID)
+        
+        backendController?.syncSinglePost(with: postRepresentation)
+        do {
+           try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Couldn't update the views")
+            return 
+        }
     }
     
     /*
