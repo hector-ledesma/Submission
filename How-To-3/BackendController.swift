@@ -669,7 +669,7 @@ class BackendController {
             }
 
             guard let data = data else {
-                NSLog("Error unwrapping data sent form server: \(error)")
+                NSLog("Error unwrapping data sent form server: \(HowtoError.badData("Bad data received from server after deleting post."))")
                 completion(nil, HowtoError.badData("Bad data from server when deleting."))
                 return
             }

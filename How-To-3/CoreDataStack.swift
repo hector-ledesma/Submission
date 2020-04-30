@@ -60,13 +60,9 @@ class CoreDataStack {
     }
 
     func delete(post: Post, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
-
-        var saveError: Error?
         context.performAndWait {
             context.delete(post)
         }
-
-        if let error = saveError { throw error }
     }
 
 }
