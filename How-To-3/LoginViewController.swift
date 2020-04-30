@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
     
     var buttonToggle = false
     
-   
+    
     @IBOutlet private weak var emailTextField: UITextField!
     @IBOutlet private weak var usernameTextField: UITextField!
     @IBOutlet private weak var passwordTextField: UITextField!
@@ -74,15 +74,8 @@ class LoginViewController: UIViewController {
             else { return }
         backendController.signUp(username: username, password: password, email: email) { signUpResult, response, error  in
             
-            if signUpResult {
-                 DispatchQueue.main.async {
-                       self.showAlertMessage(title: "Success", message: "You Signed Up Successfully", actiontitle: "Ok")
-                           }
-                return
-            }
-            
             if let error = error {
-//                Alert
+                //                Alert
                 fatalError("Error fetching: \(String(describing: error.localizedDescription))")
                 return
             }
@@ -90,6 +83,15 @@ class LoginViewController: UIViewController {
                 fatalError("User existing: \(String(describing: error?.localizedDescription))")
                 return
             }
+            
+            if signUpResult {
+                DispatchQueue.main.async {
+                    self.showAlertMessage(title: "Success", message: "You Signed Up Successfully", actiontitle: "Ok")
+                }
+                return
+            }
+            
+            
             
             
         }

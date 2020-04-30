@@ -45,8 +45,8 @@ class CreatePostViewController: UIViewController, PostPresenter {
             
             DispatchQueue.main.async {
                 //Alert
+                self.showAlertMessage(title: "Post Created!", message: "Go to the Home", actiontitle: "Ok")
                 
-                self.updateViews()
             }
             
         }
@@ -78,6 +78,15 @@ class CreatePostViewController: UIViewController, PostPresenter {
      // Pass the selected object to the new view controller.
      }
      */
-   
+   private func showAlertMessage(title: String, message: String, actiontitle: String) {
+        let endAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let endAction = UIAlertAction(title: actiontitle, style: .default) { (action: UIAlertAction ) in
+        }
+        
+        endAlert.addAction(endAction)
+        present(endAlert, animated: true, completion: nil)
+    }
+    
     
 }
+
