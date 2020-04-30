@@ -10,12 +10,12 @@
         <scene sceneID="L6B-dk-zI5">
             <objects>
                 <tableViewController id="EKJ-6m-NJs" customClass="MainPostTableViewController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zyP-JF-uoF">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zyP-JF-uoF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MyPosts" rowHeight="80" id="LtZ-JQ-a2I">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MyPosts" rowHeight="80" id="LtZ-JQ-a2I" customClass="MainPostTableViewCell" customModule="How_To_3" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LtZ-JQ-a2I" id="UjZ-5H-yFd">
@@ -64,6 +64,12 @@
                                         <constraint firstItem="Vh5-Vo-sn0" firstAttribute="leading" secondItem="UjZ-5H-yFd" secondAttribute="leading" constant="20" id="xNp-Ts-kwB"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="authorNameLabel" destination="h00-N6-qHd" id="erN-O0-4Df"/>
+                                    <outlet property="likesLabel" destination="GsJ-PC-TPJ" id="F4v-dm-cGo"/>
+                                    <outlet property="postTitleLabel" destination="Vh5-Vo-sn0" id="rf7-WR-H2E"/>
+                                    <outlet property="timeStampLabel" destination="93E-PS-fMp" id="swT-WJ-DvD"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

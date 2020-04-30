@@ -80,7 +80,7 @@ class MainPostTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainPostCell", for: indexPath) as? MainPostTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyPosts", for: indexPath) as? MainPostTableViewCell else { return UITableViewCell() }
         
         cell.post = fetchedResultsController.object(at: indexPath)
         cell.backendController = backendController

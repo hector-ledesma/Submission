@@ -24,7 +24,7 @@ class MyPostsViewController: UIViewController, PostPresenter, PostSelectionDeleg
 
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-           if segue.identifier == "PostTable" {
+           if segue.identifier == "PostsTable" {
             guard let backendController = backendController else { return }
                guard let postsTVC = segue.destination as? MainPostTableViewController else { return }
                

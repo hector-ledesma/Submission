@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreData
 class CreatePostViewController: UIViewController, PostPresenter {
     
     @IBOutlet weak var postDescription: UITextView!
@@ -18,31 +18,32 @@ class CreatePostViewController: UIViewController, PostPresenter {
     var mainPostTableViewController: MainPostTableViewController?
     
     @IBAction func addPostButtonTapped(_ sender: UIButton) {
-        guard let backendController = backendController else { return }
-        guard let title = titleTextField.text,
-                   !title.isEmpty,
-                   let bodyText = postDescription.text, !bodyText.isEmpty else {
+        guard let backendController = backendController,
+                   let title = titleTextField.text,
+                   let author = post?.userID,
+                   let time = post?.timestamp,
+            let bodyPost = postDescription.text,
+                   let id = post?.id
+               else { return }
+           
+               backendController.createPost(title: title, post: bodyPost) { error in
+                   if error != nil {
+                       NSLog("Could not load posts")
                        return
+                   }
+                   DispatchQueue.main.async {
+                   
+                   let newPost = Post(id: id, post: bodyPost, timestamp: time, title: title, userID: author)
+                    self.mainPostTableViewController?.
+                    self.mainPostTableViewController?.tableView.reloadData()
+                   }
                }
-        guard let name = post?.userID,
-            let id = post?.id,
-            let time = post?.timestamp
-        else { return }
-
-        backendController.createPost(title: title, post: bodyText) { error in
-            if error != nil {
-                NSLog("Error in creating posts")
-                return
-            }
-        }
-            do {
-                    try CoreDataStack.shared.mainContext.save()
-                } catch {
-                    NSLog("Error saving managed object context: \(error)")
-                    return
-                }
-        print("hi my name is bharat")
-               dismiss(animated: true, completion: nil)
+               do {
+                   try CoreDataStack.shared.mainContext.save()
+               } catch {
+                   NSLog("error in loading post")
+                   return
+               }
        
     }
     
