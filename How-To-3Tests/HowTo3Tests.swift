@@ -185,7 +185,7 @@ class HowTo3Tests: XCTestCase {
         let count = backend.userPosts.count
         print(count)
         let createExpect = expectation(description: "Expectation for creating post")
-        backend.createPost(title: "New post", post: "From testing grounds") { error in
+        backend.createPost(title: "New post for testing at 4 AM", post: "From testing grounds") { error in
             XCTAssertNil(error)
             createExpect.fulfill()
         }
@@ -246,6 +246,17 @@ class HowTo3Tests: XCTestCase {
             XCTAssertTrue(deleted!)
             deletePostExpect.fulfill()
         }
-        wait(for: [deletePostExpect], timeout: 20)
+        wait(for: [deletePostExpect], timeout: timeout)
+    }
+
+    func testFetchAuthorName() {
+        let authorExpec = expectation(description: "Getting author name from ID")
+        backend.postAuthorName(id: 21) { author, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(author)
+            XCTAssertEqual(author!, "Testing22")
+            authorExpec.fulfill()
+        }
+        wait(for: [authorExpec], timeout: timeout)
     }
 }

@@ -685,6 +685,34 @@ class BackendController {
         })
     }
 
+    // MARK: - MISC Methods
+
+    func postAuthorName(id: Int64, completion: @escaping (String?, Error?) -> Void) {
+        let requestURL = baseURL.appendingPathComponent("\(EndPoints.users.rawValue)\(id)")
+
+        dataLoader?.loadData(from: requestURL, completion: { data, _, error in
+            if let error = error {
+                NSLog("Error from server : \(error)")
+                completion(nil, error)
+                return
+            }
+
+            guard let data = data else {
+                completion(nil, HowtoError.badData("Bad data from server when fetching user by ID"))
+                return
+            }
+
+            do {
+                if let decodedUser = try self.decoder.decode([UserRepresentation].self, from: data).first {
+                    completion(decodedUser.username, nil)
+                }
+            } catch {
+                NSLog("Error decoding user from server response: \(error)")
+                completion(nil, error)
+            }
+        })
+    }
+
     // MARK: - Enums
 
     private enum HowtoError: Error {
