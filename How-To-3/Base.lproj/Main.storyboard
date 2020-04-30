@@ -374,10 +374,10 @@
             </objects>
             <point key="canvasLocation" x="6239.130434782609" y="-33.482142857142854"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--All Posts Tab Bar Controller-->
         <scene sceneID="nHA-Qg-tKm">
             <objects>
-                <tabBarController id="gp0-Fk-Ky5" sceneMemberID="viewController">
+                <tabBarController id="gp0-Fk-Ky5" customClass="AllPostsTabBarController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="VKK-1T-9ZW"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="12o-NO-8fl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>

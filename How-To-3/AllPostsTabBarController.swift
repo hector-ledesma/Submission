@@ -8,9 +8,10 @@
 
 import UIKit
 
-class MainPostViewController: UITabBarController {
+class AllPostsTabBarController: UITabBarController {
 
-    let placeController = PlaceController()
+    let backendController = BackendController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
