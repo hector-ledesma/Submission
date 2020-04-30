@@ -15,7 +15,7 @@ extension Post {
                                         timestamp: String,
                                         title: String,
                                         userID: Int64,
-                                        likes: Int64,
+                                        likes: Int64 = 0,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.id = id
