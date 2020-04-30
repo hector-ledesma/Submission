@@ -62,9 +62,6 @@
                                                 <state key="normal" title="Register">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
-                                                <connections>
-                                                    <action selector="registerButtonPressed:" destination="WHF-Vk-QcS" eventType="touchUpInside" id="Vl0-8W-ump"/>
-                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hkQ-fl-tZC">
                                                 <rect key="frame" x="0.0" y="43" width="354" height="30"/>
@@ -76,9 +73,6 @@
                                                 <state key="normal" title="Log In">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
-                                                <connections>
-                                                    <action selector="loginPressed:" destination="WHF-Vk-QcS" eventType="touchUpInside" id="7U2-nW-reo"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -95,11 +89,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="BVX-L2-eye"/>
                     <connections>
-                        <outlet property="emailTextField" destination="MRd-lB-f6y" id="iDK-pb-gTJ"/>
-                        <outlet property="logInLabel" destination="hkQ-fl-tZC" id="Lgn-2D-EDf"/>
-                        <outlet property="passwordTextField" destination="A3r-0G-yNU" id="xP8-zO-RfF"/>
-                        <outlet property="registerLabel" destination="aHB-pn-GdD" id="aaG-2E-Pi7"/>
-                        <outlet property="usernameTextField" destination="DUe-vf-Jms" id="8RY-4v-7BJ"/>
                         <segue destination="Kie-Ia-mDL" kind="show" identifier="LoggedInShowSegue" id="N4n-Rl-RLE"/>
                     </connections>
                 </viewController>
