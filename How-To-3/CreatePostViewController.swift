@@ -12,39 +12,55 @@ class CreatePostViewController: UIViewController, PostPresenter {
     
     @IBOutlet weak var postDescription: UITextView!
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var timeStamp: UILabel!
     
-    var post: Post?
+    var post: Post? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     var backendController: BackendController?
     var mainPostTableViewController: MainPostTableViewController?
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateViews()
+    }
+    
     @IBAction func addPostButtonTapped(_ sender: UIButton) {
-        guard let backendController = backendController,
-                   let title = titleTextField.text,
-                   let author = post?.userID,
-                   let time = post?.timestamp,
-            let bodyPost = postDescription.text,
-                   let id = post?.id
-               else { return }
-           
-               backendController.createPost(title: title, post: bodyPost) { error in
-                   if error != nil {
-                       NSLog("Could not load posts")
-                       return
-                   }
-                   DispatchQueue.main.async {
-                   
-                   let newPost = Post(id: id, post: bodyPost, timestamp: time, title: title, userID: author)
-                    self.mainPostTableViewController?.
-                    self.mainPostTableViewController?.tableView.reloadData()
-                   }
-               }
-               do {
-                   try CoreDataStack.shared.mainContext.save()
-               } catch {
-                   NSLog("error in loading post")
-                   return
-               }
-       
+        guard let title = titleTextField.text,
+            !title.isEmpty,
+            let backendController = backendController,
+            let bodyText = postDescription.text, !bodyText.isEmpty else {
+                return
+        }
+        
+        backendController.createPost(title: title, post: bodyText) { error in
+            if error != nil {
+                NSLog("Error posting posts")
+                return
+            }
+        }
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+            return
+        }
+        navigationController?.dismiss(animated: true, completion: nil)
+        
+        
+    }
+    
+    func updateViews() {
+        guard let newPost = self.post else { return }
+        self.titleTextField.text = newPost.title
+        self.postDescription.text = newPost.post
+        self.authorLabel.text = String(newPost.userID)
+        self.timeStamp.text = newPost.timestamp
+        
     }
     
     
@@ -57,5 +73,9 @@ class CreatePostViewController: UIViewController, PostPresenter {
      // Pass the selected object to the new view controller.
      }
      */
+    func addPost(user userId: Int64) -> String {
+        
+        return String(post!.userID)
+    }
     
 }

@@ -77,8 +77,7 @@ class LoginViewController: UIViewController {
             else { return }
         backendController.signUp(username: username, password: password, email: email) { signUpResult, response, error  in
             
-            let alert: UIAlertController
-            let action: () -> Void
+            
             
             if error != nil {
                 fatalError("Error fetching: \(String(describing: error?.localizedDescription))")

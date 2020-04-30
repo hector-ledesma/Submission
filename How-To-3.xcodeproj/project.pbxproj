@@ -10,6 +10,7 @@
 		3F2E42FE245A662200DE88EC /* AllPostsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2E42FD245A662200DE88EC /* AllPostsTabBarController.swift */; };
 		3F2E4300245A679D00DE88EC /* TabBarProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2E42FF245A679D00DE88EC /* TabBarProtocol.swift */; };
 		3F2E4302245AAE9600DE88EC /* MainTableView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F2E4301245AAE9600DE88EC /* MainTableView.storyboard */; };
+		3F2E4304245ACA0B00DE88EC /* InterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2E4303245ACA0B00DE88EC /* InterViewController.swift */; };
 		3F3A00402458D27A0019E2ED /* MyPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A003F2458D27A0019E2ED /* MyPostTableViewCell.swift */; };
 		3F3A00462458D3000019E2ED /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A00452458D3000019E2ED /* PostDetailViewController.swift */; };
 		3F3A00482458D3320019E2ED /* MyPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A00472458D3320019E2ED /* MyPostsViewController.swift */; };
@@ -64,6 +65,7 @@
 		3F2E42FD245A662200DE88EC /* AllPostsTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostsTabBarController.swift; sourceTree = "<group>"; };
 		3F2E42FF245A679D00DE88EC /* TabBarProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarProtocol.swift; sourceTree = "<group>"; };
 		3F2E4301245AAE9600DE88EC /* MainTableView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainTableView.storyboard; sourceTree = "<group>"; };
+		3F2E4303245ACA0B00DE88EC /* InterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterViewController.swift; sourceTree = "<group>"; };
 		3F3A003F2458D27A0019E2ED /* MyPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableViewCell.swift; sourceTree = "<group>"; };
 		3F3A00452458D3000019E2ED /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		3F3A00472458D3320019E2ED /* MyPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsViewController.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				3F4823602459CAE200D6DCFB /* MainPostTableViewController.swift */,
 				3F4823622459F1E000D6DCFB /* CreatePostViewController.swift */,
 				3F2E42FD245A662200DE88EC /* AllPostsTabBarController.swift */,
+				3F2E4303245ACA0B00DE88EC /* InterViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				3F2E4300245A679D00DE88EC /* TabBarProtocol.swift in Sources */,
 				3F78685F2458198000FE8571 /* MainPostTableViewCell.swift in Sources */,
 				9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */,
+				3F2E4304245ACA0B00DE88EC /* InterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
