@@ -10,6 +10,10 @@ import Foundation
 import CoreData
 
 class BackendController {
+
+    // Singleton instance to be used around the app
+    let shared = BackendController()
+
     private var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/")!
     // Instead of constantly creating and deleting decoders and encoders, just make one of each and use them around the app.
     private var encoder = JSONEncoder()
@@ -432,9 +436,15 @@ class BackendController {
                             let nsID = NSNumber(integerLiteral: Int(postID))
                             fetchRequest.predicate = NSPredicate(format: "id == %@", nsID)
                             // If fetch request finds a post, add it to the array and update it in core data
-                            if let foundPost = try self.bgContext.fetch(fetchRequest).first {
+                            let foundPost = try self.bgContext.fetch(fetchRequest).first
+                            if let foundPost = foundPost {
                                 self.update(post: foundPost, with: post)
-                                self.userPosts.append(foundPost)
+                                // Check if post has already been added.
+                                if let found = self.userPosts.first(where: {$0 == foundPost}) {
+                                    NSLog("Post already added to user's posts.")
+                                } else {
+                                    self.userPosts.append(foundPost)
+                                }
                             } else {
                                 //                             If the post isn't in core data, add it.
                                 if let newPost = Post(representation: post, context: self.bgContext) {
@@ -574,8 +584,7 @@ class BackendController {
      */
     func updatePost(at post: Post, title: String, post description: String, completion: @escaping (Error?) -> Void) {
         guard let id = userID,
-            let token = token,
-            id == post.userID else {
+            let token = token else {
                 completion(HowtoError.noAuth("User is not logged in."))
                 return
         }
