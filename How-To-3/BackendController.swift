@@ -687,6 +687,11 @@ class BackendController {
 
     // MARK: - MISC Methods
 
+    // MARK: - Author's Name Instructions
+    /*
+     This method will return the name of the author as an optional string. or an Error.
+     Use the optional string if there's no error to assign name of author to cell.
+     */
     func postAuthorName(id: Int64, completion: @escaping (String?, Error?) -> Void) {
         let requestURL = baseURL.appendingPathComponent("\(EndPoints.users.rawValue)\(id)")
 
