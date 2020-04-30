@@ -73,6 +73,9 @@
                                                 <state key="normal" title="Log In">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <segue destination="Kie-Ia-mDL" kind="show" id="xmF-Xo-CD1"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -539,6 +542,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="T0o-2M-ZYF"/>
+        <segue reference="N4n-Rl-RLE"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="barmenu" width="24" height="24"/>
