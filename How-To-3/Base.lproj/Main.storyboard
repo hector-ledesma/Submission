@@ -115,31 +115,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eJs-Pn-qef">
-                                <rect key="frame" x="20" y="183" width="374" height="302"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nAy-2k-zyc">
-                                <rect key="frame" x="168" y="509" width="79" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="xzs-EJ-dTD">
+                                <rect key="frame" x="20" y="160" width="374" height="361"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Post Title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q7x-aK-G1q">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="38"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eJs-Pn-qef">
+                                        <rect key="frame" x="0.0" y="59" width="374" height="302"/>
+                                        <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nAy-2k-zyc">
+                                <rect key="frame" x="20" y="568" width="374" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Add Post"/>
+                                <state key="normal" title="Create Post"/>
                                 <connections>
                                     <action selector="addPostButtonTapped:" destination="dZX-Mk-UDx" eventType="touchUpInside" id="jww-ZC-YTh"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="hsQ-hw-LRq" firstAttribute="bottom" secondItem="nAy-2k-zyc" secondAttribute="bottom" constant="209" id="18D-XY-QV2"/>
+                            <constraint firstItem="nAy-2k-zyc" firstAttribute="leading" secondItem="hsQ-hw-LRq" secondAttribute="leading" constant="20" id="5mL-Y0-IHK"/>
+                            <constraint firstItem="eJs-Pn-qef" firstAttribute="width" secondItem="I6A-7R-dUu" secondAttribute="width" multiplier="0.903382" id="N9U-g5-mx6"/>
+                            <constraint firstItem="xzs-EJ-dTD" firstAttribute="leading" secondItem="hsQ-hw-LRq" secondAttribute="leading" constant="20" id="Sym-XC-qzs"/>
+                            <constraint firstItem="hsQ-hw-LRq" firstAttribute="trailing" secondItem="xzs-EJ-dTD" secondAttribute="trailing" constant="20" id="awJ-uR-Hcl"/>
+                            <constraint firstItem="nAy-2k-zyc" firstAttribute="top" secondItem="eJs-Pn-qef" secondAttribute="bottom" constant="47" id="cEV-Kb-T1e"/>
+                            <constraint firstItem="xzs-EJ-dTD" firstAttribute="top" secondItem="hsQ-hw-LRq" secondAttribute="top" constant="20" id="tfn-wc-ZYC"/>
+                            <constraint firstItem="hsQ-hw-LRq" firstAttribute="trailing" secondItem="nAy-2k-zyc" secondAttribute="trailing" constant="20" id="xwa-09-Qk3"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="hsQ-hw-LRq"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Post" id="2Fo-ij-vSe"/>
                     <connections>
                         <outlet property="postDescription" destination="eJs-Pn-qef" id="ghj-l6-qfo"/>
+                        <outlet property="titleTextField" destination="Q7x-aK-G1q" id="taO-WB-jju"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hWF-sv-eQq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -437,8 +456,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wQP-dQ-bJv" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Posts" image="plus" catalog="system" id="527-tx-ZzQ"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="d2h-qt-nYV">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="d2h-qt-nYV">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

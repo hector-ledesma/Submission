@@ -9,24 +9,23 @@
 import UIKit
 
 class AllPostsTabBarController: UITabBarController {
+    
 
     let backendController = BackendController()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+           super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
+           // Pass the place controller to the child view controllers (the relationship view controllers)
+           
+        for childVC in children {
+               // If the child view controller conforms to PlacesPresenter, we KNOW there is a placesController property that we can pass the places controller to.
+               if let childVC = childVC as? PostPresenter {
+                   childVC.backendController = backendController
+               }
+           }
+       }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+   
+  
 }

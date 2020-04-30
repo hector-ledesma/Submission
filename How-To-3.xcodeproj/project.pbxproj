@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3F2E42FE245A662200DE88EC /* AllPostsTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2E42FD245A662200DE88EC /* AllPostsTabBarController.swift */; };
+		3F2E4300245A679D00DE88EC /* TabBarProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2E42FF245A679D00DE88EC /* TabBarProtocol.swift */; };
 		3F3A00402458D27A0019E2ED /* MyPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A003F2458D27A0019E2ED /* MyPostTableViewCell.swift */; };
 		3F3A00462458D3000019E2ED /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A00452458D3000019E2ED /* PostDetailViewController.swift */; };
 		3F3A00482458D3320019E2ED /* MyPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3A00472458D3320019E2ED /* MyPostsViewController.swift */; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		3F2E42FD245A662200DE88EC /* AllPostsTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostsTabBarController.swift; sourceTree = "<group>"; };
+		3F2E42FF245A679D00DE88EC /* TabBarProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarProtocol.swift; sourceTree = "<group>"; };
 		3F3A003F2458D27A0019E2ED /* MyPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostTableViewCell.swift; sourceTree = "<group>"; };
 		3F3A00452458D3000019E2ED /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		3F3A00472458D3320019E2ED /* MyPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsViewController.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				9C4C357F245768B70021AE1C /* Extensions.swift */,
+				3F2E42FF245A679D00DE88EC /* TabBarProtocol.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				9C4C357B245767B80021AE1C /* UserRepresentation.swift in Sources */,
 				9C4C35752457640D0021AE1C /* BackendController.swift in Sources */,
 				3F3A00402458D27A0019E2ED /* MyPostTableViewCell.swift in Sources */,
+				3F2E4300245A679D00DE88EC /* TabBarProtocol.swift in Sources */,
 				3F78685F2458198000FE8571 /* MainPostTableViewCell.swift in Sources */,
 				9C4C356C24575D8E0021AE1C /* HowTo.xcdatamodeld in Sources */,
 			);
