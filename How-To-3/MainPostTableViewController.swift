@@ -10,7 +10,10 @@ import UIKit
 import CoreData
 class MainPostTableViewController: UITableViewController {
     
+    var searchPost = [String]()
+    
     var backendController = BackendController()
+    private let searchController = UISearchController(searchResultsController: nil)
     
     lazy var fetchedResultsController: NSFetchedResultsController<Post> = {
         let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
@@ -23,13 +26,6 @@ class MainPostTableViewController: UITableViewController {
         return frc
     }()
     
-    @IBAction func refreshed(_ sender: UIRefreshControl) throws {
-        
-    }
-    
-  
-    @IBOutlet weak var searchBar: UISearchBar!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         if backendController.isSignedIn {
@@ -41,23 +37,39 @@ class MainPostTableViewController: UITableViewController {
                         self.tableView.reloadData()
                     }
                 }
-            
+                
             }
         }
+        setupSearchController()
+        
     }
     
+    private func setupSearchController() {
+        navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
+    }
+    
+    @IBAction func refreshed(_ sender: UIRefreshControl) throws {
+        
+    }
+    
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    
+    
     // MARK: - Table view data source
-
-   
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-       return fetchedResultsController.sections?[section].numberOfObjects ?? 1
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 1
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainPostCell", for: indexPath) as? MainPostTableViewCell else { return UITableViewCell() }
-
+        
         cell.post = fetchedResultsController.object(at: indexPath)
         cell.backendController = backendController
         return cell
@@ -164,3 +176,7 @@ extension MainPostTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
 }
+extension MainPostTableViewController: UISearchBarDelegate {
+    
+}
+
