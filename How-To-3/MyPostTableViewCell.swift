@@ -12,13 +12,15 @@ class MyPostTableViewCell: UITableViewCell {
 
     var backendController: BackendController?
     var post: Post?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var authorNameLabel: UILabel!
-    @IBOutlet weak var timeStamp: UILabel!
+    
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var authorNameLabel: UILabel!
+    @IBOutlet private weak var timeStamp: UILabel!
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

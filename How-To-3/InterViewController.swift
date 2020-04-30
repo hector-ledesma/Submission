@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InterViewController: UIViewController, PostSelectionDelegate, PostPresenter {
+class InterViewController: UIViewController, PostPresenter {
     func postWasSelected(post: Post) {
         print(post)
     }
@@ -28,7 +28,6 @@ class InterViewController: UIViewController, PostSelectionDelegate, PostPresente
                 guard let postsTVC = segue.destination as? MainPostTableViewController else { return }
                 
                 postsTVC.backendController = backendController
-             postsTVC.delegate = self
                 
                 mainPostTableViewController = postsTVC
             }

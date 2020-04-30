@@ -24,19 +24,23 @@ class LoginViewController: UIViewController {
     
     var buttonToggle = false
     
-    var user: User?
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var logInLabel: UIButton!
-    @IBOutlet weak var registerLabel: UIButton!
+   
+    @IBOutlet private weak var emailTextField: UITextField!
+    @IBOutlet private weak var usernameTextField: UITextField!
+    @IBOutlet private weak var passwordTextField: UITextField!
+    @IBOutlet private weak var logInLabel: UIButton!
+    @IBOutlet private weak var registerLabel: UIButton!
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         emailTextField.isHidden = true
         // Do any additional setup after loading the view.
     }
     var backendController = BackendController()
+    
     @IBAction func loginPressed(_ sender: UIButton) {
+        
         guard let username = usernameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             username.isEmpty == false,
             let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -46,21 +50,18 @@ class LoginViewController: UIViewController {
         backendController.signIn(username: username, password: password) { signIn in
             
             DispatchQueue.main.async {
-                if signIn == false {
-                    self.showAlertMessage(title: "Retry", message: "Problem in signing in", actiontitle: "Ok")
-                } else if self.backendController.isSignedIn == false {
-                    self.showAlertMessage(title: "Retry", message: "Problem in signing in", actiontitle: "Ok")
-                }
-                else {
+                if signIn {
+                    self.showAlertMessage(title: "Success", message: "Succesfully logged in", actiontitle: "Ok")
                     self.performSegue(withIdentifier: "LoginSegue", sender: self)
+                } else {
+                    self.showAlertMessage(title: "Retry", message: "Problem in signing in", actiontitle: "Ok")
                 }
+                
             }
+            
         }
-        
     }
-    
     @IBAction func registerButtonPressed(_ sender: UIButton) {
-        buttonToggle.toggle()
         emailTextField.isHidden = false
         logInLabel.setTitle("Cancel", for: .normal)
         
@@ -73,24 +74,24 @@ class LoginViewController: UIViewController {
             else { return }
         backendController.signUp(username: username, password: password, email: email) { signUpResult, response, error  in
             
+            if signUpResult {
+                 DispatchQueue.main.async {
+                       self.showAlertMessage(title: "Success", message: "You Signed Up Successfully", actiontitle: "Ok")
+                           }
+                return
+            }
             
-            if error != nil {
-                fatalError("Error fetching: \(String(describing: error?.localizedDescription))")
-                
-            } else if response != nil {
+            if let error = error {
+//                Alert
+                fatalError("Error fetching: \(String(describing: error.localizedDescription))")
+                return
+            }
+            if let response = response {
                 fatalError("User existing: \(String(describing: error?.localizedDescription))")
-                
-            } else if signUpResult == false {
-                fatalError("sign up not successful: \(String(describing: error?.localizedDescription)) ")
+                return
             }
             
             
-            DispatchQueue.main.async {
-                guard let user = self.user else { return }
-                self.emailTextField.text = user.email
-                self.usernameTextField.text = user.username
-                self.passwordTextField.text = user.password
-            }
         }
         if self.logInLabel.isSelected == false {
             self.logInLabel.setTitle("Sign In", for: .normal)
@@ -109,15 +110,14 @@ class LoginViewController: UIViewController {
      }
      */
     
-    func showAlertMessage(title: String,message: String, actiontitle: String) {
+    func showAlertMessage(title: String, message: String, actiontitle: String) {
         let endAlert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let endAction = UIAlertAction(title: actiontitle, style: .default){ (action:UIAlertAction) in
-            
+        let endAction = UIAlertAction(title: actiontitle, style: .default) { (action: UIAlertAction ) in
         }
+        
         endAlert.addAction(endAction)
         present(endAlert, animated: true, completion: nil)
     }
-    
     
     
 }

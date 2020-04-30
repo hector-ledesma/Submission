@@ -10,10 +10,10 @@ import UIKit
 import CoreData
 class MainPostTableViewCell: UITableViewCell {
    
-    @IBOutlet weak var postTitleLabel: UILabel!
-    @IBOutlet weak var likesLabel: UILabel!
-    @IBOutlet weak var authorNameLabel: UILabel!
-    @IBOutlet weak var timeStampLabel: UILabel!
+    @IBOutlet private weak var postTitleLabel: UILabel!
+    @IBOutlet private weak var likesLabel: UILabel!
+    @IBOutlet private weak var authorNameLabel: UILabel!
+    @IBOutlet private weak var timeStampLabel: UILabel!
     
   
     var post: Post? {

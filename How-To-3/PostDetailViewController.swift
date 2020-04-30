@@ -12,15 +12,16 @@ class PostDetailViewController: UIViewController {
     
   private var wasEdited = false
     
-    @IBOutlet weak var postDescription: UITextView!
-    @IBOutlet weak var timeStamp: UILabel!
-    @IBOutlet weak var authorName: UILabel!
-    @IBOutlet weak var changeTitleTextField: UITextField!
-    @IBOutlet weak var postTitleLabel: UILabel!
+    @IBOutlet private weak var postDescription: UITextView!
+    @IBOutlet private weak var timeStamp: UILabel!
+    @IBOutlet private weak var authorName: UILabel!
+    @IBOutlet private weak var changeTitleTextField: UITextField!
+    @IBOutlet private weak var postTitleLabel: UILabel!
     
     var postRepresentation: PostRepresentation?
     var post: Post?
     var backendController: BackendController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
  navigationItem.rightBarButtonItem = editButtonItem
@@ -49,16 +50,16 @@ class PostDetailViewController: UIViewController {
             let postBody = postDescription.text,
             !postBody.isEmpty
             else { return }
-      
+        if changeTitleTextField.isUserInteractionEnabled && postDescription.isUserInteractionEnabled == isEditing {
         backendController?.updatePost(at: post, title: title, post: postBody, completion: { error in
             if let error = error {
                 NSLog("Error in updating the post")
             } else {
-                DispatchQueue.main.async {
-                    
-                }
+                
             }
         })
+        }
+        
     }
     
     /*

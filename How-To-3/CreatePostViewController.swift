@@ -10,10 +10,10 @@ import UIKit
 import CoreData
 class CreatePostViewController: UIViewController, PostPresenter {
     
-    @IBOutlet weak var postDescription: UITextView!
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var authorLabel: UILabel!
-    @IBOutlet weak var timeStamp: UILabel!
+    @IBOutlet private weak var postDescription: UITextView!
+    @IBOutlet private weak var titleTextField: UITextField!
+    @IBOutlet private weak var authorLabel: UILabel!
+    @IBOutlet private weak var timeStamp: UILabel!
     
     var post: Post? {
         didSet {
@@ -38,14 +38,17 @@ class CreatePostViewController: UIViewController, PostPresenter {
         }
         
         backendController.createPost(title: title, post: bodyText) { error in
-            if error != nil {
-                NSLog("Error posting posts")
+            if let error = error {
+                NSLog("Error posting posts: \(error)")
                 return
-            }else {
-                DispatchQueue.main.async {
-                    self.updateViews()
-                }
             }
+            
+            DispatchQueue.main.async {
+                //Alert
+                
+                self.updateViews()
+            }
+            
         }
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -58,7 +61,7 @@ class CreatePostViewController: UIViewController, PostPresenter {
         
     }
     
-    func updateViews() {
+    private func updateViews() {
         guard let newPost = self.post else { return }
         self.titleTextField.text = newPost.title
         self.postDescription.text = newPost.post
@@ -75,9 +78,6 @@ class CreatePostViewController: UIViewController, PostPresenter {
      // Pass the selected object to the new view controller.
      }
      */
-    func addPost(user userId: Int64) -> String {
-        
-        return String(post!.userID)
-    }
+   
     
 }

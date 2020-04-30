@@ -8,36 +8,36 @@
 
 import UIKit
 
-class MyPostsViewController: UIViewController, PostPresenter, PostSelectionDelegate {
+class MyPostsViewController: UIViewController {
     func postWasSelected(post: Post) {
         print(post)
     }
     
     
-
+//    let backendController = BackendController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+//        backendController.userPosts
         // Do any additional setup after loading the view.
     }
     
 
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-           if segue.identifier == "PostsTable" {
-            guard let backendController = backendController else { return }
-               guard let postsTVC = segue.destination as? MainPostTableViewController else { return }
-               
-               postsTVC.backendController = backendController
-            postsTVC.delegate = self
-               
-               mainPostTableViewController = postsTVC
-           }
-           
-       }
-       
-       var mainPostTableViewController: MainPostTableViewController?
-       
-       var backendController: BackendController?
+//   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+//           if segue.identifier == "PostsTable" {
+//            guard let backendController = backendController else { return }
+//               guard let postsTVC = segue.destination as? MainPostTableViewController else { return }
+//
+//               postsTVC.backendController = backendController
+//            postsTVC.delegate = self
+//
+//               mainPostTableViewController = postsTVC
+//           }
+//
+//       }
+//
+//       var mainPostTableViewController: MainPostTableViewController?
+//
 
 }
