@@ -23,7 +23,7 @@ class MainPostTableViewController: UITableViewController {
     
    
     var searchPost = [String]()
-    var backendController = BackendController()
+    var backendController = BackendController.shared
     private let searchController = UISearchController(searchResultsController: nil)
     
     lazy var fetchedResultsController: NSFetchedResultsController<Post> = {

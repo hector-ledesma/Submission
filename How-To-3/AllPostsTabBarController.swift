@@ -21,7 +21,7 @@ class AllPostsTabBarController: UITabBarController {
     // MARK: - Enums
     
 
-    let backendController = BackendController()
+    var backendController = BackendController.shared
     
     override func viewDidLoad() {
            super.viewDidLoad()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InterViewController: UIViewController, PostPresenter {
+class InterViewController: UIViewController {
 
     // MARK: - Properties
 
@@ -35,10 +35,7 @@ class InterViewController: UIViewController, PostPresenter {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
          
             if segue.identifier == "PostsTable" {
-             guard let backendController = backendController else { return }
                 guard let postsTVC = segue.destination as? MainPostTableViewController else { return }
-                
-                postsTVC.backendController = backendController
                 
                 mainPostTableViewController = postsTVC
             }
@@ -47,5 +44,5 @@ class InterViewController: UIViewController, PostPresenter {
         
         var mainPostTableViewController: MainPostTableViewController?
         
-        var backendController: BackendController?
+//        var backendController = BackendController.shared
 }

@@ -31,7 +31,7 @@ class CreatePostViewController: UIViewController, PostPresenter {
         }
     }
     
-    var backendController: BackendController?
+    var backendController = BackendController.shared
     var mainPostTableViewController: MainPostTableViewController?
     
     override func viewDidLoad() {

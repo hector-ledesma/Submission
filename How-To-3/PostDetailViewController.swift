@@ -30,7 +30,7 @@ class PostDetailViewController: UIViewController {
     
     var postRepresentation: PostRepresentation?
     var post: Post?
-    var backendController: BackendController?
+    var backendController = BackendController.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
