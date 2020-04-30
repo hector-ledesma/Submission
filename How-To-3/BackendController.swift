@@ -10,6 +10,10 @@ import Foundation
 import CoreData
 
 class BackendController {
+
+    // Singleton instance to be used around the app
+    let shared = BackendController()
+
     private var baseURL: URL = URL(string: "https://how-to-application.herokuapp.com/")!
     // Instead of constantly creating and deleting decoders and encoders, just make one of each and use them around the app.
     private var encoder = JSONEncoder()
