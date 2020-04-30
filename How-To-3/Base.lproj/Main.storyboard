@@ -789,7 +789,7 @@
             </objects>
             <point key="canvasLocation" x="2606" y="866"/>
         </scene>
-        <!--View Controller-->
+        <!--Make a Guide-->
         <scene sceneID="Gug-q5-R3k">
             <objects>
                 <viewController id="FRI-JC-Akd" sceneMemberID="viewController">
@@ -798,18 +798,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Learn how to make fried egg on the sidewalk" borderStyle="roundedRect" placeholder="How-To Title" minimumFontSize="28" translatesAutoresizingMaskIntoConstraints="NO" id="SmG-Nq-Sof">
-                                <rect key="frame" x="40" y="188" width="334" height="43"/>
+                                <rect key="frame" x="40" y="240" width="334" height="43"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="28"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title your guide:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjF-uE-rIJ">
-                                <rect key="frame" x="40" y="139" width="181" height="29"/>
+                                <rect key="frame" x="40" y="191" width="181" height="29"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="AUF-96-WGK">
-                                <rect key="frame" x="40" y="317" width="334" height="300"/>
+                                <rect key="frame" x="40" y="369" width="334" height="300"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="fkC-ZB-eFz"/>
@@ -820,13 +820,13 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fill out your post:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yNW-RQ-yar">
-                                <rect key="frame" x="40" y="268" width="193" height="29"/>
+                                <rect key="frame" x="40" y="320" width="193" height="29"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TcM-ng-gWQ">
-                                <rect key="frame" x="147" y="584" width="120" height="41"/>
+                                <rect key="frame" x="147" y="636" width="120" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Create Post"/>
                             </button>
@@ -850,7 +850,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Zc7-K0-uHk"/>
                     </view>
-                    <navigationItem key="navigationItem" id="eTT-lz-n8m">
+                    <navigationItem key="navigationItem" title="Make a Guide" largeTitleDisplayMode="always" id="eTT-lz-n8m">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="nOF-zf-ejT"/>
                     </navigationItem>
                 </viewController>
