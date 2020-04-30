@@ -10,6 +10,16 @@ import UIKit
 import CoreData
 
 class MainPostTableViewController: UITableViewController {
+
+    // MARK: - Properties
+
+    // MARK: - Outlets
+
+    // MARK: - Protocol Conforming
+
+    // MARK: - Custom Methods
+
+    // MARK: - Enums
     
    
     var searchPost = [String]()

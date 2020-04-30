@@ -9,6 +9,17 @@
 import UIKit
 
 class InterViewController: UIViewController, PostPresenter {
+
+    // MARK: - Properties
+
+    // MARK: - Outlets
+
+    // MARK: - Protocol Conforming
+
+    // MARK: - Custom Methods
+
+    // MARK: - Enums
+    
     func postWasSelected(post: Post) {
         print(post)
     }

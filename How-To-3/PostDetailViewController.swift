@@ -9,6 +9,16 @@
 import UIKit
 import CoreData
 class PostDetailViewController: UIViewController {
+
+    // MARK: - Properties
+
+    // MARK: - Outlets
+
+    // MARK: - Protocol Conforming
+
+    // MARK: - Custom Methods
+
+    // MARK: - Enums
     
   private var wasEdited = false
     

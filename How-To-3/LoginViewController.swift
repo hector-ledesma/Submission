@@ -14,6 +14,16 @@ enum LoginType: String {
 }
 
 class LoginViewController: UIViewController {
+
+    // MARK: - Properties
+
+    // MARK: - Outlets
+
+    // MARK: - Protocol Conforming
+
+    // MARK: - Custom Methods
+
+    // MARK: - Enums
     
     enum LoginResult: String {
         case signUpSuccess = "Sign up successful. Now please log in."
@@ -37,7 +47,7 @@ class LoginViewController: UIViewController {
         emailTextField.isHidden = true
         // Do any additional setup after loading the view.
     }
-    var backendController = BackendController()
+    var backendController = BackendController.shared
     
     @IBAction func loginPressed(_ sender: UIButton) {
         
