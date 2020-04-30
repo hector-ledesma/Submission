@@ -17,6 +17,7 @@ class BackendController {
 
     // Create a new background context so that core data can operate asynchronously
     let bgContext = CoreDataStack.shared.container.newBackgroundContext()
+    let operationQueue = OperationQueue()
 
     // The cache will take care of making sure that there are no duplicates within core datta already
     var cache = Cache<Int64, Post>()
@@ -353,7 +354,7 @@ class BackendController {
 
                         if self.cache.value(for: id) != nil {
                             let cachedPost = self.cache.value(for: id)!
-                            self.updatePost(post: cachedPost, with: post)
+                            self.update(post: cachedPost, with: post)
                         } else {
                             do {
                                 try self.savePost(by: id, from: post)
@@ -365,7 +366,6 @@ class BackendController {
                     }
                 }// context.perform
                 completion(nil)
-
             }// Fetch closure
 
         } catch {
@@ -378,7 +378,7 @@ class BackendController {
         guard let id = representation.id else { return }
 
         if let cachedPost = self.cache.value(for: id) {
-            self.updatePost(post: cachedPost, with: representation)
+            self.update(post: cachedPost, with: representation)
         } else {
             do {
                 try self.savePost(by: id, from: representation)
@@ -416,40 +416,63 @@ class BackendController {
 
             let fetchRequest: NSFetchRequest<Post> = Post.fetchRequest()
 
-            self.bgContext.performAndWait {
-                do {
-                    let decodedPosts = try self.decoder.decode([PostRepresentation].self, from: data)
-                    // Check if the user has no posts. And if so return right here.
-                    if decodedPosts.isEmpty {
-                        NSLog("User has no posts in the database.")
-                        completion(true, nil)
-                        return
-                    }
-                    // If the decoded posts array isn't empty
-                    for post in decodedPosts {
-                        guard let postID = post.id else { return }
-                        let nsID = NSNumber(integerLiteral: Int(postID))
-                        fetchRequest.predicate = NSPredicate(format: "id == %@", nsID)
-                        // If fetch request finds a post, add it to the array and update it in core data
-                        if let foundPost = try self.bgContext.fetch(fetchRequest).first {
-                            self.userPosts.append(foundPost)
-                            self.updatePost(post: foundPost, with: post)
-                        } else {
-                            // If the post isn't in core data, add it.
-                            if let newPost = Post(representation: post, context: self.bgContext) {
-                                self.userPosts.append(newPost)
+//            self.bgContext.performAndWait {
+                let handleFetchedPosts = BlockOperation {
+                    do {
+                        let decodedPosts = try self.decoder.decode([PostRepresentation].self, from: data)
+                        // Check if the user has no posts. And if so return right here.
+                        if decodedPosts.isEmpty {
+                            NSLog("User has no posts in the database.")
+                            completion(true, nil)
+                            return
+                        }
+                        // If the decoded posts array isn't empty
+                        for post in decodedPosts {
+                            guard let postID = post.id else { return }
+                            let nsID = NSNumber(integerLiteral: Int(postID))
+                            fetchRequest.predicate = NSPredicate(format: "id == %@", nsID)
+                            // If fetch request finds a post, add it to the array and update it in core data
+                            if let foundPost = try self.bgContext.fetch(fetchRequest).first {
+                                self.update(post: foundPost, with: post)
+                                self.userPosts.append(foundPost)
+                            } else {
+                                //                             If the post isn't in core data, add it.
+                                if let newPost = Post(representation: post, context: self.bgContext) {
+                                    self.userPosts.append(newPost)
+                                }
+                                //                            try self.savePost(by: id, from: post)
                             }
                         }
+                    } catch {
+                        NSLog("Error Decoding posts, Fetching from Coredata: \(error)")
+                        completion(false, error)
                     }
-                    // After going through the entire array, try to save context.
-                    try self.bgContext.save()
-                    completion(false, nil)
-                } catch {
-                    NSLog("Error Decoding posts, Fetching from Coredata, or saving to background context: \(error)")
-                    completion(false, error)
                 }
-            }
 
+                let handleSaving = BlockOperation {
+                    do {
+                        // After going through the entire array, try to save context.
+                        // Make sure to do this in a separate do try catch so we know where things fail
+                        let handleSaving = BlockOperation {
+                            do {
+                                // After going through the entire array, try to save context.
+                                // Make sure to do this in a separate do try catch so we know where things fail
+                                try CoreDataStack.shared.save(context: self.bgContext)
+                                completion(false, nil)
+                            } catch {
+                                NSLog("Error saving context. \(error)")
+                                completion(false, error)
+                            }
+                        }
+                        self.operationQueue.addOperations([handleSaving], waitUntilFinished: true)
+                    } catch {
+                        NSLog("Error saving context.")
+                        completion(false, error)
+                    }
+                }
+                handleSaving.addDependency(handleFetchedPosts)
+                self.operationQueue.addOperations([handleFetchedPosts, handleSaving], waitUntilFinished: true)
+//            }
         }
     }
 
@@ -469,6 +492,16 @@ class BackendController {
             })
     }
 
+    // MARK: - Create New Post Instructions
+    /*
+     This function will ONLY work if the user is signed in.
+     What you need to pass in when calling this method is simply:
+        - Title
+        - Content of post
+     The post will take care of merging with core data, and updating cache.
+     Closure only returns an error, therefore:
+        - If completion returns no error, everything went ok and you're free to reload view.
+     */
     func createPost(title: String, post: String, completion: @escaping (Error?) -> Void) {
         guard let id = userID,
             let token = token else {
@@ -504,10 +537,8 @@ class BackendController {
 
             self.bgContext.perform {
                 do {
-                    let postRepresentations = try self.decoder.decode([PostRepresentation].self, from: data)
-                    for post in postRepresentations {
-                        self.syncSinglePost(with: post)
-                    }
+                    let post = try self.decoder.decode(PostRepresentation.self, from: data)
+                    self.syncSinglePost(with: post)
                     completion(nil)
                 } catch {
                     NSLog("Error decoding fetched posts from database: \(error)")
@@ -522,23 +553,136 @@ class BackendController {
 
     private func savePost(by userID: Int64, from representation: PostRepresentation) throws {
         if let newPost = Post(representation: representation, context: bgContext) {
-            do {
-                try CoreDataStack.shared.save(context: bgContext)
-            } catch {
-                NSLog("Error saving background managed context: \(error)")
-                throw error
+            let handleSaving = BlockOperation {
+                do {
+                    // After going through the entire array, try to save context.
+                    // Make sure to do this in a separate do try catch so we know where things fail
+                    try CoreDataStack.shared.save(context: self.bgContext)
+                } catch {
+                    NSLog("Error saving context.\(error)")
+                }
             }
+            operationQueue.addOperations([handleSaving], waitUntilFinished: false)
             cache.cache(value: newPost, for: userID)
         }
     }
 
-    private func updatePost(post: Post, with rep: PostRepresentation) {
+    // MARK: - Update Post Instructions
+    /*
+     Aside from very tiny tweaks, this is almost the exact same code as in the createPost method.
+     So refer to those instructions for using this method.
+     */
+    func updatePost(at post: Post, title: String, post description: String, completion: @escaping (Error?) -> Void) {
+        guard let id = userID,
+            let token = token else {
+                completion(HowtoError.noAuth("User is not logged in."))
+                return
+        }
+
+        let requestURL = baseURL.appendingPathComponent(EndPoints.howTos.rawValue).appendingPathComponent("\(post.id)")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = Method.put.rawValue
+        request.setValue(token.token, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            let dict: [String : Any] = ["title":title, "post":description, "user_id":id]
+            request.httpBody = try jsonFromDicct(dict: dict)
+        } catch {
+            NSLog("Error turning dictionary to json: \(error)")
+            completion(error)
+        }
+
+        dataLoader?.loadData(from: request, completion: { data, _, error in
+            if let error = error {
+                NSLog("Error posting new post to database : \(error)")
+                completion(error)
+                return
+            }
+
+            guard let data = data else {
+                completion(HowtoError.badData("Server sent bad data when updating post."))
+                return
+            }
+
+            self.bgContext.perform {
+                do {
+                    let post = try self.decoder.decode(PostRepresentation.self, from: data)
+                    self.syncSinglePost(with: post)
+                    completion(nil)
+                } catch {
+                    NSLog("Error decoding fetched posts from database: \(error)")
+                    completion(error)
+                }
+            }
+
+        })
+    }
+
+    private func update(post: Post, with rep: PostRepresentation) {
         post.title = rep.title
         post.post = rep.post
     }
 
-    private func deletePost() {
+    // MARK: - Delete Post Instructions
+    /*
+     This will be the only methos that:
+        1. Uses query parameters
+        2. Returns a number to determine bool valuse
 
+     The closure returns:
+        1. Only an error if something went wrong
+        2. Only a bool value if we communicated with the server successfully:
+            A. It will return True if we deleted the chosen post
+            B. False if the server wasn't able to delete the post
+            C. BOTH! ONLY IF: We successfully deleted from the server, but were unable to delete from Core Data
+     */
+    func deletePost(post: Post, completion: @escaping (Bool?, Error?) -> Void) {
+        guard let id = userID,
+        let token = token else {
+            completion(nil, HowtoError.noAuth("User not logged in."))
+            return
+        }
+
+        // Our only DELETE endpoint utilizes query parameters.
+        // Must use a new URL to construct commponents
+
+        var requestURL = URLComponents(string: "https://how-to-application.herokuapp.com/api/howto/\(post.id)/delete")!
+        requestURL.queryItems = [
+            URLQueryItem(name: "user_id", value: String(id))
+        ]
+
+        var request = URLRequest(url: requestURL.url!)
+        request.httpMethod = Method.delete.rawValue
+        request.setValue(token.token, forHTTPHeaderField: "Authorization")
+
+        dataLoader?.loadData(from: request, completion: { data, _, error in
+            if let error = error {
+                NSLog("Error from server when attempting to delete. : \(error)")
+                completion(nil, error)
+                return
+            }
+
+            guard let data = data else {
+                NSLog("Error unwrapping data sent form server: \(error)")
+                completion(nil, HowtoError.badData("Bad data from server when deleting."))
+                return
+            }
+
+            var success: Bool = false
+
+            do {
+                let response = try self.decoder.decode(Int.self, from: data)
+                success = response == 1 ? true : false
+                if success { self.bgContext.delete(post) }
+                completion(success, nil)
+            } catch {
+                NSLog("Error decoding response from server after deleting: \(error)")
+                completion(nil, error)
+                return
+            }
+
+        })
     }
 
     // MARK: - Enums
