@@ -42,8 +42,20 @@ class HowTo3UITests: XCTestCase {
 
     }
 
-    func testExample() throws {
+    func testLogin() throws {
         // UI tests must launch the application that they test.
+
+        let usernameTextField = app.textFields["Username:"]
+        usernameTextField.tap()
+        usernameTextField.typeText("Username")
+
+        let passwordTextField = app.textFields["Password"]
+        passwordTextField.tap()
+        passwordTextField.typeText("password")
+
+        XCUIApplication().keyboards.buttons["Hide keyboard"].tap()
+
+        XCUIApplication().staticTexts["Log In"].tap()
 
 
         // Use recording to get started writing UI tests.
