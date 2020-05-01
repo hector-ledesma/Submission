@@ -43,8 +43,6 @@ class HowTo3UITests: XCTestCase {
     }
 
     func testLogin() throws {
-        // UI tests must launch the application that they test.
-
         let usernameTextField = app.textFields["Username:"]
         usernameTextField.tap()
         usernameTextField.typeText("Username\n")
@@ -54,10 +52,42 @@ class HowTo3UITests: XCTestCase {
         passwordTextField.typeText("password\n")
 
         XCUIApplication().staticTexts["Log In"].tap()
-
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
+    func testMainMenu() {
+
+        app.staticTexts["Log In"].tap()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        
+        let makeAGuideStaticText = app.staticTexts["Make a Guide"]
+        makeAGuideStaticText.tap()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        makeAGuideStaticText.tap()
+        app.staticTexts["Create Post"].tap()
+        app.staticTexts["My Guides"].tap()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+    }
+
+    func testDetailView() {
+        app.staticTexts["Log In"].tap()
+        app.cells.element(boundBy: 0).tap()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+    }
+
+    func testMyPostsDetail() {
+        app.staticTexts["Log In"].tap()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        app.staticTexts["My Guides"].tap()
+        app.cells.element(boundBy: 0).tap()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        app.cells.element(boundBy: 0).tap()
+        app.navigationBars.buttons.element(boundBy: 1).tap()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+    }
+
+    func testSignOut() {
+        app.staticTexts["Log In"].tap()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        app.staticTexts["Sign Out"].tap()
+    }
 }
