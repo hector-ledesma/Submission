@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9C0F815E245B99FB005CA475 /* LandingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0F815D245B99FB005CA475 /* LandingPageViewController.swift */; };
+		9C0F8160245B9F40005CA475 /* MockTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0F815F245B9F40005CA475 /* MockTableViewController.swift */; };
+		9C0F8162245BA03F005CA475 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0F8161245BA03F005CA475 /* MainMenuViewController.swift */; };
 		9C2317EA2457B69A000A4A6B /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2317E92457B69A000A4A6B /* Token.swift */; };
 		9C2317EC2457B8E5000A4A6B /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2317EB2457B8E5000A4A6B /* DataLoader.swift */; };
 		9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4C354D24575A130021AE1C /* AppDelegate.swift */; };
@@ -49,6 +51,8 @@
 
 /* Begin PBXFileReference section */
 		9C0F815D245B99FB005CA475 /* LandingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageViewController.swift; sourceTree = "<group>"; };
+		9C0F815F245B9F40005CA475 /* MockTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTableViewController.swift; sourceTree = "<group>"; };
+		9C0F8161245BA03F005CA475 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		9C2317E92457B69A000A4A6B /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		9C2317EB2457B8E5000A4A6B /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		9C4C354A24575A130021AE1C /* How-To-3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "How-To-3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,6 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				9C0F815D245B99FB005CA475 /* LandingPageViewController.swift */,
+				9C0F815F245B9F40005CA475 /* MockTableViewController.swift */,
+				9C0F8161245BA03F005CA475 /* MainMenuViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -399,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C0F8162245BA03F005CA475 /* MainMenuViewController.swift in Sources */,
 				9C732D1F24587AB500168FC5 /* User+Mock.swift in Sources */,
 				9C4C3573245762500021AE1C /* Post+Convenience.swift in Sources */,
 				9C732D2724588EAA00168FC5 /* MockDataLoader.swift in Sources */,
@@ -411,6 +418,7 @@
 				9C4C354E24575A130021AE1C /* AppDelegate.swift in Sources */,
 				9C732D2524588E9500168FC5 /* Post+Mock.swift in Sources */,
 				9C4C3580245768B70021AE1C /* Extensions.swift in Sources */,
+				9C0F8160245B9F40005CA475 /* MockTableViewController.swift in Sources */,
 				9C4C355024575A130021AE1C /* SceneDelegate.swift in Sources */,
 				9C4C357B245767B80021AE1C /* UserRepresentation.swift in Sources */,
 				9C4C35752457640D0021AE1C /* BackendController.swift in Sources */,

@@ -10,6 +10,10 @@ import UIKit
 
 class LandingPageViewController: UIViewController {
 
+    @IBAction func landingUnwind(unwindSegue: UIStoryboardSegue) {
+        
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

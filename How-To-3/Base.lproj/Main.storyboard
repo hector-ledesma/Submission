@@ -111,13 +111,13 @@
         <!--Browse How-To's-->
         <scene sceneID="Quj-Yp-8Dc">
             <objects>
-                <tableViewController id="Kie-Ia-mDL" sceneMemberID="viewController">
+                <tableViewController id="Kie-Ia-mDL" customClass="MockTableViewController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bSM-Na-DSW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="a2l-Uk-Fh9">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="a2l-Uk-Fh9">
                                 <rect key="frame" x="0.0" y="28" width="414" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="a2l-Uk-Fh9" id="qLP-7o-1wU">
@@ -184,7 +184,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="dYD-c1-nN7" kind="show" identifier="PostDetailShowSegue" trigger="accessoryAction" id="291-3i-keH"/>
+                                    <segue destination="dYD-c1-nN7" kind="show" identifier="PostDetailShowSegue" id="azM-dg-IMZ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -329,7 +329,7 @@
         <!--Main Menu-->
         <scene sceneID="W7Y-oW-HaM">
             <objects>
-                <viewController title="Main Menu" id="ec3-g2-qvu" sceneMemberID="viewController">
+                <viewController title="Main Menu" id="ec3-g2-qvu" customClass="MainMenuViewController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aaX-Mm-bfB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -363,6 +363,9 @@
                                         <rect key="frame" x="25.5" y="98" width="91" height="41"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <state key="normal" title="Sign Out"/>
+                                        <connections>
+                                            <segue destination="A9H-4M-GU7" kind="unwind" unwindAction="landingUnwindWithUnwindSegue:" id="1lX-8v-xW5"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -379,19 +382,20 @@
                     <navigationItem key="navigationItem" title="Main Menu" largeTitleDisplayMode="never" id="Qc0-zJ-0t8"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FFE-b1-P3N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="A9H-4M-GU7" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2607" y="90"/>
         </scene>
         <!--My Guides-->
         <scene sceneID="SFl-4A-tB8">
             <objects>
-                <tableViewController id="aX2-Pl-yZO" sceneMemberID="viewController">
+                <tableViewController id="aX2-Pl-yZO" customClass="MockTableViewController" customModule="How_To_3" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="y1F-Ub-A0J">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="XuY-pZ-nxD">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="XuY-pZ-nxD">
                                 <rect key="frame" x="0.0" y="28" width="414" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XuY-pZ-nxD" id="4b1-Ca-74S">
@@ -519,6 +523,9 @@
                                 <rect key="frame" x="147" y="636" width="120" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Create Post"/>
+                                <connections>
+                                    <segue destination="EIV-lj-PHx" kind="unwind" unwindAction="mainMenuUnwindWithUnwindSegue:" id="RZA-KA-l2I"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -541,16 +548,21 @@
                         <viewLayoutGuide key="safeArea" id="Zc7-K0-uHk"/>
                     </view>
                     <navigationItem key="navigationItem" title="Make a Guide" largeTitleDisplayMode="always" id="eTT-lz-n8m">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="nOF-zf-ejT"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="nOF-zf-ejT">
+                            <connections>
+                                <segue destination="EIV-lj-PHx" kind="unwind" unwindAction="mainMenuUnwindWithUnwindSegue:" id="zpv-Mm-9Wb"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U8i-qI-Av3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="EIV-lj-PHx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3629" y="90"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="T0o-2M-ZYF"/>
+        <segue reference="azM-dg-IMZ"/>
         <segue reference="N4n-Rl-RLE"/>
     </inferredMetricsTieBreakers>
     <resources>
