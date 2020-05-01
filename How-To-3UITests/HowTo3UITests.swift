@@ -30,15 +30,15 @@ class HowTo3UITests: XCTestCase {
 
         let emailTextField = app.textFields["Email:"]
         emailTextField.tap()
-        emailTextField.typeText("email@email.com")
+        emailTextField.typeText("email@email.com\n")
 
         let usernameTextField = app.textFields["Username:"]
         usernameTextField.tap()
-        usernameTextField.typeText("Username")
+        usernameTextField.typeText("Username\n")
 
         let passwordTextField = app.textFields["Password"]
         passwordTextField.tap()
-        passwordTextField.typeText("password")
+        passwordTextField.typeText("password\n")
 
     }
 
@@ -47,13 +47,11 @@ class HowTo3UITests: XCTestCase {
 
         let usernameTextField = app.textFields["Username:"]
         usernameTextField.tap()
-        usernameTextField.typeText("Username")
+        usernameTextField.typeText("Username\n")
 
         let passwordTextField = app.textFields["Password"]
         passwordTextField.tap()
-        passwordTextField.typeText("password")
-
-        XCUIApplication().keyboards.buttons["Hide keyboard"].tap()
+        passwordTextField.typeText("password\n")
 
         XCUIApplication().staticTexts["Log In"].tap()
 
